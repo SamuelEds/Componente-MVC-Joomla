@@ -8,7 +8,7 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 
 > OBSERVAÇÃO IMPORTANTE: Algumas coisas não estão funcionando a partir da pasta 22, como o Ajax. Outras observações estão logo abaixo.
 
-> OBSERVAÇÃO IMPORTANTE²: COMPACTE OS ARQUIVOS COMO **com_helloworld**. Todos os componentes Joomla precisam estar compactados como **_com__**
+> OBSERVAÇÃO IMPORTANTE²: COMPACTE OS ARQUIVOS COMO **com_helloworld**. Todos os componentes Joomla precisam estar compactados como **_com_<nome_do_componente>_**
 
 ## Copyright e licença
 
