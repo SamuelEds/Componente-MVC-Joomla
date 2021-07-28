@@ -40,6 +40,18 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 
 	}
 
+	/**
+	 * 
+	 * MÉTODO PARA OBTER O SCRIPT QUE DEVE SER INCLUÍDO NO FORMULÁRIO.
+	 * ESSE MÉTODO SERÁ ARMAZENADO NA VARIÁVEL '$this->script' NA VIEW.
+	 * 
+	 * */
+	public function getScript(){
+
+		return 'administrator/components/com_helloworld/models/forms/helloworld.js';
+
+	}
+
 	protected function loadFormData(){
 
 		//VERIFICAR A SESSÃO PARA DADOS DO FORMULÁRIO INSERIDOS ANTERIORMENTE.

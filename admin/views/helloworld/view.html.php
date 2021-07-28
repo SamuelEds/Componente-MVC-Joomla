@@ -18,6 +18,9 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 		//OBTER DADOS DO MODELO.
 		$this->item = $this->get('Item');
 
+		//OBTER OS SCRIPTS.
+		$this->script = $this->get('Script');
+
 		//VERIFICAR ERROS.
 		if(count($erros = $this->get('Errors')) > 0){
 
@@ -70,6 +73,10 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 	//CONFIGURAR O DOCUMENTO NA PARTE DE EDIÇÃO.
 	protected function setDocument(){
 
+		//CARREGAR AS DEPENDÊNCIAS NECESSÁRIAS PARA O FUNCIONAMENTO DOS SCRIPTS.
+		JHtml::_('behavior.framework');
+		JHtml::_('behavior.formvalidator');
+
 		//VERIFICAR SE UM REGISTRO ESTÁ SENDO EDITADO OU CRIADO.
 		$novo = ($this->item->id < 1);
 
@@ -78,6 +85,13 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 
 		//SETAR O TÍTULO.
 		$documento->setTitle($novo ? JText::_('COM_HELLOWORLD_HELLOWORLD_CREATING') : JText::_('COM_HELLOWORLD_HELLOWORLD_EDITING'));
+
+		//CARREGAR OS SCRIPTS NO DOCUMENTO.
+		$documento->addScript(JURI::root() . $this->script);
+		$documento->addScript(JURI::root() . '/administrator/components/com_helloworld/views/helloworld/submitbutton.js');
+
+		//CARREGAR A MENSAGEM DE ERRO NO ARQUIVO JAVASCRIPT 'submitbutton.js'.
+		JText::script('COM_HELLOWORLD_HELLOWORLD_ERROR_UNACCEPTABLE');
 
 	}
 

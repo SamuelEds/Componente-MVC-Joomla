@@ -5,7 +5,9 @@
 
 <!--UMA OBSERVAÇÃO QUE EQUIVALE PARA TODOS OS CAMPOS (FIELDS). NO ATRIBUTO 'name', É PRECISO QUE O VALOR SEJA O MESMO NOME DO REFERIDO CAMPO NA TABELA DO BANCO DE DADOS. POR EXEMPLO, PARA UM CAMPO COM O ATRIBUTO 'name' COM VALUE 'mensagens', NA TABELA DO BANCO É PRECISO QUE HAJA UM CAMPO COM O NOME 'mensagens'.-->
 
-<form>
+<!--CRIAR O FORMULÁRIO-->
+<!--NOTE O ATRIBUTO 'addrulepath' QUE IRÁ ADICIONAR UMA REGRA DE FORMULÁRIO. FUNCIONA COM A MESMA LÓGICA DO 'addfieldpath'-->
+<form addrulepath="/administrator/components/com_helloworld/models/rules">
 	
 	<fieldset>
 		
@@ -28,7 +30,9 @@
 			label="COM_HELLOWORLD_HELLOWORLD_TEXTO_LABEL"
 			description="COM_HELLOWORLD_HELLOWORLD_TEXTO_DESC"
 			size="40"
-			class="inputbox"
+			class="inputbox validate-texto"
+			validate="texto"
+			required="true"
 			default=""/>
 
 	</fieldset>
