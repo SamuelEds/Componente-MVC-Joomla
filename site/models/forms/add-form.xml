@@ -5,7 +5,9 @@
 
 <!--CRIAR O FORMULÁRIO-->
 <!--NOTE O ATRIBUTO 'addrulepath' QUE IRÁ ADICIONAR UMA REGRA DE FORMULÁRIO. FUNCIONA COM A MESMA LÓGICA DO 'addfieldpath'-->
-<form addrulepath="/administrator/components/com_helloworld/models/rules">
+<form 
+	addrulepath="/administrator/components/com_helloworld/models/rules"
+	addfieldpath="/administrator/components/com_helloworld/models/fields">
 	
 	<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 	<!--O FIELDSET ESTÁ SENDO IDENTIFICADO PELA TAG 'name' COM O VALOR 'details'-->
@@ -156,6 +158,17 @@
 
 			</field>
 		</fields>
+
+		<!--CAPTURAR O ID-PAI DO FORMULÁRIO.-->
+		<!--OBSERVER O ATRIBUTO 'type' COM O VALUE 'helloworldordering', INDICANDO SER UM TIPO DE CAMPO PERSONALIZADO. -->
+		<field
+			name="parent_id"
+			type="helloworldparent"
+			label="COM_HELLOWORLD_HELLOWORLD_FIELD_PARENT_LABEL"
+			description="COM_HELLOWORLD_HELLOWORLD_FIELD_PARENT_DESC"
+			default="1"
+			filter="int">
+		</field>
 
 	</fieldset>
 

@@ -5,7 +5,10 @@ defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
 //CRIAR A CLASSE DA TABELA.
 //NOTE O PREFIXO E O SUFIXO 'HelloWorld' QUE SÃO OS MESMOS DEFINIDOS NO ARQUIVO 'site/models/helloworld.php'. 
-class HelloWorldTableHelloWorld extends JTable{
+//class HelloWorldTableHelloWorld extends JTable{
+
+//A CLASSE 'JTableNested' PODE SUPORTAR COMPORTAMENTO DE MODIFICAÇÃO NOS NÍVEIS DA ÁRVORE (REGISTROS E SUB-REGISTROS) PRÉ-ORDEM MODIFICADO.
+class HelloWorldTableHelloWorld extends JTableNested{
 	
 	//FUNÇÃO PARA A CONSTRUÇÃO DA TABELA.
 	//'$db' É UM CONECTOR DE BANCO DE DADOS.
@@ -54,6 +57,51 @@ class HelloWorldTableHelloWorld extends JTable{
 
 			$regras = new JAccessRules($array['rules']);
 			$this->setRules($regras);
+
+		}
+
+		if(isset($array['parent_id'])){
+
+			if(!isset($array['id']) || $array['id'] == 0){
+
+				//NOVO REGISTRO.
+				$this->setlocation($array['parent_id'], 'last-child');
+
+			}else if(isset($array['helloworldordering'])){
+
+				//AO SALVAR UM REGISTRO, A FUNÇÃO 'load()' É CHAMADO ANTES DE 'bind()' PARA QUE A INSTÂNCIA DA TABELA TENHA PROPRIEDADES QUE SÃO OS VALORES DE CAMPO EXISTENTES.
+				if($this->parent_id == $array['parent_id']){
+
+					//SE O PRIMEIRO FOR ESCOLHIDO, TORNE O ITEM O PRIMEIRO FILHO DO PAI SELECIONADO.
+					if($array['helloworldordering'] == -1){
+
+						$this->setLocation($array['parent_id'], 'first-child');
+
+					//SE O ÚLTIMO FOR ESCOLHIDO, TORNA O ÚLTIMO FILHO DO PAI SELECIONADO.
+					}else if($array['helloworldordering'] == -2){
+
+						$this->setLocation($array['parent_id'], 'last-child');
+
+					//NÃO TENTE COLOCAR UM ITEM DEPOIS DE SI MESMO. TODOS OS OUTROS COLOCADOS APÓS O TEM SELECIONADO. 	
+					}else if($array['helloworldordering'] && $this->id != $array['helloworldordering']){
+
+						$this->setLocation($array['helloworldordering'], 'after');
+
+					//APENAS DEIXE ONDE ESTÁ SE NENHUMA ALTERAÇÃO FOR FEITA.
+					}else if($array['helloworldordering'] && $this->id == $array['helloworldordering']){
+
+						unset($array['helloworldordering']);
+
+					}
+
+				//DEFINA UM NOVO ID-PAI SE O ID-PAI NÃO CORRESPONDER E COLOQUE-O NA ÚLTIMA POSIÇÃO.
+				}else{
+
+					$this->setLocation($array['parent_id'], 'last-child');
+
+				}
+
+			}
 
 		}
 
@@ -126,6 +174,13 @@ class HelloWorldTableHelloWorld extends JTable{
 
 		// SALVAR OS DAOS QUANDO TUDO ESTIVER CONDIZENTE.
 		return true;
+	}
+
+	//FUNÇÃO QUE SUBSTITUIRÁ O 'delete()' DA CLASSE 'JTableNested', ISSO PARA QUE QUANDO UM REGISTRO FOR DELETADO, ELE NÃO EXCLUA OS FILHOS. (SUB-REGISTROS).
+	public function delete($pk = null, $children = false){
+
+		return parent::delete($pk, $children);
+
 	}
 }
 

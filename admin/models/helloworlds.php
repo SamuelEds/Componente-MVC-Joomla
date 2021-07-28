@@ -19,6 +19,7 @@ class HelloWorldModelHelloWorlds extends JModelList{
 				'author',
 				'created',
 				'language',
+				'lft',
 				'ordering',
 				'category_id',
 				'association',
@@ -33,7 +34,7 @@ class HelloWorldModelHelloWorlds extends JModelList{
 	//MÉTODO PARA PREENCHER AUTOMATICAMENTE O ESTADO DO MODELO.
 	//ESTE MÉTODO DEVE SER CHAMADO UMA VEZ POR INSTANCIAÇÃO E É PROJETADO A SER CHAMADO NA PRIMEIRA CHAMADA AO MÉTODO 'getState()', A MENOS QUE ESTEJA DEFINIDO O MODELO SINALIZADOR DE CONFIGURAÇÃO PARA IGNORAR A SOLICITAÇÃO.
 	//OBS: CHAMAR 'getState()' NESTE MÉTODO RESULTARÁ EM RECURSÃO.
-	protected function populateState($ordering = null, $direction = null){
+	protected function populateState($ordering = 'lft', $direction = 'ASC'){
 
 		//OBTER O APLICATIVO.
 		$aplicativo = JFactory::getApplication();
@@ -68,7 +69,15 @@ class HelloWorldModelHelloWorlds extends JModelList{
 
 		//CRIAR A CONSULTA.
 		//NOTE A FUNÇÃO 'quoteName()', ELE IRÁ DEFINIR UM APELIDO USADO NA QUERY QUE NESSE CASO É A LETRA 'a'.
-		$query->select('a.id AS id, a.texto AS texto, a.published AS published, a.created AS criado, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time, a.ordering AS ordering, a.imagem as imagemInfo, a.latitude as latitude, a.longitude as longitude, a.alias as alias, a.language as language')->from($db->quoteName('#__olamundo', 'a'));
+		$query->select('a.id AS id, a.texto AS texto, a.published AS published, 
+			a.created AS criado, a.checked_out AS checked_out, 
+			a.checked_out_time AS checked_out_time, 
+			a.catid AS catid, a.lft AS lft, 
+			a.rgt AS rgt, a.parent_id AS parent_id, 
+			a.level AS level, a.path AS path, 
+			a.imagem AS imagemInfo, a.latitude AS latitude, 
+			a.longitude AS longitude, a.alias AS alias, 
+			a.language AS language')->from($db->quoteName('#__olamundo', 'a'));
 		//$db->setQuery((string) $query);
 
 
@@ -162,11 +171,17 @@ class HelloWorldModelHelloWorlds extends JModelList{
 			
 		}
 
+		//EXCLUIR REGISTRO OLAMUNDO RAÍZ.
+		$query->where('a.id > 1');
+
 		//ADICIONAR CLÁUSULA DE ORDENAÇÃO DE LISTA.
 		//PRECISA SER A MESMA VARIÁVEL OBTIDA NO ARQUIVO VIEW DESSE MODELO, QUE NESSE CASO É '$this->state'.
 
 		//AQUI, O SEGUNDO PARÂMETRO É O CAMPO PADRÃO DE ORDENAÇÃO TODA VEZ QUE O COMPONENTE FOR CARREGADO. NESSE CASO SERÁ O CAMPO PADRÃO É O 'id'.
-		$ordenarCol = $this->state->get('list.ordering', 'id');
+		//$ordenarCol = $this->state->get('list.ordering', 'id');
+
+		//AQUI, O SEGUNDO PARÂMETRO É O CAMPO PADRÃO DE ORDENAÇÃO TODA VEZ QUE O COMPONENTE FOR CARREGADO. NESSE CASO SERÁ O CAMPO PADRÃO É O 'lft'.
+		$ordenarCol = $this->state->get('list.ordering', 'lft');
 
 		//AQUI, O SEGUNDO PARÂMETRO É O A "DIREÇÃO" PADRÃO QUE DEVE SER SEGUIDO INICIALMENTE, SÃO DOIS VALORES 'ASC' E 'DESC'.
 		$ordenarDir = $this->state->get('list.direction', 'ASC');

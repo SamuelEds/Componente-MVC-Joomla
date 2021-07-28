@@ -79,6 +79,15 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 			}
 		}
 
+		//PREPARAR O MAPEAMENTO DO ID PAI PARA O ID's DE SEUS FILHOS.
+		$this->ordering = array();
+
+		foreach($this->items as $item){
+
+			$this->ordering[$item->parent_id][] = $item->id;
+
+		}
+
 		//EXIBIR A VIEW.
 		parent::display($tpl);
 

@@ -47,20 +47,20 @@ class HelloWorldModelHelloWorld extends JModelItem{
 	}
 
 	//COMPREENDER A MENSAGEM ESCRITA EM JSON PARA SER EXIBIDA AO USUÁRIO.
-	public function getItem(){
+	public function getItem($id = null){
 
-		if(!isset($this->item)){
+		if(!isset($this->item) || !is_null($id)){
 
-			//VERIFICAR SE A VIEW FOI ACESSADA DIRETO NO ITEM DE MENU 'mensagens'
+			//VERIFICAR SE A VIEW FOI ACESSADA DIRETO NO ITEM DE MENU 'mensagens'.
 			if($this->getState('message.id') == 0){
 
 				//IRÁ PEGAR O ID PELA URL (ISSO QUANDO ACESSADO PELA VIEW DA LISTA DE CATEGORIAS).
-				$id = JFactory::getApplication()->input->get('id', 1, 'INT');
+				$id = is_null($id) ? JFactory::getApplication()->input->get('id', 1, 'INT') : $id;
 
 			}else{
 
 				//IRÁ PEGAR O ID PELO MODAL DE OPÇÕES (ISSO QUANDO ACESSADO PELA VIEW DAS MENSAGENS DIRETAMENTE).
-				$id = $this->getState('message.id');
+				$id = is_null($id) ? $this->getState('message.id') : $id;
 
 			}
 
@@ -71,7 +71,12 @@ class HelloWorldModelHelloWorld extends JModelItem{
 			$query = $db->getQuery(true);
 
 			//CONSTRUIR A CONSULTA.
-			$query->select('h.texto, h.params, h.imagem as imagem, c.title AS categoria, h.latitude AS latitude, h.longitude AS longitude')->from($db->quoteName('#__olamundo', 'h'))->leftJoin('#__categories AS c ON h.catid = c.id')->where('h.id = ' . (int) $id);
+			$query->select('h.texto, h.params, h.imagem as imagem, 
+				c.title AS categoria, h.latitude AS latitude, 
+				h.longitude AS longitude, h.id AS id, 
+				h.alias AS alias, h.catid AS catid, 
+				h.parent_id AS parent_id, 
+				h.level AS level')->from($db->quoteName('#__olamundo', 'h'))->leftJoin('#__categories AS c ON h.catid = c.id')->where('h.id = ' . (int) $id);
 
 			//A FUNÇÃO 'JLanguageMultilang::isEnabled()' IRÁ VERIFICAR SE O SITE ESTÁ CONFIGURADO COMO MULTILÍNGUE.
 			if(JLanguageMultilang::isEnabled()){
@@ -91,6 +96,8 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 				//CARREGAR A STRING JSON.
 				$parametros = new JRegistry;
+
+				//TEM QUE CONSERTAR ISSO DEPOIS.
 				//$parametros->loadString($this->item->params, 'JSON');
 				$this->item->params = $parametros;
 
@@ -260,6 +267,16 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 			//RETORNAR OS ITEMS ENCONTRADOS.
 			return $resultado;
+
+		}
+
+		//FUNÇÃO PARA OBTER OS FILHOS. (SUB-REGISTROS).
+		public function getChildren($id){
+
+			$tabela = $this->getTable();
+			$filhos = $tabela->getTree($id);
+
+			return $filhos;
 
 		}
 

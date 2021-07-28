@@ -12,7 +12,7 @@ class JFormFieldModal_Olamundo extends JFormField{
 	protected function getInput(){
 
 		//CARREGAR LINGUAGEM.
-		//AS PALAVRAS EM MAIÚSUCULAS SERÃO TRADUZIADAS PELO ARQUIVO DE TRADUÇÃO.
+		//AS PALAVRAS EM MAIÚSUCULAS SERÃO TRADUZIADAS PELO JOOMLA AUTOMATICAMENTE.
 		JFactory::getLanguage()->load('com_helloworld', JPATH_ADMINISTRATOR);
 
 		//'$this->value' É DEFINIDO SE HOUVER UM ID PADRÃO ESPECIFICADO NO ARQUIVO XML.

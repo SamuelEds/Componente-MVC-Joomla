@@ -17,12 +17,12 @@
 			name="fullordering"
 			type="list"
 			onchange="this.form.submit();"
-			default="ordering ASC">
+			default="lft ASC">
 			
 			<!--AQUI SÃO TODAS AS OPÇÕES DE FILTROS POR CADA CAMPO, DIVIDIDO EM ASC/DESC (CRESCENTE/DECRESCENTE).-->
 			<option value="">COM_HELLOWORLD_SORT_BY</option>
-			<option value="ordering ASC">COM_HELLOWORLD_ORDERING_ASC</option>
-			<option value="ordering DESC">COM_HELLOWORLD_ORDERING_DESC</option>
+			<option value="lft ASC">COM_HELLOWORLD_ORDERING_ASC</option>
+			<option value="lft DESC">COM_HELLOWORLD_ORDERING_DESC</option>
 			<option value="texto ASC">COM_HELLOWORLD_TEXTO_ASC</option>
 			<option value="texto DESC">COM_HELLOWORLD_TEXTO_DESC</option>
 			<option value="id ASC">COM_HELLOWORLD_ID_ASC</option>

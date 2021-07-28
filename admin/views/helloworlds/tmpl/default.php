@@ -14,7 +14,7 @@ $listaDirecao = $this->escape($this->state->get('list.direction'));
 
 //USAR UMA BIBLIOTECA JQUERY UI DO JOOMLA QUE VAI SER O RESPONSÁVEL PELA ORDENAÇÃO DINÂMICA DOS REGISTROS.
 
-$salvarOrdem = $listaOrdem == 'ordering';
+$salvarOrdem = ($listaOrdem == 'lft' && strtolower($listaDirecao) == 'asc');
 
 if($salvarOrdem){
 
@@ -23,7 +23,8 @@ if($salvarOrdem){
 	$salvarOrdemUrl = 'index.php?option=com_helloworld&task=helloworlds.saveOrderAjax&tmpl=component';
 
 	//ESSA SAÍDA HTML SERÁ A RESPONSÁVEL POR FAZER A ORDENAÇÃO DINÂMICA.
-	JHtml::_('sortablelist.sortable', 'olamundoLista', 'adminForm', strtolower($listaDirecao), $salvarOrdemUrl);
+	//PASSE TRUE COMO SÉTIMO PARÂMETRO PAR INDICAR QUE TEMOS UM CONJUNTO ANINHADO.
+	JHtml::_('sortablelist.sortable', 'olamundoLista', 'adminForm', strtolower($listaDirecao), $salvarOrdemUrl, false, true);
 
 }
 
@@ -92,7 +93,7 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 						<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 						<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort' OU 'grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_ordem', 'comando_estado_por_direcao')' -->
 						<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
-						<?php echo JHtml::_('searchtools.sort', '', 'ordering', $listaDirecao, $listaOrdem, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+						<?php echo JHtml::_('searchtools.sort', '', 'lft', $listaDirecao, $listaOrdem, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 					</th>
 
 					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
@@ -110,13 +111,20 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 					<th><?php echo JHtml::_('searchtools.sort','COM_HELLOWORLD_HELLOWORLDS_NAME', 'texto', $listaDirecao, $listaOrdem); ?></th>
 
 					<!--EXIBIR UM TÍTULO PARA A POSIÇÃO DE LATITUDE E LONGITUDE.-->
-					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
+					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
 					<th><?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_POSITION'); ?></th>
 
 					<!--EXIBIR UM TÍTULO PARA A LISTA A IMAGEM COM SEUS DADOS EM JSON.-->
-					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
 					<th><?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_IMAGE'); ?></th>
+
+					<!--EXIBIR OS DETALHES DOS DADOS DE NÍVEIS.-->
+					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
+					<th><?php echo JText::_('LFT'); ?></th>
+					<th><?php echo JText::_('RGT'); ?></th>
+					<th><?php echo JText::_('Level'); ?></th>
+					<th><?php echo JText::_('Parent'); ?></th>
 
 					<!--SE AS CONFIGURAÇÕES DE ASSOCIAÇÕES ESTIVEREM HABILITADAS...-->
 					<?php if($assoc){ ?>
@@ -171,13 +179,46 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 						<?php $link = JRoute::_('index.php?option=com_helloworld&task=helloworld.edit&id='.$dados->id); ?>
 
 						<?php
-							//OBTER OS DADOS DA IMAGEM COMO STRING.
-							//OBSERVE QUE AQUI ESTÁ SENDO USADO '$dados->image' QUE EQUIVALE AO VALUE DO ATRIBUTO 'name' DO ARQUIVO XML DO FORMULÁRIO.
+						//OBTER OS DADOS DA IMAGEM COMO STRING.
+						//OBSERVE QUE AQUI ESTÁ SENDO USADO '$dados->image' QUE EQUIVALE AO VALUE DO ATRIBUTO 'name' DO ARQUIVO XML DO FORMULÁRIO.
 						$dados->image = new Registry;
 						$dados->image->loadString($dados->imagemInfo);
+
+						//CRIA UMA LISTA DOS PAIS DA HIERARQUIA ATÉ A RAÍZ.
+						if($dados->level > 1){
+
+							$parentSTR = '';
+							$_currentParentId = $dados->parent_id;
+							$parentSTR = ' ' . $_currentParentId;
+
+							for($j = 0; $j < $dados->level; $j++){
+
+								foreach($this->ordering as $k => $v){
+
+									$v = implode('-', $v);
+									$v = '-' . $v . '-';
+
+									if(strpos($v, '-' . $_currentParentId . '-') !== false){
+
+										$parentSTR .= ' ' . $k;
+										$_currentParentId = $k;
+										break;
+
+									}
+
+								}
+
+							}
+
+						}else{
+
+							$parentSTR = '';
+
+						}
+
 						?>
 
-						<tr class="row<?php echo $i % 2; ?>" sorteable-group-id="<?php echo $dados->catid; ?>">
+						<tr class="row<?php echo $i % 2; ?>" sorteable-group-id="<?php echo $dados->parent_id; ?>" item-id="<?php echo $dados->id; ?>" parents="<?php echo $parentSTR; ?>" level="<?php echo $dados->level; ?>">
 
 							<td>
 								<?php  
@@ -202,7 +243,7 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 								<?php if($podeReordenar && $salvarOrdem){ ?>
 
 									<!--ESSE INPUT É RESPONSÁVEL PARA MANDAR O PARÂMETRO 'order[]' DO ATRIBUTO 'name' PARA QUE O JAVASCRIPT EXECUTE UMA CHAMADA AJAX PARA EXECUTAR A NOVA ORDEM DOS REGISTROS.-->
-									<input type="text" style="display: none;" name="order[]" size="5" value="<?php echo $dados->ordering; ?>" class="width-20 text-area-order" />
+									<input type="text" style="display: none;" name="order[]" size="5" value="<?php echo $dados->lft; ?>" class="width-20 text-area-order" />
 
 								<?php } ?>
 
@@ -216,6 +257,10 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 
 							<!--EXIBIR O TEXTO DO BANCO DE DADOS.-->
 							<td>
+
+								<!--EXIBIR O LAYOUT DA ÁRVORE DE NÍVEIS.-->
+								<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $dados->level)); ?>
+								<?php echo $prefix; ?>
 
 								<!--EXIBIR UM PEQUEO BOTÃO COM CADEADO QUE IRÁ PEGAR O ID DO USUÁRIO QUE FAZER O CHECKOUT E ENVIAR PARA O BANCO DE DADOS. O JOOMLA FAZ TUDO ISSO AUTOMATICAMENTE.-->
 								<?php if($dados->checked_out){ ?>
@@ -248,6 +293,10 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 							<div class="small">
 								<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($dados->category_title); ?>
 							</div>
+
+							<div class="small">
+								<?php echo 'Path: ' . $this->escape($dados->path); ?>
+							</div>
 						</td>
 
 						<!--LINHA PARA EXIBIR A LATITUDE E A LONGITUDE.-->
@@ -272,6 +321,22 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 							//ELE PEGARÁ A VARIÁVEL '$html' E TROCARÁ OS '%s' PELOS DOIS ÚLTIMOS PARÂMETROS RESPECTIVAMENTE.
 							echo sprintf($html, $src, $caption);
 							?>
+						</td>
+
+						<td>
+							<?php echo $dados->lft; ?>
+						</td>
+
+						<td>
+							<?php echo $dados->rgt; ?>
+						</td>
+
+						<td>
+							<?php echo $dados->level; ?>
+						</td>
+
+						<td>
+							<?php echo $dados->parent_id; ?>
 						</td>
 
 						<!--SE AS CONFIGURAÇÕES DE ASSOCIAÇÕES ESTIVEREM HABILITADAS...-->

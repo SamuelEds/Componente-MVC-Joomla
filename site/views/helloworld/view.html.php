@@ -33,6 +33,16 @@ class HelloWorldViewHelloWorld extends JViewlegacy{
 		//NÃO FUNCIONOU.
 		$this->adicionarMapa();
 
+		//OBTER O MODELO DESTA VIEW.
+		$model = $this->getModel();
+
+		//OBTER PAI E FILHOS DO MODELO.
+		$this->parentItem = $model->getItem($this->item->parent_id);
+		$this->children = $model->getChildren($this->item->id);
+
+		//'getChildren()' INCLUI O PRÓPRIO REGISTRO (ASSIM COMO OS FILHOS), PORTANTO, REMOVA ESTE REGISTRO.
+		unset($this->children[0]);
+
 		//CHAMAR PELO GOOGLE MAPS.
 		//$this->adicionarMapaGoogle();
 

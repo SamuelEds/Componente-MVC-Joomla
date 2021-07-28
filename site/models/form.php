@@ -74,9 +74,9 @@ class HelloWorldModelForm extends JModelAdmin{
 	protected function prepareTable($table){
 
 		//REORDENE OS REGISTROS DENTRO DA CATEGORIA PARA QUE O NOVO REGISTRO SEJA O PRIMEIRO.
-		if(empty($table->id)){
+		/*if(empty($table->id)){
 			$table->reorder('catid = ' . (int) $table->catid);
-		}
+		}*/
 
 	}
 

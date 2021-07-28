@@ -11,11 +11,16 @@ CREATE TABLE `#__olamundo`(
 	`created` 			DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`created_by` 		INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`checked_out` 		INT(10) NOT NULL DEFAULT '0',
-	`checked_out_time` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`checked_out_time` 	DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`texto` 			VARCHAR(100) NOT NULL,
 	`alias` 			VARCHAR(40) NOT NULL DEFAULT '',
 	`language` 			CHAR(7) NOT NULL DEFAULT '*',
-	`ordering`			INT(11) NOT NULL DEFAULT '0',
+	`parent_id`			INT(10) NOT NULL DEFAULT '1',
+	`level`				INT(10) NOT NULL DEFAULT '0',
+	`path`				VARCHAR(200) NOT NULL DEFAULT '',
+	`lft`				INT(11) NOT NULL DEFAULT '0',
+	`rgt`				INT(11) NOT NULL DEFAULT '0',
+	#`ordering`			INT(11) NOT NULL DEFAULT '0',
 	`published` 		tinyint(4) NOT NULL DEFAULT '1',
 	`catid`				int(11) NOT NULL DEFAULT '0',
 	`params` 			VARCHAR(255) NOT NULL DEFAULT '',
@@ -30,7 +35,9 @@ CREATE TABLE `#__olamundo`(
 CREATE UNIQUE INDEX `aliasindex` ON `#__olamundo` (`alias`, `catid`);
 
 #INSERIR OS VALORES NO BANCO DE DADOS.
-INSERT INTO `#__olamundo` (`texto`, `alias`, `language`, `ordering`) 
-VALUES ('Olá Mundo!', 'ola-mundo', 'pt-BR', 1), 
-('Adeus, Mundo!', 'adeus-mundo', 'en-GB', 2), 
-('Denovo, mundo??', 'denovo-mundo', 'fr-FR', 3);
+
+INSERT INTO `#__olamundo` (`texto`, `alias`, `language`, `parent_id`, `level`, `path`, `lft`, `rgt`, `published`) 
+VALUES ('Olá Mundo!! root', 'ola-mundo-root-alias', 'pt-BR', 0, 0, '', 0, 5, 1),
+('Olá Mundo!', 'ola-mundo', 'pt-BR', 1, 1, 'ola-mundo', 1, 2, 0), 
+('Adeus, Mundo!', 'adeus-mundo', 'en-GB', 1, 1, 'adeus-mundo', 3, 4, 0),
+('Denovo, mundo??', 'denovo-mundo', 'fr-FR', 1, 1, 'denovo-mundo', 5, 6, 0);

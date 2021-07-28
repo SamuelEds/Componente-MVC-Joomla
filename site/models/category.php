@@ -15,7 +15,7 @@ class HelloWorldModelCategory extends JModelList{
 		//CONFIGURAR QUAIS CAMPOS PODEM ATUAR COMO FILTROS
 		if(empty($config['filter_fields'])){
 
-			$config['filter_fields'] = array('id', 'texto', 'alias', 'ordering');
+			$config['filter_fields'] = array('id', 'texto', 'alias', 'lft');
 
 		}
 
@@ -79,7 +79,7 @@ class HelloWorldModelCategory extends JModelList{
 		//$ordenarColuna = $this->state->get('list.ordering', 'texto');
 
 		//AGORA A ORDENAÇÃO PADRÃO É PELO CAMPO 'ordering' DO BANCO...
-		$ordenarColuna = $this->state->get('list.ordering', 'ordering');
+		$ordenarColuna = $this->state->get('list.ordering', 'lft');
 
 		//...EM SENTIDO CRESCENTE.
 		$ordenarDirecao = $this->state->get('list.direction', 'ASC');

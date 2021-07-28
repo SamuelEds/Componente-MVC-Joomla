@@ -1,6 +1,12 @@
 ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 25
 
+PAREI NA PARTE: admin/models/helloworlds.php
+
+NO TÍTULO: Helloworlds MVC.
+
 =====================================================================================================
+
+OBS: O ALIAS NÃO PERMITE SALVAR COMO CÓPIA, DEPOIS TEM QUE CONSERTAR ISSO.
 
 OBS: DEPOIS TEM QUE CONSERTAR O AJAX NO ARTIGO 20
 

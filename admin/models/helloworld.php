@@ -231,8 +231,18 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 				$dados['published'] = 0;
 			}
 
+			$result = parent::save($dados);
+			if($result){
+
+				$this->getTable()->rebuild(1);
+
+			}
+
 			//SALVAR OS DADOS NORMALMENTE.
-			return parent::save($dados);
+			//return parent::save($dados);
+
+			//RETORNAR A TABLE RECONSTRUÍDA.
+			return $result;
 		}
 
 	//MÉTODO PARA VERIFICAR SE ESTÁ TUDO BEM PARA EXCLUIR UMA MENSAGEM. SUBSTITUI 'JModelAdmin::canDelete'.
@@ -255,7 +265,7 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 		protected function prepareTable($table){
 
 			//DEFINIR A ORDENAÇÃO PARA O ÚLTIMO ITEM. (ISSO SE NÃO FOR DEFINIDO)
-			if(empty($table->ordering)){
+			/*if(empty($table->ordering)){
 
 				//OBTER O BANCO DE DADOS.
 				$db = JFactory::getDbo();
@@ -275,7 +285,29 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 				//SETAR A ORDENAÇÃO DO NOVO REGISTRO COMO ÚLTIMO.
 				$table->ordering = $max + 1;
 
+			}*/
+
+		}
+
+		/**
+		 * 
+		 * SALVE O REORDENAMENTO DO REGISTRO DEPOIS QUE UM REGISTRO FOR ARRASTADO
+		 * PARA UMA NOVA POSIÇÃO NA VIEW HELLOWORLDS.
+		 * 
+		 * */
+		public function saveorder($idArray = null, $lft_array = null){
+
+			//OBTER UMA NOVA INSTÂNCIA DO OBJETO TABLE.
+			$table = $this->getTable();
+
+			if(!$table->saveorder($idArray, $lft_array)){
+
+				$this->setError($table->getError());
+
+				return false;
 			}
+
+			return true;
 
 		}
 	}

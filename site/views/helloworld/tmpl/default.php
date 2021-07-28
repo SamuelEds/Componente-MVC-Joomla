@@ -5,6 +5,20 @@
 //COMANDO PARA IMPEDIR O ACESSO DIRETO.
 defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
+//OBTER A TAG DO IDIOMA ATUAL.
+$lang = JFactory::getLanguage()->getTag();
+
+//VERIFICAR SE O RECURSO DE MULTIDIOMA ESTÁ HABILITADO NO SITE.
+if(JLanguageMultilang::isEnabled()){
+
+	$query_lang = '&lang=' . $lang;
+
+}else{
+
+	$query_lang = "";
+
+}
+
 //ESCREVER OS DADOS.
 //echo $this->umaMensagem;
 
@@ -46,6 +60,49 @@ if($src){
 //ABAIXO ESTÁ A SEÇÃO PARA EXIBIÇÃO DO MAPA.
 
 ?>
+
+<!------------------------------------------------------------------------------------------>
+
+<?php if($this->parentItem->id > 1){ ?>
+
+	<h1><?php echo JText::_('COM_HELLOWORLD_PARENT'); ?></h1>
+
+	<h3>
+		<?php $url = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $this->parentItem->id . ':' . $this->parentItem->alias . '&catid=' . $this->parentItem->catid . $query_lang); ?>
+
+		<a href="<?php echo $url; ?>"><?php echo $this->parentItem->texto; ?></a>
+
+	</h3>
+
+<?php } ?>
+
+<!------------------------------------------------------------------------------------------>
+
+<?php if($this->children){ 
+
+	$baseLevel = $this->item->level; ?>
+
+	<h1><?php echo JText::_('COM_HELLOWORLD_CHILDREN'); ?></h1>
+
+	<?php foreach($this->children as $i => $filho){ ?>
+
+		<h3>
+			
+			<?php $prefix = JLayoutHelper::render('joomla.html.treepix', array('level' => $filho->level - $baseLevel)); ?>
+
+			<?php echo $prefix; ?>
+
+			<?php $url = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $filho->id . ':' . $filho->alias . '&catid=' . $filho->catid . $query_lang); ?>
+
+			<a href="<?php echo $url; ?>"><?php echo $filho->texto; ?></a>
+
+		</h3>
+
+	<?php } ?>
+
+<?php } ?>
+
+<!------------------------------------------------------------------------------------------>
 
 <!--EXIBINDO O MAPA USANDO A BIBLIOTECA 'OpenStreetMap'-->
 <div id="map" class="map"></div>
