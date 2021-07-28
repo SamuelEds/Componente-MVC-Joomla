@@ -17,7 +17,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.32</version>
+	<version>0.0.33</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>COM_HELLOWORLD_DESCRICAO</description>
@@ -116,5 +116,12 @@
 		</languages>
 
 	</administration>
+
+	<updateservers>
+
+		<!--ALTERE A URL ABAIXO PARA CORRESPONDER À LOZALIZAÇÃO DO SEU ARQUIVO XML.-->
+		<server type="extension" name="Helloworld Updates">http://localhost/Joomla_multilingue/componentes/artigo-mvc-joomla/Servidor-helloworld-updates/updates.xml</server>
+
+	</updateservers>
 
 </extension>
