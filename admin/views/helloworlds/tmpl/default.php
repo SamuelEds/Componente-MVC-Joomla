@@ -12,6 +12,21 @@ JHtml::_('formbehavior.chosen', 'select');
 $listaOrdem = $this->escape($this->state->get('list.ordering'));
 $listaDirecao = $this->escape($this->state->get('list.direction'));
 
+//USAR UMA BIBLIOTECA JQUERY UI DO JOOMLA QUE VAI SER O RESPONSÁVEL PELA ORDENAÇÃO DINÂMICA DOS REGISTROS.
+
+$salvarOrdem = $listaOrdem == 'ordering';
+
+if($salvarOrdem){
+
+	//URL PARA INFORMAR VIA AJAX A NOVA ORDENAÇÃO.
+	//ISSO SE DEVE GRAÇAS A FUNÇÃO 'saveOrderAjax'.
+	$salvarOrdemUrl = 'index.php?option=com_helloworld&task=helloworlds.saveOrderAjax&tmpl=component';
+
+	//ESSA SAÍDA HTML SERÁ A RESPONSÁVEL POR FAZER A ORDENAÇÃO DINÂMICA.
+	JHtml::_('sortablelist.sortable', 'olamundoLista', 'adminForm', strtolower($listaDirecao), $salvarOrdemUrl);
+
+}
+
 //OBTER O USUÁRIO JUNTO COM SEU ID.
 $usuario = JFactory::getUser();
 $userId = $usuario->get('id');
@@ -66,11 +81,20 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 		<!------------------------------------------------------------------------>
 
 		<!--CRIAÇÃO DE UMA TABELA PARA EXIBIR OS DADOS-->
-		<table class="table table-hover table-stripes">
+		<table class="table table-hover table-stripes" id="olamundoLista">
 
 
 			<thead>
 				<tr>
+
+					<th>
+
+						<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
+						<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort' OU 'grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_ordem', 'comando_estado_por_direcao')' -->
+						<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+						<?php echo JHtml::_('searchtools.sort', '', 'ordering', $listaDirecao, $listaOrdem, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+					</th>
+
 					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 					<th><?php echo JText::_('COM_HELLOWORLD_NUM'); ?></th>
@@ -153,7 +177,37 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 						$dados->image->loadString($dados->imagemInfo);
 						?>
 
-						<tr>
+						<tr class="row<?php echo $i % 2; ?>" sorteable-group-id="<?php echo $dados->catid; ?>">
+
+							<td>
+								<?php  
+
+								$iconClass = '';
+
+								//VERIFICAR SE TEM A PERMISSÃO DE REORDENAR OS REGISTROS.
+								$podeReordenar = $usuario->authorise('core.edit.state', 'com_helloworld.helloworld.', $dados->id);
+
+								if(!$podeReordenar){
+									$iconClass = ' inactive';
+								}else if(!$salvarOrdem){
+									$iconClass = ' inactive tip-top hasTooltip" title="'. JHtml::_('tooltipText', 'JORDERINGDISABLED');
+								}
+
+								?>
+
+								<span class="sorteable-handler <?php echo $iconClass; ?>">
+									<span class="icon-menu" aria-hidden="true"></span>
+								</span>
+
+								<?php if($podeReordenar && $salvarOrdem){ ?>
+
+									<!--ESSE INPUT É RESPONSÁVEL PARA MANDAR O PARÂMETRO 'order[]' DO ATRIBUTO 'name' PARA QUE O JAVASCRIPT EXECUTE UMA CHAMADA AJAX PARA EXECUTAR A NOVA ORDEM DOS REGISTROS.-->
+									<input type="text" style="display: none;" name="order[]" size="5" value="<?php echo $dados->ordering; ?>" class="width-20 text-area-order" />
+
+								<?php } ?>
+
+							</td>
+
 							<!--EXEIBIR A ORDEM NUMÉRICA DE CADA ITEM, ISSO INTERAGE COM O NÚMERO LIMITE DE ITEMS PARA APARECER NA TELA.-->
 							<td><?php echo $this->paginacao->getRowOffset($i); ?></td>
 
@@ -172,7 +226,7 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 									<!--A SAÍDA 'JHtml' SERÁ A RESPONSÁVEL PARA CRIAR O BOTÃO DE CHECKIN.-->
 									<!--NOTE O PARÂMETROS QUE SÃO: "JHtml::_('tipo_de_saida_html', 'linha_do_registro', 'usuário_que_fez_o_checkin', 'tempo_do_checkin', 'controlador', 'verificação_de_permissão');"-->
 									<?php echo JHtml::_('jgrid.checkedout', $i, $dados->editor, $dados->checked_out_time, 'helloworlds.', $podeFazerCheckin); ?>
-								
+
 								<?php } ?>
 
 								<!--EXIBIR OS REGISTROS.-->

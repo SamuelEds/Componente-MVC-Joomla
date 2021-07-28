@@ -91,7 +91,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 				//CARREGAR A STRING JSON.
 				$parametros = new JRegistry;
-				$parametros->loadString($this->item->params, 'JSON');
+				//$parametros->loadString($this->item->params, 'JSON');
 				$this->item->params = $parametros;
 
 				//MESCLAR OS PARÂMETROS GLOBAIS COM OS PARÂMETROS DE ITEM.

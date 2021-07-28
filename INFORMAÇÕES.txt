@@ -4,6 +4,10 @@ ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 25
 
 OBS: DEPOIS TEM QUE CONSERTAR O AJAX NO ARTIGO 20
 
+OBS: DEPOIS VER O QUE HÁ DE ERRADO AO CONVERTER JSON EM STRING NO ARQUIVO: 'site/models/helloworld.php'.
+
+OBS: DEPOIS VER PORQUE NÃO APARECE A SUBCATEGORIA NA URL DO REGISTRO NA PARTE DA LISTA DE CATEGORIAS DO FRONT-END.
+
 =====================================================================================================
 
 	A L G U M A - N O T A S

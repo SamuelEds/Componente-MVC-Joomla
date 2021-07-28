@@ -62,6 +62,25 @@ class HelloWorldModelForm extends JModelAdmin{
 		return 'administrator/components/com_helloworld/models/form/helloworld.js';
 	}
 
+	/**
+	 * 
+	 * PREPARAR O REGISTRO HELLOWORLD QUANDO FOR SALVAR NO BANCO.
+	 * 
+	 * NESSA FUNÇÃO TAMBÉM SERÁ DEFINIDO O VALOR DA ORDEM DO NOVO REGISTRO COMO 
+	 * 'max + 1', ISSO PARA QUE ELE APAREÇA NO FINAL.
+	 * 
+	 * */
+
+	protected function prepareTable($table){
+
+		//REORDENE OS REGISTROS DENTRO DA CATEGORIA PARA QUE O NOVO REGISTRO SEJA O PRIMEIRO.
+		if(empty($table->id)){
+			$table->reorder('catid = ' . (int) $table->catid);
+		}
+
+	}
+
+
 }
 
 ?>

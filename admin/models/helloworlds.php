@@ -19,6 +19,8 @@ class HelloWorldModelHelloWorlds extends JModelList{
 				'author',
 				'created',
 				'language',
+				'ordering',
+				'category_id',
 				'association',
 				'publicado'
 			);
@@ -66,7 +68,7 @@ class HelloWorldModelHelloWorlds extends JModelList{
 
 		//CRIAR A CONSULTA.
 		//NOTE A FUNÇÃO 'quoteName()', ELE IRÁ DEFINIR UM APELIDO USADO NA QUERY QUE NESSE CASO É A LETRA 'a'.
-		$query->select('a.id AS id, a.texto AS texto, a.published AS published, a.created AS criado, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time, a.imagem as imagemInfo, a.latitude as latitude, a.longitude as longitude, a.alias as alias, a.language as language')->from($db->quoteName('#__olamundo', 'a'));
+		$query->select('a.id AS id, a.texto AS texto, a.published AS published, a.created AS criado, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time, a.ordering AS ordering, a.imagem as imagemInfo, a.latitude as latitude, a.longitude as longitude, a.alias as alias, a.language as language')->from($db->quoteName('#__olamundo', 'a'));
 		//$db->setQuery((string) $query);
 
 
@@ -150,6 +152,14 @@ class HelloWorldModelHelloWorlds extends JModelList{
 
 			$query->where('a.language = ' . $db->quote($idioma));
 
+		}
+
+		//FILTRAR POR CATEGORIA.
+		$catid = $this->getState('filter.category_id');
+		if($catid){
+			
+			$query->where('a.catid = ' . $db->quoteName($catid));
+			
 		}
 
 		//ADICIONAR CLÁUSULA DE ORDENAÇÃO DE LISTA.

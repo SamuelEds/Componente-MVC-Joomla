@@ -15,6 +15,7 @@ CREATE TABLE `#__olamundo`(
 	`texto` 			VARCHAR(100) NOT NULL,
 	`alias` 			VARCHAR(40) NOT NULL DEFAULT '',
 	`language` 			CHAR(7) NOT NULL DEFAULT '*',
+	`ordering`			INT(11) NOT NULL DEFAULT '0',
 	`published` 		tinyint(4) NOT NULL DEFAULT '1',
 	`catid`				int(11) NOT NULL DEFAULT '0',
 	`params` 			VARCHAR(255) NOT NULL DEFAULT '',
@@ -29,7 +30,7 @@ CREATE TABLE `#__olamundo`(
 CREATE UNIQUE INDEX `aliasindex` ON `#__olamundo` (`alias`, `catid`);
 
 #INSERIR OS VALORES NO BANCO DE DADOS.
-INSERT INTO `#__olamundo` (`texto`, `alias`, `language`) 
-VALUES ('Olá Mundo!', 'ola-mundo', 'pt-BR'), 
-('Adeus, Mundo!', 'adeus-mundo', 'en-GB'), 
-('Denovo, mundo??', 'denovo-mundo', 'fr-FR');
+INSERT INTO `#__olamundo` (`texto`, `alias`, `language`, `ordering`) 
+VALUES ('Olá Mundo!', 'ola-mundo', 'pt-BR', 1), 
+('Adeus, Mundo!', 'adeus-mundo', 'en-GB', 2), 
+('Denovo, mundo??', 'denovo-mundo', 'fr-FR', 3);

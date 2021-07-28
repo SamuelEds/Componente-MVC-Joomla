@@ -243,6 +243,41 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 				return JFactory::getUser()->authorise("core.delete", "com_helloworld.helloworld." . $record->id);
 			}
 		}
+
+		/**
+		 * 
+		 * PREPARAR O REGISTRO HELLOWORLD QUANDO FOR SALVAR NO BANCO.
+		 * 
+		 * NESSA FUNÇÃO TAMBÉM SERÁ DEFINIDO O VALOR DA ORDEM DO NOVO REGISTRO COMO 
+		 * 'max + 1', ISSO PARA QUE ELE APAREÇA NO FINAL.
+		 * 
+		 * */
+		protected function prepareTable($table){
+
+			//DEFINIR A ORDENAÇÃO PARA O ÚLTIMO ITEM. (ISSO SE NÃO FOR DEFINIDO)
+			if(empty($table->ordering)){
+
+				//OBTER O BANCO DE DADOS.
+				$db = JFactory::getDbo();
+
+				//INICIALIZAR A QUERY.
+				$query = $db->getQuery(true);
+
+				//CRIAR A QUERY.
+				$query->select('MAX(ordering)')->from('#__olamundo');
+
+				//SETAR A QUERY.
+				$db->setQuery($query);
+
+				//ARMAZENAR O VALOR MÁXIMO ENCONTRADO.
+				$max = $db->loadResult();
+
+				//SETAR A ORDENAÇÃO DO NOVO REGISTRO COMO ÚLTIMO.
+				$table->ordering = $max + 1;
+
+			}
+
+		}
 	}
 
 	?>

@@ -45,6 +45,22 @@
 			<option value="*">JALL</option>
 
 		</field>
+
+		<!--CRIAR UM CAMPO PARA GERENCIAR AS CATEGORIAS DO COMPONENTE.-->
+		<!--OBSERVE O ATRIBUTO 'type' QUE FAZ COM QUE O CAMPO SEJA RECONHECIDO COMO CATEGORIA.-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<!--NOTE TAMBÉM O ATRIBUTO 'extension' QUE DIZ QUAL EXTENSÃO O CAMPO DEVE INTERAGIR.-->
+		<field
+			name="category_id"
+			type="category"
+			label="JOPTION_FILTER_CATEGORY"
+			extension="com_helloworld"
+			onchange="this.form.submit();"
+			published="0, 1, 2">
+			
+			<option value="">JOPTION_SELECT_CATEGORY</option>
+
+		</field>
 	
 	</fields>
 
@@ -65,8 +81,10 @@
 
 			<!--AQUI SÃO TODAS AS OPÇÕES DE FILTROS POR CADA CAMPO, DIVIDIDO EM ASC/DESC (CRESCENTE/DECRESCENTE).-->
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="texto ASC">COM_HELLOWORLD_ORDERING_ASC</option>
-			<option value="texto DESC">COM_HELLOWORLD_ORDERING_DESC</option>
+			<option value="ordering ASC">COM_HELLOWORLD_ORDERING_ASC</option>
+			<option value="ordering DESC">COM_HELLOWORLD_ORDERING_DESC</option>
+			<option value="texto ASC">COM_HELLOWORLD_TEXTO_ASC</option>
+			<option value="texto DESC">COM_HELLOWORLD_TEXTO_DESC</option>
 			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
 			<option value="published ASC">COM_HELLOWORLD_PUBLISHED_ASC</option>
