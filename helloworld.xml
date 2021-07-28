@@ -19,7 +19,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.6</version>
+	<version>0.0.7</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>Aqui vai uma descrição do componente Helloworld...</description>
@@ -75,11 +75,13 @@
 			<!--ARQUIVOS A SER INSTALADOS-->
 			<filename>helloworld.php</filename>
 			<filename>index.html</filename>
+			<filename>controller.php</filename>
 
 			<!--PASTAS A SER INSTALADAS-->
 			<folder>sql</folder>
 			<folder>models</folder>
 			<folder>tables</folder>
+			<folder>views</folder>
 
 		</files>
 
