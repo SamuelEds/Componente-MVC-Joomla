@@ -34,6 +34,33 @@
 
 	<!--O GRUPO DE CAMPOS DEVE CONTER NO ATRIBUTO 'name' O VALOR COMO 'list' PARA QUE O JOOMLA O RECONHEÇA COMO CAMPOS QUE SERÃO USADO PARA LISTA.-->
 	<fields name="list">
+
+		<!--CAMPO PARA CONFIGURAÇÃO DE ORDENAÇÃO DOS FILTROS.-->
+		<!--NOTE O ATRIBUTO 'name' COM O VALOR 'fullordering' INDICANDO QUE ELE SE COMPORTARÁ COMO FILTRO.-->
+		<!--OBSERVE TAMBÉM O ATRIBUTO 'type' COM O VALOR 'list' QUE INDICA UMA LISTA DE ESCOLHAS DE COMO QUER FAZER A ORDENAÇÃO.-->
+		<!--A LISTAGEM PADRÃO ESTÁ COMO 'texto' NA DIREÇÃO 'ASC'.-->
+		<field
+			name="fullordering"
+			type="list"
+			label="COM_HELLOWORLD_LIST_FULL_ORDERING"
+			description="COM_HELLOWORLD_LIST_FULL_ORDERING_DESC"
+			onchange="this.form.submit();"
+			default="texto ASC">
+			
+			<!--AQUI SÃO TODAS AS OPÇÕES DE FILTROS POR CADA CAMPO, DIVIDIDO EM ASC/DESC (CRESCENTE/DECRESCENTE).-->
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="texto ASC">COM_HELLOWORLD_ORDERING_ASC</option>
+			<option value="texto DESC">COM_HELLOWORLD_ORDERING_DESC</option>
+			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="published ASC">COM_HELLOWORLD_PUBLISHED_ASC</option>
+			<option value="published DESC">COM_HELLOWORLD_PUBLISHED_DESC</option>
+			<option value="author ASC">COM_HELLOWORLD_AUTHOR_ASC</option>
+			<option value="author DESC">COM_HELLOWOLD_AUTHOR_DESC</option>
+			<option value="created ASC">COM_HELLOWORLD_CREATED_ASC</option>
+			<option value="created DESC">COM_HELLOWORLD_CREATED_DESC</option>
+
+		</field>
 		
 		<!--ESTE CAMPO IRÁ CRIAR UMA BOX QUE FARÁ O CONTROLE DO LIMITE DE QUANTOS ITENS PODEM SER EXIBIDOS NA TELA. POR PADRÃO, SERÁ EXIBIDO 10 ITENS.-->
 		<!--OBSERVE O ATRIBUTO 'onchange' COM O VALUE 'this.form.submit()', ISSO INIDICA UMA FUNÇÃO JAVASCRIPT, PARA CADA MUDANÇA NO VALOR DA BOX, ELE IRÁ ENVIAR O NOVO VALOR PARA O JOOMLA MANIPULAR O LIMITE DE EXIBIÇÃO DE ITENS.-->

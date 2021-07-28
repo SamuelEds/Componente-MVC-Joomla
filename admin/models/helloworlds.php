@@ -15,6 +15,8 @@ class HelloWorldModelHelloWorlds extends JModelList{
 
 				'id',
 				'texto',
+				'author',
+				'created',
 				'published'
 
 			);
@@ -34,10 +36,13 @@ class HelloWorldModelHelloWorlds extends JModelList{
 		$query = $db->getQuery(true);
 
 		//CRIAR A SOLICITAÇÃO.
-		$query->select('a.id AS id, a.texto AS texto, a.published AS published')->from($db->quoteName('#__olamundo', 'a'));
+		$query->select('a.id AS id, a.texto AS texto, a.published AS published, a.created AS created')->from($db->quoteName('#__olamundo', 'a'));
 
 		//CRIAR UM JOIN COM A TABELA DE CATEGORIAS.
 		$query->select($db->quoteName('c.title', 'category_title'))->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = a.catid');
+
+		//CRIAR UM JOIN COM A TABELA DE USUÁRIOS PARA OBTER O NOME DO AUTHOR.
+		$query->select($db->quoteName('u.username', 'author'))->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = a.created_by');
 
 		//--------------------------------------------------\\
 

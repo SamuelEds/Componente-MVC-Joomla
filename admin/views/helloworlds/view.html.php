@@ -23,8 +23,8 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 
 		//AS VARIÁVEIS '$this->filter_order' E '$this->filter_order_Dir' IRÃO ARMAZENAR A COLUNA DE CLASSIFICAÇÃO ATIVA E A DIREÇÃO DE CLASSIFICAÇÃO, RESPECTIVAMENTE. ESSAS VARÁVEIS SÃO RECUPERADAS DAS VARIÁVEIS DE ESTADO DO APLICATIVO.
 		
-		$this->filter_order = $aplicativo->getUserStateFromRequest($contexto.'filter_order', 'filter_order', 'texto', 'cmd');
-		$this->filter_order_Dir = $aplicativo->getUserStateFromRequest($contexto.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
+		//$this->filter_order = $aplicativo->getUserStateFromRequest($contexto.'filter_order', 'filter_order', 'texto', 'cmd');
+		//$this->filter_order_Dir = $aplicativo->getUserStateFromRequest($contexto.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
 
 		//IMPORTANTE: O NOME DAS VARIÁVEIS DEVE OBRIGATORIAMENTE ESTAR ESCRITOS COMO MOSTRA ABAIXO.('$this->state', '$this->filterForm', '$this->activeFilters'). JOOMLA NÃO ACEITA QUALQUER TIPO DE NOMENCLATURA.
 

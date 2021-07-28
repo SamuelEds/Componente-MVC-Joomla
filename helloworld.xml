@@ -19,7 +19,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.15</version>
+	<version>0.0.16</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>COM_HELLOWORLD_DESCRIPTION</description>
@@ -63,6 +63,7 @@
 		<folder>views</folder>
 		<folder>models</folder>
 		<folder>language</folder>
+		<folder>controllers</folder>
 
 	</files>
 

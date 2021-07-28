@@ -7,8 +7,8 @@ defined('_JEXEC') or die('Essa página não pode ser processada diretamente.');
 JHtml::_('formbehavior.chosen', 'select');
 
 //OBTER DADOS DAS VARIÁVEIS DE FILTRO E CLASSIFICAÇÃO.
-$listaOrdem = $this->escape($this->filter_order);
-$listDirecao = $this->escape($this->filter_order_Dir);
+$listaOrdem = $this->escape($this->state->get('list.ordering'));
+$listDirecao = $this->escape($this->state->get('list.direction'));
 
 ?>
 
@@ -25,7 +25,7 @@ $listDirecao = $this->escape($this->filter_order_Dir);
 
 	<div id="j-main-container" class="span10">
 		<div class="row-fluid">
-			<div class="span6">
+			<div class="span12">
 
 				<!--EXIBIR UM TÍTULO.-->
 				<?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_FILTER'); ?>
@@ -50,19 +50,29 @@ $listDirecao = $this->escape($this->filter_order_Dir);
 					<td><?php echo JHtml::_('grid.checkall'); ?></td>
 
 					<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
-					<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_ordem', 'comando_estado_por_direcao')' -->
+					<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_ordem', 'comando_estado_por_direcao')' -->
 					<!--O MESMO SEGUE-SE PARA O OUTROS DOIS COMANDOS.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JHtml::_('grid.sort', 'COM_HELLOWORLD_HELLOWORLDS_NAME', 'texto', $listDirecao, $listaOrdem); ?></td>
+					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLDS_NAME', 'texto', $listDirecao, $listaOrdem); ?></td>
+
+					<!--EXIBIR UM TÍTULO PARA A LISTA DOS NOMES DOS AUTORES.-->
+					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
+					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_AUTHOR', 'author', $listDirecao, $listaOrdem); ?></td>
+
+					<!--EXIBIR UM TÍTULO PARA A LISTA DAS DATAS EM QUE AS MENSAGENS FORAM CRIADAS.-->
+					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
+					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_CREATED_DATE', 'created', $listDirecao, $listaOrdem); ?></td>
 
 					<!--EXIBIR UM TÍTULO PARA A LISTA DOS ITENS PUBLICADOS/DESPUBLICADOS.-->
 					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JHtml::_('grid.sort', 'COM_HELLOWORLD_PUBLISHED', 'published', $listDirecao, $listaOrdem); ?></td>
+					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_PUBLISHED', 'published', $listDirecao, $listaOrdem); ?></td>
 
 					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JHtml::_('grid.sort', 'COM_HELLOWORLD_ID', 'id', $listDirecao, $listaOrdem); ?></td>
+					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_ID', 'id', $listDirecao, $listaOrdem); ?></td>
 
 				</tr>
 			</thead>
@@ -101,6 +111,14 @@ $listDirecao = $this->escape($this->filter_order_Dir);
 								</div>
 							</td>
 
+							<td align="center">
+								<?php echo $dados->author; ?>
+							</td>
+
+							<td align="center">
+								<?php echo substr($dados->created, 0, 10); ?>
+							</td>
+
 							<!--EXIBIR UMA CAIXA DE PUBLICAÇÃO/DESPUBLICAÇÃO NATIVO DO JOOMLA.-->
 							<!--OBS: QUANDO FOR USAR ESSA CAIXA, O CAMPO NO BANCO DE DADOS DEVE ESTÁ ESCRITO 'published' PARA QUE A AÇÃO DE PUBLICAR/DESPUBLICAR SURTA EFEITO.-->
 							<td><?php echo JHtml::_('jgrid.published', $dados->published, $i, 'helloworlds.', true, 'cb'); ?></td>
@@ -118,8 +136,11 @@ $listDirecao = $this->escape($this->filter_order_Dir);
 
 			<tfoot>
 				<tr>
-					<!--EXIBIR OBJETOS DE PAGINAÇÃO.-->
-					<?php echo $this->paginacao->getListFooter(); ?>
+					<td colspan="5">
+
+						<!--EXIBIR OBJETOS DE PAGINAÇÃO.-->
+						<?php echo $this->paginacao->getListFooter(); ?>
+					</td>
 				</tr>
 			</tfoot>
 
@@ -134,8 +155,8 @@ $listDirecao = $this->escape($this->filter_order_Dir);
 		<input type="hidden" name="boxchecked" value="0" />
 
 		<!--CAIXAS QUE IRÃO INFLUENCIAR NAS AÇÕES DAS LISTAS-->
-		<input type="hidden" name="filter_order" value="<?php echo $listaOrdem; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirecao; ?>">
+		<!--<input type="hidden" name="filter_order" value="<?php //echo $listaOrdem; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php //echo $listDirecao; ?>">-->
 
 		<!--ESSA SAÍDA HTML IRÁ CRIA UM TOKEN QUANDO O FORMULÁRIO FOR ENVIANDO, ISSO PARA PREVENIR ATAQUES CSRF.-->
 		<?php echo JHtml::_('form.token'); ?>

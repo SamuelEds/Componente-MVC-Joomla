@@ -61,7 +61,7 @@ Joomla.submitbutton = function(task){
 		if(eValido){
 
 			//ENVIAR O FORMULÁRIO COM A SUA TASK, QUE PODE SER SALVAR OU FECHAR/CANCELAR.
-			Joola.submitform(task);
+			Joomla.submitform(task);
 			return true;
 
 		}else{

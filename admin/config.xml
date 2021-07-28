@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--INICIALIZAR O ARQUIVO XML-->
 
+<!--ESTE ARQUIVO SERÁ LIDO PELO COMPONENTE 'com_confing' QUE É NATIVO DO JOOMLA.-->
+
+<!--INICIAR A TAG DE CONFGURAÇÕES-->
 <config>
 	
+	<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 	<fieldset
 		name="textos"
 		label="COM_HELLOWORLD_CONFIG_TEXTO_SETTINGS_LABEL"
 		description="COM_HELLOWORLD_CONFIG_TEXTO_SETTINGS_DESC"
 		>
 
+		<!--AQUI ESTÁ SENDO PASSADO SOMENTE UM PARÂMETRO, SE O TÍTULO DA CATEGORIA É EXIBIDO OU NÃO NO FRONT-END.-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 		<field
 			name="show_category"
 			type="radio"
@@ -15,10 +22,40 @@
 			description="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_DESC"
 			default="0">
 			
+			<!--AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA-->
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 
 		</field>
+
+		<!--CAMPO QUE EXIBIRÁ UMA CAIXA DO 'reCAPTCHA'.-->
+		<!--NOTE O TYPE COM O VALOR 'plugins' SIGNIFICANDO QUE ESTÁ A UTIILIZAR O PLUGIN RECAPTHCA DO JOOMLA.-->
+		<field
+			name="captcha"
+			type="plugins"
+			folder="captcha"
+			label="COM_HELLOWORLD_HELLOWORLD_FIELD_CAPTCHA_LABEL"
+			description="COM_HELLOWORLD_HELLOWORLD_FIELD_CAPTCHA_DESC"
+			default="0"
+			filter="cmd">
+			
+			<!--AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA-->
+			<option value="">JOPTION_USE_DEFAULT</option>
+			<option value="0">JOPTION_DO_NOT_USE</option>
+
+		</field>
+
+		<!--CAMPO PARA INSERIR O E-MAIL-->
+		<!--OBSERVE O ATRIBUTO 'name' COM O VALOR 'user_to_email' QUE É O MESMO VALOR UTILIZADO NO ARQUIVO CONTROLLER 'site/controllers/helloworld.php'-->
+		<!--NOTE TAMBÉM O ATRIBUTO 'type' COM O VALOR 'user' INDICANDO QUE O CAMPO IRÁ INTERAGIR COM A LISTA DE USUÁRIOS DO JOOMLA.-->
+		<field
+			name="user_to_email"
+			type="user"
+			label="COM_HELLOWORLD_HELLOWORLD_FIELD_USER_TO_EMAIL_LABEL"
+			description="COM_HELLOWORLD_HELLOWORLD_FIELD_USER_TO_EMAIL_DESC"
+			default="0">
+		</field>
+
 	</fieldset>
 
 	<!--AQUI SERÁ O CAMPO PARA CONFIGURAÇÃO DO ACL.-->
