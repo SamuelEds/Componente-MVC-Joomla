@@ -22,7 +22,13 @@ class JFormFieldMensagens extends JFormFieldList{
 		$query = $db->getQuery(true);
 
 		//CRIAR A CONSULTA.
-		$query->select('id, texto')->from('#__olamundo');
+		$query->select('#__olamundo.id AS id, texto, #__categories.title as category, catid')->from('#__olamundo');
+
+		//CRIAR UM JOIN COM A TABELA DE CATEGORIAS.
+		$query->leftJoin('#__categories ON catid = #__categories.id');
+
+		//EXIBIR SOMENTE INTES PUBLICADOS.
+		$query->where('#__olamundo.published = 1');
 
 		//SETAR A QUERY.
 		$db->setQuery((string) $query);
@@ -42,7 +48,8 @@ class JFormFieldMensagens extends JFormFieldList{
 
 				//NOTE COMO AS OPÇÕES SÃO CRIADAS, ATRAVÉS DA FUNÇÃO JOOMLA 'JHtml_()'
 				//OS PARÂMETROS DESSA FUNÇÃO SÃO: JHtml_('campo.javascript.definido', value, conteúdo_do_campo).
-				$option[] = JHtml::_('select.option', $dados->id, $dados->texto);
+				//NOTE COMO É INFORMADO AS CATEGORIAS DE ACORDO COM CADA ITEM. ELE ESTÁ SENDO EXECUTADO COMO UMA CONDIÇÃO TERNÁRIA, QUE SE HOUVER ALGUMA CATEGORIA CADASTRADA, ELE EXIBIRÁ DE ACORDO COM CADA ITEM, SENÃO ENTÃO ELE APENAS FICARÁ EM BRANCO.
+				$option[] = JHtml::_('select.option', $dados->id, $dados->texto . ($dados->catid ? ' (' . $dados->category . ')' : ''));
 
 			}
 

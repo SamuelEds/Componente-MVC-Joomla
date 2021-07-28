@@ -19,7 +19,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.11</version>
+	<version>0.0.12</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>COM_HELLOWORLD_DESCRIPTION</description>
@@ -87,6 +87,7 @@
 			<!--ARQUIVOS A SER INSTALADOS-->
 			<filename>helloworld.php</filename>
 			<filename>index.html</filename>
+			<filename>access.xml</filename>
 			<filename>controller.php</filename>
 
 			<!--PASTAS A SER INSTALADAS-->
@@ -96,6 +97,7 @@
 			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>language</folder>
+			<folder>helpers</folder>
 
 		</files>
 

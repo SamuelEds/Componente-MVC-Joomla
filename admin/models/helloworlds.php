@@ -34,7 +34,10 @@ class HelloWorldModelHelloWorlds extends JModelList{
 		$query = $db->getQuery(true);
 
 		//CRIAR A SOLICITAÇÃO.
-		$query->select('*')->from('#__olamundo');
+		$query->select('a.id AS id, a.texto AS texto, a.published AS published')->from($db->quoteName('#__olamundo', 'a'));
+
+		//CRIAR UM JOIN COM A TABELA DE CATEGORIAS.
+		$query->select($db->quoteName('c.title', 'category_title'))->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = a.catid');
 
 		//--------------------------------------------------\\
 
@@ -66,11 +69,11 @@ class HelloWorldModelHelloWorlds extends JModelList{
 
 		if(is_numeric($publicado)){
 
-			$query->where('published = ' . (int) $publicado);
+			$query->where('a.published = ' . (int) $publicado);
 
 		}else if($publicado === ''){
 
-			$query->where('(published IN(0, 1))');
+			$query->where('(a.published IN(0, 1))');
 
 		}
 

@@ -9,6 +9,10 @@ $documento = JFactory::getDocument();
 //ADICIONAR UMA DELCARAÇÃO AO DOCUMENTO.
 $documento->addStyleDeclaration('.icon-helloworld{background-image: url(../media/com_helloworld/images/joao-frango-16-x-16.png);}');
 
+//IMPORTAR O ARQUIVO AUXILIAR (ARQUIVO HELPER).
+//NOTE O COMANDO 'JPATH_COMPONENT', ELE É UMA CONSTANTE PADRÃO DO JOOMLA QUE INDICA O DIRETÓRIO DE ONDE O COMPONENTE, QUE ESTÁ SENDO RODADO NO MOMENTO (QUE NESTE CASO É O COMPONENTE HELLOWORLD), ESTÁ LOCALIZADO.
+JLoader::register('HelloWorldHelper', JPATH_COMPONENT . '/helpers/helloworld.php');
+
 //INSTANCIAR O CONTROLADOR GERAL.
 //INFORMAR O NOME DO CONTROLADOR ENTRE PARÊNTESES.
 $controle = JControllerLegacy::getInstance('HelloWorld');

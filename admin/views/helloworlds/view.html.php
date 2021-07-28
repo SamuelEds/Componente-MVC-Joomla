@@ -51,6 +51,10 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 			return false;
 		}
 
+		//DEFINIR O SUBMENU.
+		//PASSAR COMO PARÂMETRO QUAL SUBMENU DESEJA EXIBIR POR PADRÃO.
+		HelloWorldHelper::addSubmenu('helloworlds');
+
 		//ADICIONAR BARRA DE TAREFAS NO BACK-END E EXIBIR O NÚMERO DE ITENS ENCONTRADOS.
 		$this->barraTarefas();
 
