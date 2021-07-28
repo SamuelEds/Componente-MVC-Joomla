@@ -10,12 +10,16 @@ defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
 //EM SUMA, O PADRÃO É '<nome_do_componente>View<nome_da_view>'.
 class HelloWorldViewHelloWorld extends JViewLegacy{
 
+	//CRIAR UMA VARIÁVEL PROTEGIDA.
+	protected $umaMensagem;
+
 	//FUNÇÃO PADRÃO PARA EXIBIR A VIEW.
 	//O PARÂMETRO '$tpl' IRÁ FAZER UMA BUSCA DO MODELO DA VIEW E POR PADRÃO, ELE É NULO. 
 	public function display($tpl = null){
 
-		//UMA VARIÁVEL QUE IRÁ INSERIR DADOS NA VIEW. NESSE CASO IRÁ INSERI UM TEXTO SIMPLES.
-		$this->umaMensagem = 'Olá mundo para o cliente - uma mensagem aleatória!';
+		//INSERIR DADOS NA VIEW.
+		//OBSERVE O COMANDO '$this->get('UmaMensagem')', '$this' REFERE-SE AO MODELO, 'get('UmaMensagem')' REFERE-SE À FUNÇÃO 'getUmaMensagem' QUE ESTÁ NO ARQUIVO MODELO DA VIEW. ELE IRÁ CONVERTER 'get('UmaMensagem')' EM 'getUmaMensagem'.
+		$this->umaMensagem = $this->get('UmaMensagem');
 
 		//EXIBIR A VIEW.
 		parent::display($tpl);

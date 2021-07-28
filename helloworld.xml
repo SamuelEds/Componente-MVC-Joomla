@@ -19,7 +19,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.3</version>
+	<version>0.0.4</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>Aqui vai uma descrição do componente Helloworld...</description>
@@ -42,6 +42,7 @@
 
 		<!--PASTAS A SER INSTALADAS-->
 		<folder>views</folder>
+		<folder>models</folder>
 
 	</files>
 
