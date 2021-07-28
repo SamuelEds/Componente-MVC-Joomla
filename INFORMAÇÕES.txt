@@ -1,8 +1,4 @@
-ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 29
-
-PAREI NA PARTE: admin/models/helloworlds.php
-
-NO TÍTULO: Helloworlds MVC.
+ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 30
 
 =====================================================================================================
 

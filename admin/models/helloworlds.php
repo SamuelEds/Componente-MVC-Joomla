@@ -22,6 +22,7 @@ class HelloWorldModelHelloWorlds extends JModelList{
 				'lft',
 				'ordering',
 				'category_id',
+				'access',
 				'association',
 				'publicado'
 			);
@@ -65,12 +66,18 @@ class HelloWorldModelHelloWorlds extends JModelList{
 
 		//INICIALIZAR AS VARIÁVEIS.
 		$db = JFactory::getDbo();
+
+		//INICIALIZAR A QUERY.
 		$query = $db->getQuery(true);
+
+		//OBTER O USUÁRIO ATUAL.
+		$usuario = JFactory::getUser();
 
 		//CRIAR A CONSULTA.
 		//NOTE A FUNÇÃO 'quoteName()', ELE IRÁ DEFINIR UM APELIDO USADO NA QUERY QUE NESSE CASO É A LETRA 'a'.
 		$query->select('a.id AS id, a.texto AS texto, a.published AS published, 
-			a.created AS criado, a.checked_out AS checked_out, 
+			a.created AS criado, a.access AS access, 
+			a.checked_out AS checked_out, 
 			a.checked_out_time AS checked_out_time, 
 			a.catid AS catid, a.lft AS lft, 
 			a.rgt AS rgt, a.parent_id AS parent_id, 
@@ -104,7 +111,8 @@ class HelloWorldModelHelloWorlds extends JModelList{
 			->group('a.id');		
 		}
 
-
+		//CRIAR UM JOIN PARA OS NÍVEIS DE ACESSO, OBTER O NOME DO NÍVEL DE ACESSO.
+		$query->select('v.title AS access_level')->join('LEFT', $db->quoteName('#__viewlevels', 'v') . ' ON v.id = a.access');
 
 		//--------------------------------------------------\\
 
@@ -167,8 +175,17 @@ class HelloWorldModelHelloWorlds extends JModelList{
 		$catid = $this->getState('filter.category_id');
 		if($catid){
 			
-			$query->where('a.catid = ' . $db->quoteName($catid));
+			$query->where('a.catid = ' . $db->quote($this->escape($catid)));
 			
+		}
+
+		//EXIBIR APENAS OS REGISTROS AOS QUAIS O USUÁRIO TEM ACESSO.
+		if(!$usuario->authorise('core.admin')){ //OU SEJA, SE NÃO FOR O ADMIN.
+
+			$niveisAcessoUsuario = implode(',', $usuario->getAuthorisedViewLevels());
+			$query->where('a.access IN(' . $niveisAcessoUsuario . ')');
+			$query->where('c.access IN(' . $niveisAcessoUsuario . ')');
+
 		}
 
 		//EXCLUIR REGISTRO OLAMUNDO RAÍZ.

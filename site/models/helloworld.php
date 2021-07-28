@@ -72,8 +72,10 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 			//CONSTRUIR A CONSULTA.
 			$query->select('h.texto, h.params, h.imagem as imagem, 
-				c.title AS categoria, h.latitude AS latitude, 
-				h.longitude AS longitude, h.id AS id, 
+				c.title AS categoria, c.access AS catAccess,
+				h.latitude AS latitude, 
+				h.longitude AS longitude, h.access AS access,
+				h.id AS id,
 				h.alias AS alias, h.catid AS catid, 
 				h.parent_id AS parent_id, 
 				h.level AS level, h.description AS description')->from($db->quoteName('#__olamundo', 'h'))->leftJoin('#__categories AS c ON h.catid = c.id')->where('h.id = ' . (int) $id);
@@ -113,6 +115,33 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 				//COLOCAR O ARRAY DENTRO DE UMA VARIÁVEL. (ELA SERÁ USADA NO ARQUIVO 'default.php')
 				$this->item->imageDetails = $image;
+
+				//VERIFIQUE SE O USUÁRIO PODE ACESSAR ESSE REGISTRO (E CATEGORIA).
+
+				//OBTER O USUÁRIO ATUAL.
+				$usuario = JFactory::getUser();
+
+				//OBER AS AUTORIZAÇÕES DOS NÍVEIS DE ACESSO PARA O REGISTRO.
+				$niveisAcessoUsuario = $usuario->getAuthorisedViewLevels();
+
+				//É O ADMIN
+				if($usuario->authorise('core.admin')){
+
+					$this->item->canAccess = true;
+
+				}else{
+
+					if($this->item->catid == 0){
+
+						$this->item->canAccess = in_array($this->item->access, $niveisAcessoUsuario);
+
+					}else{
+
+						$this->item->canAccess = in_array($this->item->access, $niveisAcessoUsuario) && in_array($this->item->catAccess, $niveisAcessoUsuario);
+
+					}
+
+				}
 
 			}else{
 
@@ -212,7 +241,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 				$query = $db->getQuery(true);
 
 				//CONSTRUIR A SOLICITAÇÃO.
-				$query->select('o.id, o.alias, o.texto, o.catid, o.latitude, o.longitude')->from($db->quoteName('#__olamundo', 'o'))->where('
+				$query->select('o.id, o.alias, o.texto, o.catid, o.latitude, o.longitude, o.access')->from($db->quoteName('#__olamundo', 'o'))->where('
 
 						o.latitude > '. $mapBounds['minlat'] .'
 						AND o.latitude < '. $mapBounds['maxlat'] .'
@@ -229,6 +258,26 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 					//FAZER A FILTRAGEM DE IDIOMA POR SQL.
 					$query->where('o.language IN("*", "' . $lang . '")');
+
+				}
+
+				//EXIBIR A LISTA DE REGISTROS CUJO O USUÁRIO TÊM ACESSOE QE ESTEJA LOGADO.
+
+				//OBTER O USUÁRIO ATUAL.
+				$usuario = JFactory::getuser();
+
+				//USUÁRIO LOGADO.
+				$logado = $usuario->get('guest') != 1;
+
+				if($logado && !$usuario->authorise('core.admin')){
+
+					//OBTER OS ACESSOS DO USUÁRIOS ATUAL.
+					$niveisAcessoUsuario = $usuario->getAuthorisedViewLevels();
+
+					//FAZER A SELEÇÃO PELA QUERY.
+					$query->where('o.access IN (' . implode(',', $niveisAcessoUsuario) . ')');
+					$query->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = o.catid');
+					$query->where('(c.access IN(' . implode(',', $niveisAcessoUsuario) . ') OR o.catid = 0)');
 
 				}
 

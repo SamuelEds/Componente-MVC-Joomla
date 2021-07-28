@@ -17,6 +17,12 @@ class HelloWorldViewHelloWorld extends JViewlegacy{
 		//PEGAR OS DADOS DO MODELO.
 		$this->item = $this->get('Item');
 
+		//OBTER O USUÁRIO ATUAL.
+		$usuario = JFactory::getUser();
+
+		//OBTER O APLICATIVO.
+		$aplicativo = JFactory::getApplication();
+
 		//INSERIR DADOS NA VIEW.
 		//OBSERVE O COMANDO '$this->get('UmaMensagem')', '$this' REFERE-SE AO MODELO, 'get('UmaMensagem')' REFERE-SE À FUNÇÃO 'getUmaMensagem' QUE ESTÁ NO ARQUIVO MODELO DA VIEW. ELE IRÁ CONVERTER 'get('UmaMensagem')' EM 'getUmaMensagem'.
 		$this->umaMensagem = $this->get('UmaMensagem');
@@ -27,6 +33,31 @@ class HelloWorldViewHelloWorld extends JViewlegacy{
 			//INFORMAR OS ERROS NA TELA
 			JLog::add(implode('<br />', $erros), JLog::WARNING, 'jerror');
 			return false;
+		}
+
+		//PEGAR A AÇÃO COM BASE NO FATO DE O USUÁRIO TER ACESSO PARA VER O REGISTRO OU NÃO.
+		$logado = $usuario->get('guest') != 1;
+
+		if(!$this->item->canAccess){
+			
+			if($logado){
+
+				$aplicativo->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$aplicativo->setHeader('status', 403, true);
+				return;
+
+			}else{
+
+				$return = base64_encode(JUri::getInstance());
+				$login_url_com_retorno = JRoute::_('index.php?option=com_users&return=' . $return, false);
+
+				//EXIBIR UM ALERT DO TIPO 'notice'.
+				//A CLASSE 'JText::()' IRÁ EXIBIR UM TEXTO NO ALERT. AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
+				$aplicativo->enqueueMessage(JText::_('COM_HELLOWORLD_MUST_LOGIN'), 'notice');
+				$aplicativo->redirect($login_url_com_retorno, 403);
+
+			}
+
 		}
 
 		//CHAMAR A FUNÇÃO QUE ADICIONAR O MAPA.

@@ -91,7 +91,7 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 					<th>
 
 						<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
-						<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort' OU 'grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_ordem', 'comando_estado_por_direcao')' -->
+						<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort' OU 'grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_direcao', 'comando_estado_por_ordem')' -->
 						<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
 						<?php echo JHtml::_('searchtools.sort', '', 'lft', $listaDirecao, $listaOrdem, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 					</th>
@@ -105,7 +105,7 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 					<th><?php echo JHtml::_('grid.checkall'); ?></th>
 
 					<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
-					<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort' OU 'grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_ordem', 'comando_estado_por_direcao')' -->
+					<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort' OU 'grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_direcao', 'comando_estado_por_ordem')' -->
 					<!--O MESMO SEGUE-SE PARA O OUTROS DOIS COMANDOS.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 					<th><?php echo JHtml::_('searchtools.sort','COM_HELLOWORLD_HELLOWORLDS_NAME', 'texto', $listaDirecao, $listaOrdem); ?></th>
@@ -121,10 +121,18 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 
 					<!--EXIBIR OS DETALHES DOS DADOS DE NÍVEIS.-->
 					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
-					<th><?php echo JText::_('LFT'); ?></th>
-					<th><?php echo JText::_('RGT'); ?></th>
-					<th><?php echo JText::_('Level'); ?></th>
-					<th><?php echo JText::_('Parent'); ?></th>
+					<!--<th><?php //echo JText::_('LFT'); ?></th>
+					<th><?php //echo JText::_('RGT'); ?></th>
+					<th><?php //echo JText::_('Level'); ?></th>
+					<th><?php //echo JText::_('Parent'); ?></th>-->
+
+					<!--EXIBIR UM TÍTULO PARA A LISTA DE ACESSOS DE CADA REGISTRO.-->
+					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+					<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
+					<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort' OU 'grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_direcao', 'comando_estado_por_ordem')' -->
+					<th>
+						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access', $listaDirecao, $listaOrdem) ?>
+					</th>
 
 					<!--SE AS CONFIGURAÇÕES DE ASSOCIAÇÕES ESTIVEREM HABILITADAS...-->
 					<?php if($assoc){ ?>
@@ -321,6 +329,11 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 							//ELE PEGARÁ A VARIÁVEL '$html' E TROCARÁ OS '%s' PELOS DOIS ÚLTIMOS PARÂMETROS RESPECTIVAMENTE.
 							echo sprintf($html, $src, $caption);
 							?>
+						</td>
+
+						<!--EXIBIR OS NÍVEIS DE ACESSO DE CADA REGISTRO HELLOWORLD.-->
+						<td>
+							<?php echo $this->escape($dados->access_level); ?>
 						</td>
 
 						<td>

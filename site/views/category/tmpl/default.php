@@ -89,23 +89,32 @@ if(JLanguageMultilang::isEnabled() && $lang){
 				<!--LAÇO DE REPETIÇÃO PARA EXIBIR OS DADOS.-->
 				<?php foreach($this->items as $i => $dados){ ?>
 
-					<!--CRIAR ROTEAMENTO DIRECIONANDO PARA A VIEW 'helloworld' COM O DETERMINADO ID DO DADO SENDO BUSCADO..-->
-					<?php $url = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $dados->id . ':' . $dados->alias . '&catid=' . $dados->catid . $query_lang); ?>
+					<?php if(isset($dados->canAccess) && !$dados->canAccess){ ?>
 
-					<tr>
+						<tr>
+							<td align="center" colspan="5"><?php echo $dados->texto . ' - ' . JText::_('COM_HELLOWORLD_MUST_LOGIN'); ?></td>
+						</tr>
 
-						<!--NUMERAR CADA ITEM PARA FAZER O CONTROLE DE PAGINAÇÃO.-->
-						<td><?php echo $this->paginacao->getRowOffset($i); ?></td>
+					<?php }else{ ?>
 
-						<!--EXIBIR ITEMS-->
-						<td><?php echo $dados->texto; ?></td>
-						<td><?php echo $dados->alias; ?></td>
+						<!--CRIAR ROTEAMENTO DIRECIONANDO PARA A VIEW 'helloworld' COM O DETERMINADO ID DO DADO SENDO BUSCADO..-->
+						<?php $url = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $dados->id . ':' . $dados->alias . '&catid=' . $dados->catid . $query_lang); ?>
 
-						<!--EXIBIR O ID E A URL DE CADA ITEM.-->
-						<td><a href="<?php echo $url; ?>"><?php echo $url; ?></a></td>
-						<td><?php echo $dados->id; ?></td>
-					</tr>
+						<tr>
 
+							<!--NUMERAR CADA ITEM PARA FAZER O CONTROLE DE PAGINAÇÃO.-->
+							<td><?php echo $this->paginacao->getRowOffset($i); ?></td>
+
+							<!--EXIBIR ITEMS-->
+							<td><?php echo $dados->texto; ?></td>
+							<td><?php echo $dados->alias; ?></td>
+
+							<!--EXIBIR O ID E A URL DE CADA ITEM.-->
+							<td><a href="<?php echo $url; ?>"><?php echo $url; ?></a></td>
+							<td><?php echo $dados->id; ?></td>
+						</tr>
+						
+					<?php } ?>
 				<?php } ?>
 			<?php } ?>
 		</tbody>

@@ -23,6 +23,7 @@ CREATE TABLE `#__olamundo`(
 	`rgt`				INT(11) NOT NULL DEFAULT '0',
 	#`ordering`			INT(11) NOT NULL DEFAULT '0',
 	`published` 		tinyint(4) NOT NULL DEFAULT '1',
+	`access`			tinyint(4) NOT NULL DEFAULT '0',
 	`catid`				int(11) NOT NULL DEFAULT '0',
 	`params` 			VARCHAR(255) NOT NULL DEFAULT '',
 	`imagem` 			VARCHAR(255) NOT NULL DEFAULT '',
@@ -78,6 +79,7 @@ VALUES
 			"core_language": "language",
 			"core_created_time": "created",
 			"core_body": "description",
+			"core_access": "access",
 			"core_catid": "catid"
 
 		}
