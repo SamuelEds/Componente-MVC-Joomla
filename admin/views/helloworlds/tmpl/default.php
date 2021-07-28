@@ -3,6 +3,9 @@
 //IMPEDIR O ACESSO DIRETO
 defined('_JEXEC') or die('Essa página não pode ser processada diretamente.');
 
+//IMPORTAR A CLASSE 'Registry'.
+use Joomla\Registry\Registry;
+
 //CARREGAR DEPENDÊNCIAS NECESSÁRIAS PARA FAZER O SISTEMA DE FILTRO E CLASSIFICAÇÃO FUNCIONAR.
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -55,6 +58,13 @@ $listDirecao = $this->escape($this->state->get('list.direction'));
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLDS_NAME', 'texto', $listDirecao, $listaOrdem); ?></td>
 
+					<td>
+						<!--EXIBIR UM TÍTULO PARA A LISTA A IMAGEM COM SEUS DADOS EM JSON.-->
+						<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
+						<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+						<?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_IMAGE'); ?>
+					</td>
+
 					<!--EXIBIR UM TÍTULO PARA A LISTA DOS NOMES DOS AUTORES.-->
 					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
@@ -88,7 +98,14 @@ $listDirecao = $this->escape($this->state->get('list.direction'));
 						<!--CRIANDO UM LINK PARA FAZER A EDIÇÃO DO ARQUIVO.-->
 						<!--A CLASSE 'JRoute' IRÁ CRIAR UMA URL AMIGÁVEL.-->
 						<!--GERALMENTE, QUANDO O JOOMLA RECEBE POR URL UMA TASK 'edit', ELE PROCURA UMA ARQUIVO 'edit.php', UM LAYOUT PADRÃO USADO PARA QUALQUER TIPO DE EDIÇÃO OU ENVIO DE DADOS.-->
-						<?php $link = JRoute::_('index.php?option=com_helloworld&task=helloworld.edit&id=' . $dados->id); ?>
+						<?php $link = JRoute::_('index.php?option=com_helloworld&task=helloworld.edit&id=' . $dados->id); 
+
+							//OBTER OS DADOS DA IMAGEM COMO STRING.
+							//OBSERVE QUE AQUI ESTÁ SENDO USADO '$dados->image' QUE EQUIVALE AO VALUE DO ATRIBUTO 'name' DO ARQUIVO XML DO FORMULÁRIO.
+							$dados->image = new Registry;
+							$dados->image->loadString($dados->imageInfo);
+
+						?>
 
 						<tr>
 							<!--EXEIBIR A ORDEM NUMÉRICA DE CADA ITEM, ISSO INTERAGE COM O NÚMERO LIMITE DE ITEMS PARA APARECER NA TELA.-->
@@ -109,6 +126,24 @@ $listDirecao = $this->escape($this->state->get('list.direction'));
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' . $this->escape($dados->category_title); ?>
 								</div>
+							</td>
+
+							<td align="center">	
+								<?php  
+
+								//OBTER O TEXTO CAPTION DA IMAGEM.
+								$caption = $dados->image->get('caption') ? : '';
+
+								//OBTER A URL DA IMAGEM
+								$src = JURI::root() . ($dados->image->get('imagem') ? : '');
+
+								//ESCREVER UMA LINHA PARA CRIAR UMA FORMATAÇÃO.
+								$html = '<p class="hasTooltip" style="display: inline-block;" data-html="true" data-toggle="tooltip" data-placement="right" title="<img width=\'100px\' heigth=\'100px\' src=\'%s\' />">%s</p>';
+
+								//EXIBIR TODOS OS RESULTADOS FORMATADOS.
+								//ELE PEGARÁ A VARIÁVEL '$html' E TROCARÁ OS '%s' PELOS DOIS ÚLTIMOS PARÂMETROS RESPECTIVAMENTE.
+								echo sprintf($html, $src, $caption);
+								?>
 							</td>
 
 							<td align="center">

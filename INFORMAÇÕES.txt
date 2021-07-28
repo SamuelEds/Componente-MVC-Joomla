@@ -1,6 +1,4 @@
-ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 15
-
-OBS: PAREI NA PARTE admin/models/helloworld.php
+ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 18
 
 =====================================================================================================
 

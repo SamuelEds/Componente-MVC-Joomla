@@ -56,7 +56,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 			//CONSTRUIR A CONSULTA.
 			//CRIAR UM JOIN COM A TABELA DE CATEGORIAS.
-			$query->select('h.texto, h.params, c.title AS category')->from($db->quoteName('#__olamundo', 'h'))->leftJoin($db->quoteName('#__categories', 'c') . ' ON h.catid = c.id')->where('h.id = ' . (int) $id);
+			$query->select('h.texto, h.params, h.imagem AS imagem, c.title AS category')->from($db->quoteName('#__olamundo', 'h'))->leftJoin($db->quoteName('#__categories', 'c') . ' ON h.catid = c.id')->where('h.id = ' . (int) $id);
 
 			//SETAR A QUERY.
 			$db->setQuery((string) $query);
@@ -73,6 +73,13 @@ class HelloWorldModelHelloWorld extends JModelItem{
 				$params = clone $this->getState('params');
 				$params->merge($this->item->params);
 				$this->item->params = $params;
+
+				//CONVERTA AS INFORMAÇÕES DA IMAGEM CONDIFICADA EM JSON EM UMA MATRIZ
+				$image = new JRegistry;
+				$image->loadString($this->item->imagem, 'JSON');
+
+				//COLOCAR O ARRAY DENTRO DE UMA VARIÁVEL. (ELA SERÁ USADA NO ARQUIVO 'default.php')
+				$this->item->imageDetails = $image;
 
 			}
 		}

@@ -12,7 +12,8 @@ JHtml::_('behavior.formvalidator');
 <!--NOTE O USO DA CLASSE 'JRoute' QUE SERVE PARA A EXIBIÇÃO DE URL's AMIGÁVEIS (URL's SEF) - ISSO É BOM PARA A COLOCAÇÃO NOS BUSCADORES.-->
 <!--ESTÁ TAMBÉM PASSANDO UM PARÂMETRO 'layout' COM O VALOR 'edit'-->
 <!--NOTE TAMBÉM A CLASSE 'form-validade' QUE FARÁ UMA VALIDAÇÃO DO FORMULÁRIO.-->
-<form action="<?php echo JRoute::_('index.php?option=com_helloworld&view=form&layout=edit'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+<!--OBSERVE O ATRIBUTO 'enctype' QUE FARÁ COM QUE SERÁ POSSÍVEL QUE O FORMULÁRIO ENVIE ARQUIVOS DE IMAGEM.-->
+<form action="<?php echo JRoute::_('index.php?option=com_helloworld&view=form&layout=edit'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 	
 	<div class="form-horizontal">
 		<fieldset class="adminForm">

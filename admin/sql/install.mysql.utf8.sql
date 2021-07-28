@@ -13,6 +13,7 @@ CREATE TABLE `#__olamundo` (
 	`published` tinyint(4) NOT NULL DEFAULT '1',
 	`catid` INT(11) NOT NULL DEFAULT '0',
 	`params` VARCHAR(255) NOT NULL DEFAULT '',
+	`imagem` VARCHAR(255) NOT NULL DEFAULT '',
 	PRIMARY KEY(`id`)
 
 ) DEFAULT CHARSET = utf8;

@@ -37,6 +37,20 @@ class HelloWorldTableHelloWorld extends JTable{
 
 		}
 
+		//CONFIGURAÇÃO PARA IMAGEM
+		if(isset($array['imageinfo']) && is_array($array['imageinfo'])){
+
+			//CONVERTA O ARRAY 'imageinfo' EM UMA STRING.
+			$parametro = new JRegistry;
+
+			//CARREGAR O ARRAY.
+			$parametro->loadArray($array['imageinfo']);
+
+			//CONVERTER O ARRAY 'imageinfo' PARA STRING.
+			$array['imagem'] = (string) $parametro;
+
+		}
+
 		//VINCULE AS REGRAS.
 		if(isset($array['rules']) && is_array($array['rules'])){
 

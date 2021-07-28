@@ -3,12 +3,38 @@
 //IMPEDIR O ACESSO DIRETO.s
 defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
 
+//IMPORTAR A CLASSE 'Registry'.
+use Joomla\Registry\Registry;
+
 //CLASSE MODELO 'HelloWorld'.
 
 //CLASSE DO MODELO A SR UTILIZADO, NESSE CASO ESTÁ SENDO UTILIZADO O MODELO 'JModelAdmin' PARA A VIEW 'helloworld', EXISTEM TAMBÉM OUTROS TIPOS DE DE MODELOS.
 //OBSERVE O PREFIXO 'HelloWorld' CUJO É O MESMO NOME DO COMPONENTE. E O SUFIXO 'HelloWorld' QUE PRECISA SER O MESMO NOME DO ARQUIVO DO MODELO.
 //LOGO, A NOMENCLATURA DEVE SER <nome_do_componente>Model<nome_do_modelo>.
 class HelloWorldModelHelloWorld extends JModelAdmin{
+
+	/* MÉTODO PARA SUBSTITUIR O 'getItem()' PARA PERMITIR CONVERTER AS INFORMAÇÕES A IMAGEM CODIFICADA EM JSON NO REGISTRO DO BANCO DE DADOS EM UMA MATRIZ PARA O PRÉ-PREENCHIMENTO SUBSEQUENTE DO FORMULÁRIO DE EDIÇÃO. */
+	public function getItem($pk = null){
+
+		//OBTER A FUNÇÃO PAI 'getItem()'.
+		$item = parent::getItem($pk);
+
+		//VERIFICAR SE EXISTE ALGUM CAMPO CUJO O ATRIBUTO 'name' TEM O VALOR 'image' COMO INFORMADO ABAIXO.
+		//LEMBRE-SE QUE ESSE MODELO IRÁ PESQUISAR OS CAMPOS (FIELDS) NO ARQUIVO XML DO FORMULÁRIO, QUE É O 'helloworld.xml' DA PASTA 'forms'.
+		if($item && property_exists($item, 'image')){
+
+			//CRIAR UM NOVO REGISTRO DE DADOS.
+			//NOTE O PARÂMETRO '$item->image', CUJO 'image' É O VALUE DO ATRIBUTO 'name' DE UM DOS CAMPOS (FIELDS) DO FORMULÁRIO NO ARQUIVO XML.
+			$registro = new Registry($item->image);
+
+			//O MESMO CONCEITO SEGUE PARA ESTE CUJO O VALUE É 'image-info', PORÉM O TRAÇO NÃO VALE AQUI, FICANDO 'imageinfo'.
+			$item->imageinfo = $registro->toArray();
+
+		}
+
+		return $item;
+
+	}
 
 	//MÉTODO PARA OBTER UMA TABELA.
 	//'$type' - NOME DA TABELA.

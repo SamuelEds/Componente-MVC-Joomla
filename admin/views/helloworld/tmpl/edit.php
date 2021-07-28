@@ -63,6 +63,28 @@ JFactory::getDocument()->addScriptDeclaration('
 			<!--ADICIONAR A TAB DE PARÂMETROS-->
 			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 			<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'imagem', JText::_('COM_HELLOWORLD_TAB_IMAGE')); ?>
+
+				<fieldset class="adminForm">
+
+					<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_IMAGE'); ?></legend>
+
+					<div class="row-fluid">
+						<div class="span6">
+							
+							<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'image-info'.-->
+							<?php echo $this->formulario->renderFieldset('image-info'); ?>
+								
+						</div>
+					</div>
+				</fieldset>
+
+			<!--FINALIZAR TAB-->
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+			<!--ADICIONAR A TAB DE PARÂMETROS-->
+			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+			<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'params', JText::_('COM_HELLOWORLD_TAB_PARAMS')); ?>
 
 				<fieldset class="adminForm">

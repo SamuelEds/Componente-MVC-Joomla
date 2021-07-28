@@ -58,6 +58,10 @@ class HelloWorldControllerHelloWorld extends JControllerAdmin{
 		//SETANDO O CONTEXT PARA O SALVAMENTO DOS DADOS DO FORMULÁRIO.
 		$context = "$this->option.data.$this->context";
 
+		//SALVAR OS DADOS DO FORMULÁRIO E SETAR O REDIRECIONAMENTO PARA VOLTAR À TELA DE EDIÇÃO.
+		$aplicativo->setUserState($context . '.data', $dados);
+		$this->setRedirect($uriAtual);
+
 		//VALIDA OS DADOS POSTADOS.
 
 		//PRIMEIRO É PRECISO CONFIGURAR A INSTÂNCIA DO FORMULÁRIO.
@@ -97,12 +101,103 @@ class HelloWorldControllerHelloWorld extends JControllerAdmin{
 			}
 
 			//SALVAR OS DADOS NA SESSÃO.
-			$aplicativo->setUserState($context . '.data', $dados);
+			//$aplicativo->setUserState($context . '.data', $dados);
 
 			//REDIRECIONAR PARA A TELA DO FORMULÁRIO.
-			$this->setRedirect($uriAtual);
+			//$this->setRedirect($uriAtual);
 
 			return false;
+
+		}
+
+		//MANIPULAR O ARQUIVO ENVIADO.
+		$infoArquivo = $this->input->files->get('jform', array(), 'array');
+
+		/*
+		
+		A VARIÁVEL '$arquivo' ABAIXO DEVE CONTER UMA MATRIZ DE 5 ELEMENTOS DA SEGUINTE FORMA:
+		- NAME: O NOME DO ARQUIVO (NO SISTEMA A PARTIR DO QUAL FOI CARREGADO), SEM INFORMAÇÕES DO DIRETÓRIO.
+		- TYPE: DEVE SER ALGO COMO IMAGE/JPEG.
+		- TMP_NAME: NOME DO CAMINHO DO ARQUIVO ONDE O PHP ARMAZENOU OS DADOS CARREGADOS.
+		- ERROR: 0 SE NÃO TIVER NENHUM ERRO.
+		- SIZE: TAMANHO DO ARQUIVO EM BYTES.
+
+		*/
+		$arquivo = $infoArquivo['imageinfo']['imagem'];
+
+		//VERIFICAR SE ALGUM ARQUIVO FOI CARREGADO.
+
+		//NESSE CASO, UMA CONDIÇÃO PARA CASO NENHUM ARQUIVO FOR CARREGADO.
+		if($arquivo['error'] == 4){
+
+			$validData['imageinfo'] = null;
+
+		}else{
+
+			//CASO HOUVER UM ERRO NO UPLOAD DO ARQUIVO.
+			if($arquivo['error'] > 0){
+
+				$aplicativo->enqueueMessage(JText::sprintf('COM_HELLOWORLD_ERROR_FILEUPLOAD'));
+
+				return false;
+
+			}
+
+			//CERTIFIQUE-SE QUE O NOME DO ARQUIVO ESTEJA LIMPO. (OU SEJA, QUE ESTEJA LEGÍVEL)
+			jimport('joomla.filesystem.file');
+			$arquivo['name'] = JFile::makeSafe($arquivo['name']);
+
+			if(!isset($arquivo['name'])){
+
+				//SEM NOME DE ARQUIVO (APÓS O NOME SER LIMPO POR 'JFile::makeSafe').
+				$aplicativo->enqueueMessage(JText::_('COM_HELLOWORLD_ERROR_BADFILENAME'), 'warning');
+				return false;
+
+			}
+
+			//ARQUIVOS DO MICROSOFT WINDOWS PODEM TER ESPAÇOS EM BRANCO NOS NOMES DO ARQUIVO.
+			//TROCAR TODOS OS ESPAÇOS EM BRANCO POR '-';
+			$arquivo['name'] = str_replace(' ', '-', $arquivo['name']);
+
+			//FAÇA VERIFICAÇÕES EM RELAÇÃO AOS PARÂMETROS DE CONFIGURAÇÃO DE MÍDIA.
+			$mediaHelper = new JHelperMedia;
+			if(!$mediaHelper->canUpload($arquivo)){
+
+				//O ARQUIVO NÃO PODE SER CARREGADO, A CLASSE AUXILIAR TERÁ ENFILEIRADO A MENSAGEM DE ERRO.
+				return false;
+
+			}
+
+			//PREPARAR OS NOMES DE CAMINHO DE DESTINO DO ARQUIVO ENVIADO.
+			$mediaParams = JComponentHelper::getParams('com_media');
+
+			//OBTER O CAMINHO RELATIVO.
+			//NESSE CAMINHO É ONDE A IMAGEM VAI SER SALVA DENTRO DO COMPONENTE DE MÍDIA NATIVO DO JOOMLA.
+			//NESSE CASO, ESTÁ SENDO SALVAR NA PASTA DE IMAGENS, PELA REFERÊNCIA 'images/imagens'.
+			$nomeCaminhoRelativo = JPath::clean($mediaParams->get($caminho, 'images/imagens') . '/' . $arquivo['name']);
+
+			//OBTER O CAMINHO ABSOLUTO.
+			$nomeCaminhoAbsoluto = JPATH_ROOT . '/' . $nomeCaminhoRelativo;
+
+			//SE O ARQUIVO NÃO EXISTIR, FARÁ UMA AÇÃO.
+			if(JFile::exists($nomeCaminhoAbsoluto)){
+
+				//UM ARQUIVO COM ESTE CAMINHO NÃO EXISTE.
+				$aplicativo->enqueueMessage(JText::_('COM_HELLOWORLD_ERROR_FILE_EXISTS', 'warning'));
+				return false;
+
+			}
+
+			if(!JFile::upload($arquivo['tmp_name'], $nomeCaminhoAbsoluto)){
+
+				//ERROR NO UPLOAD DO ARQUIVO.
+				$aplicativo->enqueueMessage(JText::_('COM_HELLOWORLD_ERROR_UNABLE_TO_UPLOAD_FILE'));
+				return false;
+
+			}
+
+			//UPLOAD BEM-SUCEDIDO.
+			$validData['imageinfo']['imagem'] = $nomeCaminhoRelativo;
 
 		}
 
@@ -130,7 +225,7 @@ class HelloWorldControllerHelloWorld extends JControllerAdmin{
 			$this->setMessage($this->getError(), 'error');
 
 			//REDIRECIONAR PARA A TELA DE EDIÇÃO.
-			$this->setRedirect($uriAtual);
+			//$this->setRedirect($uriAtual);
 
 			return false;
 
@@ -188,7 +283,7 @@ class HelloWorldControllerHelloWorld extends JControllerAdmin{
 		$mailer->Username = $userAdm->email;
 
 		//SENHA DO SEU E-MAIL.
-		$mailer->Password = 'sua_senha_do_email_aqui';
+		$mailer->Password = 'papel0192837465';
 
 		//CONFIGURAR O CARA QUE TÁ ENVIANDO O E-MAIL. (ESQUECI O NOME).
 		$mailer->setFrom($usuarioAtual->email, $usuarioAtual->username);
