@@ -114,6 +114,46 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 	}
 
+	public function getMapSearchResults($mapbounds){
+
+		try{
+
+			//OBTER O BANCO DE DADOS.
+			$db = JFactory::getDbo();
+
+			//INICIALIZAR A QUERY.
+			$query = $db->getQuery(true);
+
+			//CRIAR UMA CONSULTA.
+			$query->select('o.texto, o.latitude, o.longitude')->from($db->quoteName('#__olamundo', 'o'))->where('
+
+					o.latitude > '. $mapbounds['minlat'] .'
+					 AND o.latitude < '. $mapbounds['maxlat'] .'
+					 AND o.longitude > '. $mapbounds['minlng'] .'
+					 AND o.longitude < '. $mapbounds['maxlng'] .'
+
+				');
+
+			//SETAR A QUERY.
+			$db->setQuery($query);
+			
+			//CARREGAR OS DADOS ENCONTRADOS EM FORMATO OBJECT CLASS.
+			$resultado = $db->loadObjectList();
+
+		}catch(Exception $e){
+
+			$msg = $e->getMessage();
+
+			JFactory::getApplication()->enqueueMessage($msg, 'error');
+
+			$resultado = null;
+
+		}
+
+		return $resultado;
+
+	}
+
 	//UMA FUNÇÃO CRIADA A PARTIR DE UM PREFIXO 'get'.
 	/*public function getUmaMensagem($id = 1){
 

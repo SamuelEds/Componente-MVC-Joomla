@@ -46,3 +46,18 @@ if($src){
 <!--EXIBINDO O MAPA USANDO A BIBLIOTECA 'OpenStreetMap'-->
 <div id="map" class="map"></div>
 <div class="map-callout map-callout-bottom" id="texto-container"></div>
+
+<!--ABAIXO ESTÁ A SEÇÃO DA CAIXA DE PESQUISA VIA AJAX.-->
+
+<div id="searchmap">
+
+	<!--TOKEN DE FORMULÁRIO JOOMLA.-->
+	<?php echo '<input id="token" type="hidden" name="'. JSession::getFormToken() .'" value="1" />'; ?>
+	
+	<!--BOTÃO QUE IRÁ FAZER A PESQUISA VIA AJAX.-->
+	<button type="button" class="btn btn-primary" onclick="searchHere();">
+		<?php echo JText::_('COM_HELLOWORLD_SEARCH_HERE_BUTTON'); ?>
+	</button>
+	
+	<div id="searchresults"></div>
+</div>

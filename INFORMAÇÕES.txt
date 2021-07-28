@@ -1,4 +1,4 @@
-ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 19
+ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 20
 
 =====================================================================================================
 
@@ -12,5 +12,11 @@ http://localhost/seu-site-joomla/index.php?option=com_helloworld
 - No artigo: 03 (Adicionando um tipo de item de menu)
 
 Funcionará ao criar um menu e selecionar o componente Helloworld dentre a lista de componentes de tipos de itens de menu.
+
+=====================================================================================================
+
+- No artigo: 20 (Adicionando Ajax)
+
+Tem que consertar o Ajax, o maldito não funciona :/
 
 =====================================================================================================

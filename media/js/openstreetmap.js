@@ -1,3 +1,5 @@
+var map;
+
 jQuery(document).ready(function(){
 
 	//OBTER OS DADOS PASSADOS DO PHP DO JOOMLA.
@@ -34,7 +36,7 @@ jQuery(document).ready(function(){
 	COORDENADAS DO CENTRO DO MAPA E NÍVEL DE ZOOM.  
 
 	*/
-	var map = new ol.Map({
+	map = new ol.Map({
 
 		target: 'map',
 		layers: [
@@ -139,3 +141,88 @@ jQuery(document).ready(function(){
 	});
 
 });
+
+//ABAIXO ESTÃO AS FUNÇÒES PARA FAZER A SOLICITAÇÃO VIA AJAX.
+
+//ESSA FUNÇÃO SERÁ CHAMADA NO ARQUIVO 'view.json.php'.
+function getMapBounds(){
+
+	var mercatorMapBounds = map.getView().calculateExtent(map.getSize());
+	var latlngMapBounds = ol.proj.transformExtent(mercatorMapBounds, 'EPSG:3857', 'EPSG:4326');
+
+	return {
+
+		minlat: latlngMapBounds[1],
+		maxlat: latlngMapBounds[3],
+		minlng: latlngMapBounds[0],
+		maxlng: latlngMapBounds[2]
+
+	}
+
+}
+
+function searchHere(){
+
+	var mapBounds = getMapBounds();
+
+	var token = jQuery('#token').attr('name');
+
+	//CRIAR A SOLICITAÇÃO AJAX.
+	jQuery.ajax({
+
+		/*
+
+		OBSERVE QUE O PARÂMETRO 'format' ESTÁ RECEBENDO 'json' COMO VALOR.
+		
+		JOOMLA IRÁ PROCURAR PELO ARQUIVO 'view.json.php' POIS ESSE SERÁ A VIEW PRINCIPAL
+		DO JSON. A CHAMADA DA VIEW ESTÁ CONFIGURADA NO CONTROLADOR PRINCIPAL.
+
+		*/
+
+		data: {[token]: "1", task: "mapsearch", format: "json", mapBounds: mapBounds},
+		success: function(result, status, xhr){ displaySearchResults(result); },
+		error: function(){ console.log('Erro na chamada Ajax! :('); }
+
+	});
+
+}
+
+function displaySearchResults(result){
+
+	//CASO A SOLICITAÇÃO OBTER SUCESSO FARÁ UMA AÇÃO.
+	if(result.success){
+
+		//APRENSENTARÁ OS RESULTADOS.
+		var html = "";
+
+		for (var i = 0; i < result.data.length; i++) {
+			
+			html += "<p>"+ result.data[i].texto 
+					+"@ " + result.data[i].latitude
+					+ ", " + result.data[i].longitude
+					+"</p>";
+
+		}
+
+		jQuery('#searchresults').html(html);
+	}else{
+
+		//SENÃO, ENTÃO EXIBIRÁ UMA MENSAGEM DE ERRO.
+		var msg = result.message;
+
+		if((result.messages) && (result.messages.error)){
+
+			for(var j = 0; j < result.messages.error.length; j++){
+
+				msg += "<br/>" + result.messages.error[j];
+
+			}
+
+
+		}
+		
+		jQuery('#searchresults').html(msg);
+
+	}
+
+}
