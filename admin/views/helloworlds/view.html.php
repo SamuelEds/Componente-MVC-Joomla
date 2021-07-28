@@ -29,9 +29,36 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 			return false;
 		}
 
+		//ADICIONAR BARRA DE TAREFAS NO BACK-END
+		$this->barraTarefas();
+
 		//EXIBIR A VIEW.
 		parent::display($tpl);
-	} 
+	}
+
+	//ADICIONAR TÍTULO E BARRA DE TAREFAS.
+	public function barraTarefas(){
+
+		//ADICIONAR UM TÍTULO
+		//AS PALAVRAS EM MAIÚSCULAS SÃO CONTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO. 
+		JToolbarHelper::title(JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLDS'));
+
+		//ADICIONAR UM BOTÃO DE 'Novo'.
+		//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
+		//NESSE CASO O CONTROLADOR É 'helloworld' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'add', FICANDO 'helloworld.add'.
+		JToolbarHelper::addNew('helloworld.add');
+
+		//ADICIONAR UM BOTÃO DE 'Editar'.
+		//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
+		//NESSE CASO O CONTROLADOR É 'helloworld' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'edit', FICANDO 'helloworld.edit'.
+		JToolbarHelper::editList('helloworld.edit');
+
+		//ADICIONAR UM BOTÃO DE 'Deletar'.
+		//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
+		//NESSE CASO O CONTROLADOR É 'helloworlds' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'delete', FICANDO 'helloworlds.delete'.
+		JToolbarHelper::deleteList('', 'helloworlds.delete');
+
+	}
 
 }
 

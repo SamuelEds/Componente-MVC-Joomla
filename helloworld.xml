@@ -19,7 +19,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.8</version>
+	<version>0.0.9</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>COM_HELLOWORLD_DESCRIPTION</description>
@@ -84,10 +84,11 @@
 			<filename>controller.php</filename>
 
 			<!--PASTAS A SER INSTALADAS-->
-			<folder>sql</folder>
-			<folder>models</folder>
-			<folder>tables</folder>
 			<folder>views</folder>
+			<folder>models</folder>
+			<folder>controllers</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
 			<folder>language</folder>
 
 		</files>
