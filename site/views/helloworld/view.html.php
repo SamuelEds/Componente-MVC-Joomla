@@ -19,7 +19,10 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 
 		//INSERIR DADOS NA VIEW.
 		//OBSERVE O COMANDO '$this->get('UmaMensagem')', '$this' REFERE-SE AO MODELO, 'get('UmaMensagem')' REFERE-SE À FUNÇÃO 'getUmaMensagem' QUE ESTÁ NO ARQUIVO MODELO DA VIEW. ELE IRÁ CONVERTER 'get('UmaMensagem')' EM 'getUmaMensagem'.
-		$this->umaMensagem = $this->get('UmaMensagem');
+		//$this->umaMensagem = $this->get('UmaMensagem');
+
+		//OBTER OS REGISTROS.
+		$this->item = $this->get('Item');
 
 		//EXIBIR A VIEW.
 		parent::display($tpl);

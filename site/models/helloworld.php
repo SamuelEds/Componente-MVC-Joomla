@@ -14,6 +14,21 @@ class HelloWorldModelHelloWorld extends JModelItem{
 	//CRIANDO UMA VARIÁVEL PARA OBTER A MENSAGEM.
 	protected $mensagem;
 
+	//MÉTODO PARA PREENCHER AUTOMATICAMENTE O ESTADO DO MODELO.
+	//ESTE MÉTODO DEVE SER CHAMADO UMA VEZ POR INSTANCIAÇÃO E É PROJETADO A SER CHAMADO NA PRIMEIRA CHAMADA AO MÉTODO 'getState()', A MENOS QUE ESTEJA DEFINIDO O MODELO SINALIZADOR DE CONFIGURAÇÃO PARA IGNORAR A SOLICITAÇÃO.
+	//OBS: CHAMAR 'getState()' NESTE MÉTODO RESULTARÁ EM RECURSÃO.
+	protected function populateState(){
+
+		//PEGA O ID DA MENSAGEM
+		$id = JFactory::getApplication()->input->get('opcao', 1, 'INT');
+		$this->setState('message.id', $id);
+
+		//CARREGAR PARÂMETROS
+		$this->setState('params', JFactory::getApplication()->getParams());
+		parent::populateState();
+
+	}
+
 	//MÉTODO PARA OBTER UMA TABELA.
 	//'$type' - NOME DA TABELA.
 	//'$prefix' - O PREFIXO DA CLASSE.
@@ -26,8 +41,49 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 	}
 
+	public function getItem(){
+
+		if(!isset($this->item)){
+
+			//OBTER A MENSAGEM DO 'State'.
+			$id = $this->getState('message.id');
+
+			//OBTER O BANCO DE DADOS.
+			$db = JFactory::getDbo();
+
+			//INICIALIZAR A QUERY.
+			$query = $db->getQuery(true);
+
+			//CONSTRUIR A CONSULTA.
+			//CRIAR UM JOIN COM A TABELA DE CATEGORIAS.
+			$query->select('h.texto, h.params, c.title AS category')->from($db->quoteName('#__olamundo', 'h'))->leftJoin($db->quoteName('#__categories', 'c') . ' ON h.catid = c.id')->where('h.id = ' . (int) $id);
+
+			//SETAR A QUERY.
+			$db->setQuery((string) $query);
+
+			//CASO SEJA ENCONTRADO ALGUM REGISTRO.
+			if($this->item = $db->loadObject()){
+
+				//CARREGAR A STRING JSON
+				$params = new JRegistry;
+				$params->loadString($this->item->params, 'JSON');
+				$this->item->params = $params;
+
+				//MESCLAR PARÂMETROS GLOBAIS COM PARÂMETROS DO ITEM.
+				$params = clone $this->getState('params');
+				$params->merge($this->item->params);
+				$this->item->params = $params;
+
+			}
+		}
+
+		//RTORNAR TODOS OS REGISTROS.
+		return $this->item;
+		
+	}
+
 	//UMA FUNÇÃO CRIADA A PARTIR DE UM PREFIXO 'get'.
-	public function getUmaMensagem($id = 1){
+	/*public function getUmaMensagem($id = 1){
 
 		if(!is_array($this->mensagem)){
 
@@ -79,12 +135,12 @@ class HelloWorldModelHelloWorld extends JModelItem{
 				break;
 		}*/
 
-		return $this->mensagem[$id];
+		/*return $this->mensagem[$id];
 
 		//ATRIBUIRÁ A MENSAGEM À VARIÁVEL NA VIEW.
 		//return 'Olá mundo para o cliente - uma mensagem aleatória!';
 
-	}
+	}*/
 
 
 

@@ -9,7 +9,9 @@
 <!--NOTE O ATRIBUTO 'addrulepath' QUE IRÁ ADICIONAR UMA REGRA DE FORMULÁRIO. FUNCIONA COM A MESMA LÓGICA DO 'addfieldpath'-->
 <form addrulepath="/administrator/components/com_helloworld/models/rules">
 	
-	<fieldset>
+	<fieldset
+		name="details"
+		label="COM_HELLOWORLD_HELLOWORLD_DETAILS">
 		
 		<!--CAMPO IR DO FORMULÁRIO (ELE É ESCONDIDO). SERVE PARA INFORMAR O ID OBTIDO AUTOMATICAMENTE.-->
 		<field 
@@ -57,4 +59,34 @@
 
 	</fieldset>
 
+	<!--DEFININDO OS PARÂMETROS DE CONFIGURAÇÃO COMO PADRÃO-->
+	<fields name="params">
+		
+		<!--AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELA SERÁ TRADUZIDA AUTOMATICAMENTE PELO JOOMLA-->
+		<!--NOTE O ATRIBUTO 'name' COM O VALOR 'params', ELE PRECISA SER O MESMO VALOR QUE FOI DEFINIDO NO FIELDSET NO ARQUIVO 'config.xml' PARA QUE ACONTEÇA A PADRONIZAÇÃO.-->
+		<fieldset
+			name="params"
+			label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+			
+			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+			<field
+				name="show_category"
+				type="list"
+				label="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_LABEL"
+				description="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_DESC"
+				default="">
+				
+				<!--AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELA SERÁ TRADUZIDA AUTOMATICAMENTE PELO JOOMLA-->
+				<!--AQUI MOSTRARÁ A CONFIGURAÇÃO ESTABELECIDA GLOBALMENTE. (O QUE FOI CONFIGURADO NAS OPÇÕES)-->
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+
+				<!--OPÇÃO DE ESCONDER.-->
+				<option value="0">JHIDE</option>
+
+				<!--OPÇÃO DE MOSTRAR.-->
+				<option value="1">JSHOW</option>
+
+			</field>
+		</fieldset>
+	</fields>
 </form>

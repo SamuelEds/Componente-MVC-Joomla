@@ -95,6 +95,9 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 		//NESSE CASO O CONTROLADOR É 'helloworlds' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'delete', FICANDO 'helloworlds.delete'.
 		JToolbarHelper::deleteList('', 'helloworlds.delete');
 
+		//CRIAR UMA BARRA DE PREFERÊNCIAS. (CRIAR BOTÃO DE OPÇÕES).
+		JToolbarHelper::preferences('com_helloworld');
+
 	}
 
 	//CONFIGURAR O DOCUMENTO
