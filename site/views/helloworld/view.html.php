@@ -24,8 +24,41 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 		//OBTER OS REGISTROS.
 		$this->item = $this->get('Item');
 
+		//CHAMAR A FUNÇÃO QUE ADICIONAR O MAPA.
+		$this->adicionarMapa();
+
 		//EXIBIR A VIEW.
 		parent::display($tpl);
+	}
+
+	public function adicionarMapa(){
+
+		//OBTER O DOCUMENTO.
+		$documento = JFactory::getDocument();
+
+		//CARREGAR TODAS AS DEPENDÊNCIAS JQUERY
+		JHtml::_('jquery.framework');
+
+		//ADICIONAR O SCRIPT VIA CDN DO OPENLAYERS
+		$documento->addScript('https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js');
+
+		//ADICIONAR O CSS VIA CDN DO OPENLAYERS.
+		$documento->addStyleSheet('https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css');
+
+		//ADICIONANDO O ARQUIVO SCRIPT PERSONALIZÁVEL PARA O MAPA.
+		$documento->addScript(JURI::root() . 'media/com_helloworld/js/openstreetmap.js');
+
+		//ADICIONANDO O ARQUIVO SCRIPT PERSONALIZÁVEL PARA O MAPA.
+		$documento->addStyleSheet(JURI::root() . 'media/com_helloworld/css/openstreetmap.css');
+
+		//OBTER OS DADOS PARA PASSAR O CÓDIGO JS QUE FOR CRIADO NO ARQUIVO PERSONALIZÁVEL.
+
+		//OBTER A FUNÇÃO DO MODELO QUE EQUIVALE A 'getMapParams()'
+		$parametros = $this->get('mapParams');
+
+		//ADICIONAR OS PARÂMETROS NO DOCUMENTO.
+		$documento->addScriptOptions('params', $parametros); 
+
 	}
 
 }

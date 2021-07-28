@@ -46,43 +46,47 @@ $listDirecao = $this->escape($this->state->get('list.direction'));
 
 					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JText::_('COM_HELLOWORLD_NUM'); ?></td>
+					<th><?php echo JText::_('COM_HELLOWORLD_NUM'); ?></th>
 
 					<!--A FUNÇÃO 'JHtml::_()' IRÁ EXIBIR VÁRIAS SAÍDAS HTML, NESSE CASO, ELE VAI EXIBIR UMA CAIXA DE SELEÇÃO.-->
 					<!--O COMANDO 'grid.checkall' IRÁ CRIAR UMA CAIXA DE SELEÇÃO CAPAZ DE PODER SELECIONAR TODAS AS CAIXAS DE SELEÇÕES DISPONÍVEIS NA TELA.-->
-					<td><?php echo JHtml::_('grid.checkall'); ?></td>
+					<th><?php echo JHtml::_('grid.checkall'); ?></th>
 
 					<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
 					<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('searchtools.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_ordem', 'comando_estado_por_direcao')' -->
 					<!--O MESMO SEGUE-SE PARA O OUTROS DOIS COMANDOS.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLDS_NAME', 'texto', $listDirecao, $listaOrdem); ?></td>
+					<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLDS_NAME', 'texto', $listDirecao, $listaOrdem); ?></th>
 
-					<td>
+					<!--EXIBIR UM TÍTULO PARA A POSIÇÃO DE LATITUDE E LONGITUDE.-->
+					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
+					<th><?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_POSITION'); ?></th>
+
+					<th>
 						<!--EXIBIR UM TÍTULO PARA A LISTA A IMAGEM COM SEUS DADOS EM JSON.-->
 						<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 						<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 						<?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_IMAGE'); ?>
-					</td>
+					</th>
 
 					<!--EXIBIR UM TÍTULO PARA A LISTA DOS NOMES DOS AUTORES.-->
 					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_AUTHOR', 'author', $listDirecao, $listaOrdem); ?></td>
+					<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_AUTHOR', 'author', $listDirecao, $listaOrdem); ?></th>
 
 					<!--EXIBIR UM TÍTULO PARA A LISTA DAS DATAS EM QUE AS MENSAGENS FORAM CRIADAS.-->
 					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_CREATED_DATE', 'created', $listDirecao, $listaOrdem); ?></td>
+					<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_CREATED_DATE', 'created', $listDirecao, $listaOrdem); ?></th>
 
 					<!--EXIBIR UM TÍTULO PARA A LISTA DOS ITENS PUBLICADOS/DESPUBLICADOS.-->
 					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_PUBLISHED', 'published', $listDirecao, $listaOrdem); ?></td>
+					<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_PUBLISHED', 'published', $listDirecao, $listaOrdem); ?></th>
 
 					<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<td><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_ID', 'id', $listDirecao, $listaOrdem); ?></td>
+					<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_ID', 'id', $listDirecao, $listaOrdem); ?></th>
 
 				</tr>
 			</thead>
@@ -126,6 +130,10 @@ $listDirecao = $this->escape($this->state->get('list.direction'));
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' . $this->escape($dados->category_title); ?>
 								</div>
+							</td>
+
+							<td>
+								<?php echo "[" . $dados->latitude . ", " . $dados->longitude . "]"; ?>
 							</td>
 
 							<td align="center">	

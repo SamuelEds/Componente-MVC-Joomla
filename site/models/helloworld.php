@@ -56,7 +56,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 			//CONSTRUIR A CONSULTA.
 			//CRIAR UM JOIN COM A TABELA DE CATEGORIAS.
-			$query->select('h.texto, h.params, h.imagem AS imagem, c.title AS category')->from($db->quoteName('#__olamundo', 'h'))->leftJoin($db->quoteName('#__categories', 'c') . ' ON h.catid = c.id')->where('h.id = ' . (int) $id);
+			$query->select('h.texto, h.params, h.imagem AS imagem, c.title AS category, h.latitude AS latitude, h.longitude AS longitude')->from($db->quoteName('#__olamundo', 'h'))->leftJoin($db->quoteName('#__categories', 'c') . ' ON h.catid = c.id')->where('h.id = ' . (int) $id);
 
 			//SETAR A QUERY.
 			$db->setQuery((string) $query);
@@ -87,6 +87,31 @@ class HelloWorldModelHelloWorld extends JModelItem{
 		//RTORNAR TODOS OS REGISTROS.
 		return $this->item;
 		
+	}
+
+	public function getMapParams(){
+
+		if($this->item){
+
+			$this->mapParams = array(
+
+				'latitude' => $this->item->latitude,
+				'longitude' => $this->item->longitude,
+				'zoom' => 10,
+				'texto' => $this->item->texto
+			
+			);
+
+			//RETORNAR OS PARÂMETROS DEFINIDOS.
+			return $this->mapParams;
+
+		}else{
+
+			//LANÇAR UMA EXCEÇÃO.
+			throw new Exception('Sem detalhes helloworld disponíveis para o mapa.', 500);
+
+		}
+
 	}
 
 	//UMA FUNÇÃO CRIADA A PARTIR DE UM PREFIXO 'get'.

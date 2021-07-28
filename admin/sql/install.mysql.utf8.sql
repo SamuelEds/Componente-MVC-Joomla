@@ -14,6 +14,8 @@ CREATE TABLE `#__olamundo` (
 	`catid` INT(11) NOT NULL DEFAULT '0',
 	`params` VARCHAR(255) NOT NULL DEFAULT '',
 	`imagem` VARCHAR(255) NOT NULL DEFAULT '',
+	`latitude` DECIMAL(9, 7) NOT NULL DEFAULT 0.0,
+	`longitude` DECIMAL(10, 7) NOT NULL DEFAULT 0.0,
 	PRIMARY KEY(`id`)
 
 ) DEFAULT CHARSET = utf8;

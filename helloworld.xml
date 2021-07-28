@@ -19,7 +19,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.17</version>
+	<version>0.0.18</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>COM_HELLOWORLD_DESCRIPTION</description>
@@ -76,6 +76,8 @@
 	<media destination="com_helloworld" folder="media">
 		<filename>index.html</filename>
 		<folder>images</folder>
+		<folder>js</folder>
+		<folder>css</folder>
 	</media>
 
 	<!--CONFIGURAÇÃO DA PARTE ADMINISTRATIVA DO SITE (BACK-END)-->

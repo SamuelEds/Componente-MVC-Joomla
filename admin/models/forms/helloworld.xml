@@ -57,6 +57,34 @@
 			<option value="0">JOPTION_SELECT_CATEGORY</option>
 		</field>
 
+		<!--CAMPO PARA INFORMAR A LATITUDE.-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<!--OBSERVE QUE COM UM CAMPO COM UM 'type="number"', É POSSÍVEL MANIPULAR O VALOR MÁXIMO E O VALOR MÍNIMO COM OS ATRIBUTOS 'min' E 'max'-->
+		<field 
+			name="latitude"
+			type="number"
+			label="COM_HELLOWORLD_HELLOWORLD_FIELD_LATITUDE_LABEL"
+			description="COM_HELLOWORLD_HELLOWORLD_FIELD_LATITUDE_DESC"
+			min="-90.0"
+			max="90.0"
+			class="inputbox"
+			required="true"
+			default="0.0"/>
+
+		<!--CAMPO PARA INFORMAR A LOGINTUDE.-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<!--OBSERVE QUE COM UM CAMPO COM UM 'type="number"', É POSSÍVEL MANIPULAR O VALOR MÁXIMO E O VALOR MÍNIMO COM OS ATRIBUTOS 'min' E 'max'-->
+		<field 
+			name="longitude"
+			type="number"
+			label="COM_HELLOWORLD_HELLOWORLD_FIELD_LONGITUDE_LABEL"
+			description="COM_HELLOWORLD_HELLOWORLD_FIELD_LONGITUDE_DESC"
+			min="-180.0"
+			max="180.0"
+			class="inputbox"
+			required="true"
+			default="0.0"/>
+
 	</fieldset>
 
 	<!--GRUPO DE CAMPOS PARA INSERÇÃO DAS IMAGENS E SEUS DADOS.-->
