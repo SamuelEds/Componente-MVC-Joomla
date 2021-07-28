@@ -26,6 +26,7 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 	- [ ] Ajax
 	- [x] Imagem
 	- [ ] Modals
+	- [ ] Pasta media (sem exibição das imagens como no artigo 21)
 	- [ ] Servidor de atualização
 - [ ] Componente totalmente funcional.
 
