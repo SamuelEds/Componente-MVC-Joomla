@@ -19,17 +19,33 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>Aqui vai uma descrição do componente Helloworld...</description>
 
+	<!--INDICAR O ARQUIVO PARA INSTALAÇÃO DO BANCO DE DADOS-->
+	<install>
+		<sql>
+			<!--A NOMENCLATURA PADRÃO DO ARQUIVO PRECISA SER 'install.<driver_mysql>.<charset>.sql'-->
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<!--INDICAR O ARQUIVO PARA DESINSTALAÇÃO DO BANCO DE DADOS-->
+	<uninstall>
+		<sql>
+			<!--A NOMENCLATURA PADRÃO DO ARQUIVO PRECISA SER 'uninstall.<driver_mysql>.<charset>.sql'-->
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
 	<!--INDICAR OS ARQUIVOS DE ATUALIZAÇÃO DO SQL-->
-	<updates>
+	<update>
 		<schemas>
 			<schemapath type="mysql">sql/updates/mysql</schemapath>
 		</schemas>
-	</updates>
+	</update>
 
 	<!--INDICAR A LOCALIZAÇÃO DOS ARQUIVOS QUE SERÃO INSTALADOS NO FRONT-END-->
 	<!--ATRIBUTO 'folder' É RESPONSÁVEL POR INDICAR A PASTA DOS ARQUIVOS-->
@@ -62,6 +78,8 @@
 
 			<!--PASTAS A SER INSTALADAS-->
 			<folder>sql</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
 
 		</files>
 

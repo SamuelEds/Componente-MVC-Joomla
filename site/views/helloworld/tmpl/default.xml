@@ -18,7 +18,8 @@
 
 	<!--ADICIONANDO UMA SOLICITAÇÃO DE VARIÁVEL-->
 	<!--OBS: É PRECISO QUE EXISTA O ATRIBUTO 'name' COM O VALUE 'request' PARA QUE A SOLICITAÇÃO FUNCIONE.-->
-	<fields name="request">
+	<!--OBSERVE O ATRIBUTO 'addfieldpath' QUE FARÁ A REFERÊNCIA DOS CAMPOS PERSONALIZADOS.-->
+	<fields name="request" addfieldpath="/administrator/components/com_helloworld/models/fields">
 		<fieldset name="request">
 			
 			<!--INFORMAR O CAMPO E SEUS PARÂMETROS-->
@@ -27,15 +28,10 @@
 			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 			<field
 				name="opcao"
-				type="list"
+				type="mensagens"
 				label="COM_HELLOWORLD_HELLOWORLD_FIELD_TEXTO_LABEL"
 				description="COM_HELLOWORLD_HELLOWORLD_FIELD_TEXTO_DESC"
-				default="1">
-				
-				<option value="1">Olá Mundo! - OPÇÃO 01</option>
-				<option value="2">Até logo mundo! - OUTRA OPÇÃO</option>
-
-			</field>
+				default="1" />
 
 		</fieldset>
 	</fields>
