@@ -11,6 +11,9 @@ ESTE ARQUIVO IRÁ EXIBIR UM LAYOUT COM GUIAS PARA O CONTROLE DE ACESSO.
 //COMANDO PARA IMPEDIR O ACESSO DIRETO.
 defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
+//INCLUIR DEPENDÊNCIAS DE VALIDAÇÃO DE FORMULÁRIO.
+JHtml::_('behavior.formvalidator');
+
 //A SEGUIR É PARA HABILITAR AS CONFIGURAÇÕES DAS PERMISSÕES DAS CONFIGURAÇÕES CALCULADAS QUANDO VOCÊ ALTERA A CONFIGURAÇÃO DA PERMISSÃO.
 //O CÓDIGO JAVASCRIPT PRINCIPAL PARA INICIAR A SOLICITAÇÃO AJAX PROCURA UM CAMPO COM ID = 'jform_title' E DEFINE SEU VALOR COMO PARÂMETRO 'title' PARA ENVIAR NA SOLICITAÇÃO AJAX.
 JFactory::getDocument()->addScript('
@@ -21,9 +24,16 @@ JFactory::getDocument()->addScript('
 
 		jQuery("#jform_title").val(texto);
 
-	});
+		});
 
-');
+		');
+
+//OBRIGATÓRIO PARA EXIBIÇÃO CORRETA DOS CAMPOS GERADOS POR 'com_associations'.
+JHtml::_('formbehavior.chosen', 'select');
+
+//SE '&tmpl=component' FOR USADO NA PRIMEIRA INDICAÇÃO, CERTFIQUE-SE TAMBÉM QUE SERÁ USADO NAS SUBSEQUENTES.
+$input = JFactory::getApplication()->input;
+$tmpl = $input->getCmd('tmpl', '') === 'component' ? '&tmpl=component' : '';
 
 ?>
 
@@ -31,95 +41,117 @@ JFactory::getDocument()->addScript('
 <!--NOTE O USO DA CLASSE 'JRoute' QUE SERVE PARA A EXIBIÇÃO DE URL's AMIGÁVEIS (URL's SEF) - ISSO É BOM PARA A COLOCAÇÃO NOS BUSCADORES.-->
 <!--ESTÁ TAMBÉM PASSANDO UM PARÂMETRO 'layout' COM O VALOR 'edit'-->
 <!--NOTE TAMBÉM A CLASSE 'form-validade' QUE FARÁ UMA VALIDAÇÃO DO FORMULÁRIO.-->
-<form action="<?php echo JRoute::_('index.php?option=com_helloworld&layout=edit&id='. (int) $this->items->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_helloworld&layout=edit'. $tmpl .'&id='. (int) $this->items->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 
 	<!--DIV PARA EXIBIÇÃO DE DADOS-->
 	<div class="form-horizontal">
-	
+
 		<!--INICIAR O PAINEL-->
 		<!--OS PARÂMETROS SIGNIFICAM: ('classe_bootstrap', 'id', 'parâmetros - array')-->
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
-			
-			<!--ADICIONAR A TAB DE PARA CRIAR/MODIFICAR UM ITEM-->
+
+		<!--ADICIONAR A TAB DE PARA CRIAR/MODIFICAR UM ITEM-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->items->id) ? JText::_('COM_HELLOWORLD_TAB_NEW_MESSAGE') : JText::_('COM_HELLOWORLD_TAB_EDIT')); ?>
+
+		<fieldset class="adminForm">
+
+			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+			<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_DETAILS'); ?></legend>
+
+			<div class="row-fluid">
+				<div class="span6">
+
+					<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'details'.-->
+					<?php echo $this->formulario->renderFieldset('details'); ?>
+				</div>
+			</div>
+
+		</fieldset>
+
+		<!--FINALIZAR TAB-->
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<!--ADICIONAR A TAB DE PARÂMETROS-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'imagens', JText::_('COM_HELLOWORLD_TAB_IMAGE')); ?>
+
+		<fieldset class="adminForm">
+			<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_IMAGE'); ?></legend>
+			<div class="row-fluid">
+				<div class="span6">
+					<?php echo $this->formulario->renderFieldset('image-info'); ?>
+				</div>
+			</div>
+		</fieldset>
+
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<!--ADICIONAR A TAB DE PARÂMETROS-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'params', JText::_('COM_HELLOWORLD_TAB_PARAMS')); ?>
+
+
+		<fieldset class="adminForm">
+
+			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+			<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_PARAMS'); ?></legend>
+			<div class="row-fluid">
+				<div class="span6">
+
+					<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'params'.-->
+					<?php echo $this->formulario->renderFieldset('params'); ?>
+
+				</div>
+			</div>
+		</fieldset>
+
+		<!--FINALIZAR TAB-->
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php if(JLanguageAssociations::isEnabled()){ ?>
+
+			<!--ADICIONAR A TAB DE EDIÇÃO DE ASSOCIAÇÕES.-->
 			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 			<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->items->id) ? JText::_('COM_HELLOWORLD_TAB_NEW_MESSAGE') : JText::_('COM_HELLOWORLD_TAB_EDIT')); ?>
-				
-				<fieldset class="adminForm">
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('COM_HELLOWORLD_TAB_ASSOCIATIONS')); ?>
 
-					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_DETAILS'); ?></legend>
-					
-					<div class="row-fluid">
-						<div class="span6">
-							
-							<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'details'.-->
-							<?php echo $this->formulario->renderFieldset('details'); ?>
-						</div>
+			<fieldset class="adminForm">
+				<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_ASSOCIATIONS'); ?></legend>
+				<div class="row-fluid">
+					<div class="span12">
+
+						<?php echo JLayoutHelper::render('joomla.edit.associations', $this); ?>
+						
 					</div>
-
-				</fieldset>
+				</div>
+			</fieldset>
 
 			<!--FINALIZAR TAB-->
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php } ?>
 
-			<!--ADICIONAR A TAB DE PARÂMETROS-->
-			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-			<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'imagens', JText::_('COM_HELLOWORLD_TAB_IMAGE')); ?>
+		<!--ADICIONAR A TAB DE ACESSOS-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_HELLOWORLD_TAB_PERMISSIONS')); ?>
 
-				<fieldset class="adminForm">
-					<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_IMAGE'); ?></legend>
-					<div class="row-fluid">
-						<div class="span6">
-							<?php echo $this->formulario->renderFieldset('image-info'); ?>
-						</div>
-					</div>
-				</fieldset>
+		<fieldset class="adminform">
 
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<div class="row-fluid">
+				<div class="span12">
 
-			<!--ADICIONAR A TAB DE PARÂMETROS-->
-			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-			<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'params', JText::_('COM_HELLOWORLD_TAB_PARAMS')); ?>
+					<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'accesscontrol'.-->
+					<?php echo $this->formulario->renderFieldset('accesscontrol'); ?>
+				</div>	
+			</div>
 
-
-				<fieldset class="adminForm">
-
-					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_PARAMS'); ?></legend>
-					<div class="row-fluid">
-						<div class="span6">
-							
-							<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'params'.-->
-							<?php echo $this->formulario->renderFieldset('params'); ?>
-								
-						</div>
-					</div>
-				</fieldset>
-
-			<!--FINALIZAR TAB-->
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-			<!--ADICIONAR A TAB DE ACESSOS-->
-			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-			<!--OS PARÂMETROS SIGNIFICAM: ('classe_do_bootstrap', 'id', 'Título_da_Tab')-->
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_HELLOWORLD_TAB_PERMISSIONS')); ?>
-
-				<fieldset class="adminform">
-					
-					<div class="row-fluid">
-						<div class="span12">
-
-							<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'accesscontrol'.-->
-							<?php echo $this->formulario->renderFieldset('accesscontrol'); ?>
-						</div>	
-					</div>
-
-				</fieldset>
-			<!--FINALIZAR A TAB-->
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		</fieldset>
+		<!--FINALIZAR A TAB-->
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<!--FINALIZAR O PAINEL-->
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>

@@ -48,7 +48,15 @@ O Ajax não funcionou. :/
 
 - No Artigo: 22 (Adicionando Rescurso de filtro de idioma)
 
-Para que as mensagens apareçam, a categoria/subcategoria relacionada a essa mensagem precisa ter no campo "Nota" a palavara "Ajax".
+Para que as mensagens apareçam, a categoria/subcategoria relacionada a essa mensagem precisa ter no campo "Nota" a palavara "Ajax". (Precisa fazer isso também nos itens de menu).
 
+
+=====================================================================================================
+
+- No Artigo: 24 (Adicionando Associações)
+
+O campo para selecionar as associações fica ocultado, mas ele aparece normalmente quando passar algum valor padrão. Porém isso não é o ideal. Tem que consertar. Mas as associações em si estão funcionando.
+
+Se caso houver erro quando tira as associações de um registro, só voltar para o back-end do componente.
 
 =====================================================================================================

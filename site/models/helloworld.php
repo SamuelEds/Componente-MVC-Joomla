@@ -38,7 +38,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 	protected function populateState(){
 
 		//PEGAR O ID DA MENSAGEM.
-		$id = JFactory::getApplication()->input->get('opcao', null, 'INT');
+		$id = JFactory::getApplication()->input->get('opcao', 0, 'INT');
 		$this->setState('message.id', $id);
 
 		//CARREGAR OS PARÂMETROS;
@@ -52,14 +52,16 @@ class HelloWorldModelHelloWorld extends JModelItem{
 		if(!isset($this->item)){
 
 			//VERIFICAR SE A VIEW FOI ACESSADA DIRETO NO ITEM DE MENU 'mensagens'
-			//OBTER O ESTADO DO ID. LEMBRE QUE ISSO FOI DEFINIDO NA FUNÇÃO 'populateState()'.
-			if(!empty($this->getState('message.id'))){
+			if($this->getState('message.id') == 0){
 
-				$id = $this->getState('message.id');
-			
+				//IRÁ PEGAR O ID PELA URL (ISSO QUANDO ACESSADO PELA VIEW DA LISTA DE CATEGORIAS).
+				$id = JFactory::getApplication()->input->get('id', 1, 'INT');
+
 			}else{
 
-				$id = JFactory::getApplication()->input->get('id', 1, 'INT');
+				//IRÁ PEGAR O ID PELO MODAL DE OPÇÕES (ISSO QUANDO ACESSADO PELA VIEW DAS MENSAGENS DIRETAMENTE).
+				$id = $this->getState('message.id');
+
 			}
 
 			//OBTER O BANCO DE DADOS.

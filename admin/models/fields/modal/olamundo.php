@@ -18,7 +18,7 @@ class JFormFieldModal_Olamundo extends JFormField{
 		//'$this->value' É DEFINIDO SE HOUVER UM ID PADRÃO ESPECIFICADO NO ARQUIVO XML.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
-		//'$this->id' SERÁ 'jform_request_xxx' ONDE 'xxx' É O NOME DO CAMPO NO ARQUIVO XML
+		//'$this->id' SERÁ 'jform_request_xxx' ONDE 'xxx' É O NOME DO CAMPO NO ARQUIVO XML OU 'jform_association_xx_yy' ONDE 'xx_yy' É O CÓDIGO DO IDIOMA (HÍFEN SUBSTITUÍDO POR SUBLINHADO) PARA ASSOCIAÇÕES.
 		$modalId = 'Olamundo_' . $this->id;
 
 		//ADICIONAR SCRIPT DE CAMPO MODAL AO CABEÇALHO DO COMPONENTE.
@@ -97,6 +97,14 @@ class JFormFieldModal_Olamundo extends JFormField{
 
 			//TÍTULO PARA O MODAL.
 			$tituloModal = JText::_('COM_HELLOWORLD_MENUITEM_SELECT_MODAL_TITLE');
+
+			//SE A DEFINIÇÃO DO FORMULÁRIO TEM UM CAMPO 'language', ENTÃO PARA A ASSOCIAÇÃO ADICIONE O PARÂMETRO 'forcedLanguage' AO URL E ADICIONE O IDIOMA AO TÍTULO DO MODAL.
+			if(isset($this->element['language'])){
+
+				$urlSelect .= '&amp;forcedLanguage=' . $this->element['language'];
+				$tituloModal .= ' &#8212; ' . $this->element['label'];
+
+			}
 
 			//FINALMENTE, CRIAR O MODAL.
 			//A FUNÇÃO 'JHtml::_()' CRIARÁ UMA SAÍDA HTML EXIBINDO UM MODAL COM SUAS CARACTERÍSTICAS EM ARRAY. NO FOOTER EXIBIRÁ UM BOTÃO PARA FECHAR O MODAL.

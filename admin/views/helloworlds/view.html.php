@@ -16,7 +16,7 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 		$aplicativo = JFactory::getApplication();
 
 		//ARMAZENAR UM CONTEXTO PARA SER USADO DEPOIS.
-		$contexto = "helloworld.list.admin.helloworld";
+		//$contexto = "helloworld.list.admin.helloworld";
 
 		//PEGAR DADOS DO MODELO.
 
@@ -65,6 +65,18 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 			//CHAMADA PARA CRIAR A BARRA DE TAREFAS E O NÚMERO DE ITEMS ENCONTRADOS. 
 			$this->barraTarefas();
 
+		}else{
+
+			//SE ESTIVER SENDO EXIBIDO PARA SELECIONAR UM REGISTRO COMO UMA ASSOCIAÇÃO, ENTÃO 'forceLanguage' É DEFINIDO.
+			if($forcarIdioma = $aplicativo->input->get('forcedLanguage', '', 'CMD')){
+
+				//CRIAR UM XML SIMPLES.
+				$languageXML = new SimpleXMLElement('<field name="language" type="hidden" default="'. $forcarIdioma .'" />');
+				$this->filterForm->setField($languageXML, 'filter', true);
+
+				//DESATIVAR O FILTRO DE IDIOMA ATIVO PARA QUE AS FERRAMENTAS DE PESQUISA NÃO SEJAM ABERTAS POR PADRÃO COM ESTE FILTRO.
+				unset($this->activeFilters['language']);
+			}
 		}
 
 		//EXIBIR A VIEW.

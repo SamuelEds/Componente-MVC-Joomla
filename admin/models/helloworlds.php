@@ -19,12 +19,42 @@ class HelloWorldModelHelloWorlds extends JModelList{
 				'author',
 				'created',
 				'language',
+				'association',
 				'publicado'
 			);
 		}
 
 		//SETAR AS CONFIGURAÇÕES.
 		parent::__construct($config);
+	}
+
+	//MÉTODO PARA PREENCHER AUTOMATICAMENTE O ESTADO DO MODELO.
+	//ESTE MÉTODO DEVE SER CHAMADO UMA VEZ POR INSTANCIAÇÃO E É PROJETADO A SER CHAMADO NA PRIMEIRA CHAMADA AO MÉTODO 'getState()', A MENOS QUE ESTEJA DEFINIDO O MODELO SINALIZADOR DE CONFIGURAÇÃO PARA IGNORAR A SOLICITAÇÃO.
+	//OBS: CHAMAR 'getState()' NESTE MÉTODO RESULTARÁ EM RECURSÃO.
+	protected function populateState($ordering = null, $direction = null){
+
+		//OBTER O APLICATIVO.
+		$aplicativo = JFactory::getApplication();
+
+		//AJUSTE O CONTEXTO PARA SUPORTAR LAYOUTS MODAIS.
+		if($layout = $aplicativo->input->get('layout')){
+
+			$this->context .= '.' . $layout; 
+		
+		}
+
+		//AJUSTE O CONTEXTO PARA SUPORTAR IDIOMAS FORÇADOS.
+		$forcarIdioma = $aplicativo->input->get('forcedLanguage', '', 'CMD');
+		if($forcarIdioma){
+			$this->context .= '.' .$forcarIdioma;
+		}
+
+		parent::populateState($ordering, $direction);
+
+		//SE HOUVER UMA LINGUAGEM FORÇADA, DEFINA ESSE FILTRO PARA A CÁUSULA 'where' DA CONSULTA.
+		if(!empty($forcarIdioma)){
+			$this->setState('filter.language', $forcarIdioma);
+		}
 	}
 
 	//MÉTODO PARA CONSTRUIR UMA CONSULTA SQL PARA UMA LISTA DE DADOS.
@@ -50,14 +80,38 @@ class HelloWorldModelHelloWorlds extends JModelList{
 		//OBSERVE COMO OS APELIDOS ESTÃO SENDO ESCRITOS 'l.title AS language_title' E 'l.image AS language_image'. OS APELIDOS 'language_title' E 'language_image' PRECISAM SER ESCRITOS DESTA FORMA PARA QUE A EXIBIÇÃO DA BANDEIRINHA DOS IDIOMAS POSSA FUNCIONAR.
 		$query->select($db->quoteName('l.title', 'language_title') . ', ' . $db->quoteName('l.image', 'language_image'))->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON l.lang_code = a.language');
 
+		//VERIFICAR SE HÁ ALGUMA ASSOCIAÇÃO. SE TIVER...
+		if(JLanguageAssociations::isEnabled()){
+
+			//...CRIAR UM JOIN COM A TABELA DE ASSOCIAÇÕES DO JOOMLA.
+			$query->select('COUNT(asso2.id) > 1 as association')
+			->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context = ' . $db->quote('com_helloworld.item'))
+			->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+			->group('a.id');		
+		}
+
+
+
 		//--------------------------------------------------\\
 
-		/*
-			NESTA SEÇÃO ENCONTRA-SE AS CONFIGURAÇÕES DE FILTRO.
+		/**
+		 * 
+		 * NESTA SEÇÃO ENCONTRA-SE AS CONFIGURAÇÕES DE FILTRO.
+		 * 
 		*/
 
-		/*
-			IMPORTANTE: É PRECISO QUE SEJA CRIADO UM ARQUIVO '.xml' NA PASTA 'forms' QUE SERÁ A RESPONSÁVEL PELA ENTREGA DE RESULTADOS DO FILTRO. A NOMENCLATURA DO ARQUIVO DEVE SER 'filter_<nome_do_modelo_de_onde_vem_os_filtros>.xml', QUE NESSE CASO, OS FILTROS ESTÃO SENDO EXTRAÍDOS DO MODELO 'HelloWorlds'. NO ARQUIVO ENCONTRA-SE O MODO DE CONFIGURAÇÃO DO MESMO.
+		/**
+		 * 
+		 * 
+		 * IMPORTANTE: É PRECISO QUE SEJA CRIADO UM ARQUIVO '.xml' NA PASTA 'forms' QUE SERÁ 
+		 * A RESPONSÁVEL PELA ENTREGA DE RESULTADOS DO FILTRO. A NOMENCLATURA DO ARQUIVO 
+		 * DEVE SER 'filter_<nome_do_modelo_de_onde_vem_os_filtros>.xml', QUE NESSE CASO, OS 
+		 * FILTROS ESTÃO SENDO EXTRAÍDOS DO MODELO 'HelloWorlds'. NO ARQUIVO ENCONTRA-SE O 
+		 * MODO DE CONFIGURAÇÃO DO MESMO.
+		 * 
+		 * 
+		 * 
+		 * 
 		*/
 
 		//OBTER O VALOR REPASSADO NO CAMPO 'search' DO FORMULÁRIO NO ARQUIVO 'filter_helloworlds.xml'.

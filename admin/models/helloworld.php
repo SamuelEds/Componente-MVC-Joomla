@@ -13,7 +13,18 @@ use Joomla\Registry\Registry;
 //LOGO, A NOMENCLATURA DEVE SER <nome_do_componente>Model<nome_do_modelo>.
 class HelloWorldModelHelloWorld extends JModelAdmin{
 
-	/* MÉTODO PARA SUBSTITUIR O 'getItem()' PARA PERMITIR CONVERTER AS INFORMAÇÕES A IMAGEM CODIFICADA EM JSON NO REGISTRO DO BANCO DE DADOS EM UMA MATRIZ PARA O PRÉ-PREENCHIMENTO SUBSEQUENTE DO FORMULÁRIO DE EDIÇÃO. */
+	//VARIÁVEL PADRÃO DO 'JModelAdmin'.
+	//'JModelAdmin' PRECISA SABER DISSO PARA ARMAZENAR AS ASSOCIAÇÕES.
+	protected $associationsContext = 'com_helloworld.item';
+
+	/** 
+	 * MÉTODO PARA SUBSTITUIR O 'getItem()' PARA PERMITIR CONVERTER AS INFORMAÇÕES A IMAGEM 
+	 * CODIFICADA EM JSON NO REGISTRO DO BANCO DE DADOS EM UMA MATRIZ PARA O 
+	 * PRÉ-PREENCHIMENTO SUBSEQUENTE DO FORMULÁRIO DE EDIÇÃO. 
+	 * 
+	 * ESSE MÉTODO TAMBÉM ESTÁ SENDO USADO PARA PREENCHER PREVIAMENTE AS ASSOCIAÇÕES.
+	 * 
+	 * */
 	public function getItem($pk = null){
 
 		//OBTER A FUNÇÃO PAI 'getItem()'
@@ -31,7 +42,26 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 			$item->imageinfo = $registro->toArray();
 		}
 
-		//RETORNAR O VALOR ENCONTRADO.
+		//CARREGAR ITENS ASSOCIADOS.
+		if(JLanguageAssociations::isEnabled()){
+
+			$item->associations = array();
+
+			if($item->id != null){
+
+				$associations = JLanguageAssociations::getAssociations('com_helloworld', '#__olamundo', 'com_helloworld.item', (int) $item->id);
+				
+				foreach($associations as $tag => $associacao){
+
+					$item->associations[$tag] = $associacao->id;
+				
+				}
+
+			}
+
+		}
+
+		//RETORNAR VALORES ENCONTRADO.
 		return $item;
 	}
 
@@ -66,8 +96,64 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 
 		//RETORNAR O FORMULÁRIO
 		return $form;
-
 	}
+
+	/**
+	 * 
+	 * MÉTODO PARA PRÉ-PROCESSAR O FORMULÁRIO PARA ADICIONAR OS CAMPOS DE ASSOCIAÇÃO 
+	 * DINAMICAMENTE.
+	 * 
+	 * @return NONE.
+	 * 
+	 **/
+
+	protected function preprocessForm(JForm $form, $data, $group = 'helloworld'){
+
+		//ITENS DE CONTEÚDO DE ASSOCIAÇÃO.
+		
+		//VERIFICAR SE AS ASSOCIAÇÕES ESTÃO HABILITADAS.
+		if(JLanguageAssociations::isEnabled()){
+
+			//OBTER AS ASSOCIAÇÕES.
+			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'ASC');
+			
+			if(count($languages) > 1){
+
+				//CRIAR UM FORMULÁRIO EM FORMATO DE ARQUIVO XML.
+				//A FUNÇÃO 'SimpleXMLElement' IRÁ CRIAR UM ELEMENTO COMO SE ESTIVESSE ESCREVENDO NUM ARQUIVO XML. NESSE CASO ELE IRÁ CRIAR UM FORMULÁRIO.
+				//ESSE SERÁ O CAMPO EXIBIDO NA ABA DE ASSOCIAÇÕES.
+				$adicionarForm = new SimpleXMLElement('<form />');
+				$campos = $adicionarForm->addChild('fields');
+				$campos->addAttribute('name', 'associations');
+				$fieldset = $campos->addChild('fieldset');
+				$fieldset->addAttribute('name', 'item_associations');
+
+				foreach($languages as $language){
+
+
+					$campo = $fieldset->addChild('field');
+					$campo->addAttribute('name', $language->lang_code);
+					
+					//AQUI A LINHA É 'modal_olamundo' MESMO.
+					$campo->addAttribute('type', 'modal_olamundo');
+					$campo->addAttribute('language', $language->lang_code);
+					$campo->addAttribute('label', $language->title);
+
+					//BASICAMENTE, O CAMPO SÓ APARECE SE TIVER ALGUM VALOR AQUI (SE QUISER AJEITAR...).
+					$campo->addAttribute('default', 1);
+					$campo->addAttribute('translate_label', 'false');
+
+				}
+
+				$form->load($adicionarForm, false);
+
+			}
+
+		}
+
+		parent::preprocessForm($form, $data, $group);
+
+	} 
 
 	//MÉTODO PARA OBTER OS DADOS QUE DEVEM SER INJETADOS NO FORMULÁRIO.
 	protected function loadFormData(){

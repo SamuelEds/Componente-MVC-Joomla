@@ -197,7 +197,7 @@ $onclick = $this->escape($function);
 							<td>
 								<!--EXIBIR UMA CAIXA DE PUBLICAÇÃO/DESPUBLICAÇÃO NATIVO DO JOOMLA.-->
 								<!--OBS: QUANDO FOR USAR ESSA CAIXA, O CAMPO NO BANCO DE DADOS DEVE ESTÁ ESCRITO 'published' PARA QUE A AÇÃO DE PUBLICAR/DESPUBLICAR SURTA EFEITO.-->
-								<?php echo JHtml::_('jgrid.published', $dados->published, $i, 'helloworld.', true, 'cb'); ?>
+								<?php echo JHtml::_('jgrid.published', $dados->published, $i, 'helloworlds.', true, 'cb'); ?>
 							</td>
 
 							<td>
@@ -227,6 +227,9 @@ $onclick = $this->escape($function);
 
 		<!--ESTE CAMPO É USADO PARA CONTROLAR O NÚMERO DE CAIXAS MARCADAS.-->
 		<input type="hidden" name="task" value="0" />
+
+		<!--FORNECER O PARÂMETRO 'forcedLanguage' JÁ QUE OS REGISTROS SERÃO EXIBIDOS COMO ASSOCIAÇÕES.-->
+		<input type="hidden" name="forcedLanguage" value="<?php echo $aplicativo->input->get('forcedLanguage', '', 'CMD'); ?>" />
 
 		<!--ESSA SAÍDA HTML SERVE PARA PROTEÇÃO, NO ENVIO DO FORMULÁRIO, CONTRA ATAQUES CSRF.-->
 		<?php echo JHtml::_('form.token'); ?>

@@ -12,6 +12,24 @@ JHtml::_('formbehavior.chosen', 'select');
 $listaOrdem = $this->escape($this->state->get('list.ordering'));
 $listaDirecao = $this->escape($this->state->get('list.direction'));
 
+//CONFIGURAÇÕES DE ASSOCIAÇÕES.
+
+//VERIFICAR SE AS CONFIGURAÇÕES DE ASSOCIAÇÕES ESTÃO HABILITADAS.
+$assoc = JLanguageAssociations::isEnabled();
+
+//DEFINIR O TAMANHO DA LARGURA DO CAMPO DO AUTOR DE ACORDO COM A HABILITAÇÃO DAS ASSOCIAÇÕES.
+$tamanhoLarguraCampoAutor = $assoc ? "10%" : "25%";
+
+//CARREGAR O MÉTODO 'JHtmlHelloworlds' DO ARQUIVO 'JPATH_ADMINISTRATOR /components/com_helloworld/helpers/html/helloworlds.php'.
+/**
+ * A CONSTANTE 'JPATH_ADMINISTRATOR' É UMA CONSTANTE QUE RETORNARÁ O CAMINHO RELATIVO ATÉ A 
+ * PASTA 'administrator'.
+ * 
+ * MAIS CONSTANTES JOOMLA ESTÃO DISPONÍVEIS EM: https://docs.joomla.org/Constants. 
+ * 
+ * */
+JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_helloworld/helpers/html/helloworlds.php');
+
 ?>
 
 <!--FORMULÁRIO DE EXIBIÇÃO DOS DADOS.-->
@@ -70,10 +88,21 @@ $listaDirecao = $this->escape($this->state->get('list.direction'));
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 					<th><?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_IMAGE'); ?></th>
 
+					<!--SE AS CONFIGURAÇÕES DE ASSOCIAÇÕES ESTIVEREM HABILITADAS...-->
+					<?php if($assoc){ ?>
+
+						<!--EXIBIR O TÍTULO (EM FILTRO) DO CAMPO.-->
+						<th width="15%">
+							<?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLDS_ASSOCIATIONS', 'association', $listaDirecao, $listaOrdem); ?>
+						</th>
+					<?php } ?>
+
 					<!--EXIBIR UM TÍTULO PARA A LISTA DOS NOMES DOS AUTORES.-->
 					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
 					<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_AUTHOR', 'author', $listaDirecao, $listaOrdem); ?></th>
+					<th width="<?php echo $tamanhoLarguraCampoAutor; ?>">
+						<?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_AUTHOR', 'author', $listaDirecao, $listaOrdem); ?>	
+					</th>
 
 					<!--EXIBIR UM TÍTULO PARA A LISTA DE IDIOMAS.-->
 					<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
@@ -170,6 +199,20 @@ $listaDirecao = $this->escape($this->state->get('list.direction'));
 							echo sprintf($html, $src, $caption);
 							?>
 						</td>
+
+						<!--SE AS CONFIGURAÇÕES DE ASSOCIAÇÕES ESTIVEREM HABILITADAS...-->
+						<?php if($assoc){ ?>
+							<td align="center">
+
+								<!--CASO HOUVER ALGUMA ASSOCIAÇÃO...-->
+								<?php if($dados->association){ ?>
+
+									<!--EXIBIR AS ASSOCIAÇÕES.-->
+									<?php echo JHtml::_('helloworlds.association', $dados->id); ?>
+									
+								<?php } ?>
+							</td>
+						<?php } ?>
 
 						<td> <?php echo $dados->author; ?> </td>
 

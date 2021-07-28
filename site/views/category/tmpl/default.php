@@ -111,7 +111,7 @@ if(JLanguageMultilang::isEnabled() && $lang){
 		</tbody>
 
 		<tfoot>
-			<td colspan="5">Quantidade de itens para exibir: <?php echo $this->paginacao->getListFooter(); ?></td>
+			<td colspan="5"><?php echo $this->paginacao->getListFooter(); ?></td>
 		</tfoot>
 	</table>
 

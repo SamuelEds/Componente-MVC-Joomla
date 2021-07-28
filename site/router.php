@@ -39,11 +39,11 @@ class HelloworldRouter implements JComponentRouterInterface{
 		//OBTER O ITEM DE ACORDO COM O ID DA URL.
 		$esteMenuItem = $siteMenu->getItem($query['Itemid']);
 
-		if($esteMenuItem->language != $lang){
+		/*if($esteMenuItem->language != $lang){
 
 			return $segmentos;
 
-		}
+		}*/
 
 		if($esteMenuItem->note == "Ajax"){
 
@@ -60,7 +60,7 @@ class HelloworldRouter implements JComponentRouterInterface{
 			}
 		}else{
 
-			//ASSUME QUE ESTAMOS ITEM DE MENU/MENSAGENS
+			//ASSUME QUE ESTAMOS ITEM DE MENU/MENSAGENS OU QUE TEM '/component' NO TIPO DE URL
 			if(($query['view'] == "category") && isset($query['id'])){
 
 				//DEFINIR AS PARTES DA URL PARA ESTAR NO FORMATO: 'subcat1/subcat2/...'.
@@ -167,13 +167,13 @@ class HelloworldRouter implements JComponentRouterInterface{
 		$siteMenu = $aplicativo->getMenu();
 		$menuItemAtivo = $siteMenu->getActive();
 
-		if(!$menuItemAtivo){
+		/*if(!$menuItemAtivo){
 
 			return $vars;
 
-		}
+		}*/
 
-		if($menuItemAtivo->note == "Ajax"){
+		if(isset($menuItemAtivo) && $menuItemAtivo->note == "Ajax"){
 
 			//ESPERA 1 SEGMENTO DO FORMULÁRIO ID: ALIAS PARA O REGISTRO HELLOWORLD.
 			if($nSegmentos == 1){
@@ -283,8 +283,80 @@ class HelloworldRouter implements JComponentRouterInterface{
 	//FUNÇÃO QUE SERÁ CAHAMADA PRIMEIRO.
 	public function preprocess($query){
 
-		//PEGAR A URL (QUERY - 'id, view, itemid, etc').
+		static $idiomaAtual = null;
+		
+		//VERIFICAR SE O SITE É MULTILÍNGUE.
+		if(JLanguageMultilang::isEnabled()){
+
+			//OBTER O APLICATIVO.
+			$aplicativo = JFactory::getApplication();
+			$menuSite = $aplicativo->getMenu();
+			$lang = $query['lang'];
+
+			if(!isset($query['lang']) || ($query['lang'] == $idiomaAtual)){
+
+				return $query;
+
+			}
+
+			//O USUÁRIO ESTÁ ATUALMENTE NO '/component' NO TIPO DE URL.
+			if(!isset($query['Itemid'])){
+
+				//USE A PÁGINA PRINCIPAL PARA O IDIOMA DO URL.
+				$home = $menuSite->getItems(array('language', 'home'), array($lang, true));
+
+				if($home){
+
+					$query['Itemid'] = $home[0]->id;
+				
+				}
+
+				return $query;
+
+			}
+
+			$itemid = $query['Itemid'];
+
+			//GARANTIR QUE O ITEM DE MENU PARA O 'Itemid' TENHA O IDIOMA CORRETO.
+			$esteMenuItem = $menuSite->getItem($itemid);
+			$esteMenuItemLang = $esteMenuItem->language;
+
+			if($esteMenuItemLang == $lang){
+
+				$idiomaAtual = $esteMenuItemLang;
+
+			}
+
+			if($esteMenuItemLang == $lang || $esteMenuItemLang == '*'){
+
+				return $query;
+
+			}
+
+			//CASO CONTRÁRIO TENTE ENCONTRAR UM ITEM DE MENU ASSOCIADO AO IDIOMA CORRETO.
+			$associacoes = JLanguageAssociations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemid, 'id', '', '');
+
+			if(isset($associacoes[$lang])){
+
+				$query['Itemid'] = (int) $associacoes[$lang]->id;
+				return $query;
+
+			}else{
+
+				//USE A PÁGINA PRINCIPAL PARA DEFINIR ESTE IDIOMA (SE ESTIVER DEFINIDO).
+				$home = $menuSite->getItems(array('language', 'home'), array($lang, true));
+
+				if($home){
+					$query['Itemid'] = $home[0]->id;
+				}
+			}
+		}
+
+		//RETORNAR URL CONFIGURADA.
 		return $query;
+
+		//PEGAR A URL (QUERY - 'id, view, itemid, etc').
+		//return $query;
 
 	}
 }
