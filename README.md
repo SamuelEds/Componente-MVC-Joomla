@@ -1,4 +1,4 @@
-# ![](https://docs.joomla.org/images/0/02/Joomla-flat-logo-en.png) Componente HelloWorld para Joomla! 3.x
+# <img src="https://docs.joomla.org/images/0/02/Joomla-flat-logo-en.png" width="100" heigth="100" /> Componente HelloWorld para Joomla! 3.x
 
 **Descrição:**
 
