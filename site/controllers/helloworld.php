@@ -12,6 +12,20 @@ defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
 //SERÁ USADO PARA LIDAR COM O HTTP POST DO FORMULÁRIO FRONT-END QUE PERMITE AOS USU'RIO DE INSERIR UMA NOVA MENSAGEM.
 class HelloWorldControllerHelloWorld extends JControllerForm{
 
+	//VIEW PADRÃO EM 'JControllerForm' PARA A FUNÇÃO DE RECARREGAMENTO.
+	protected $view_item;
+
+	public function __construct($config = array()){
+
+		//OBTER O INPUT DA APLICAÇÃO.
+		$input = JFactory::getApplication()->input;
+
+		//OBTER O NOME DA VIEW
+		$this->view_item = $input->get('view', 'helloworld', 'string');
+		parent::__construct($config);
+
+	}
+
 	//FUNÇÃO DE CANCELAR
 	public function cancel($key = null){
 
@@ -274,7 +288,7 @@ class HelloWorldControllerHelloWorld extends JControllerForm{
 		$mailer->Username = $userAdm->email;
 
 		//SENHA DO SEU E-MAIL.
-		$mailer->Password = 'papel0192837465';
+		$mailer->Password = 'senha_do_seu_email';
 
 		//CONFIGURAR O CARA QUE TÁ ENVIANDO O E-MAIL (ESQUECI O NOME).
 		$mailer->setFrom($usuarioAtual->email, $usuarioAtual->username);
@@ -307,6 +321,21 @@ class HelloWorldControllerHelloWorld extends JControllerForm{
 
 		//RETORNAR VERDADEIRO, QUANDO TUDO ESTIVER CONDIZENTE COM OS TRATAMENTOS.
 		return true;
+	}
+
+	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true)){
+
+		if(empty($name)){
+
+			//OBTER O INPUT DA APLICAÇÃO.
+			$input = JFactory::getApplication()->input;
+			$modelname = $input->get('modelname', 'helloworld', 'string');
+			return parent::getModel($modelname, $prefix, $config);
+
+		}
+
+		return parent::getModel($name, $prefix, $config);
+
 	}
 
 }

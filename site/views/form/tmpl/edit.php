@@ -6,6 +6,10 @@ defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
 //ADICIONAR JAVASCRIPT DE VALIDAÇÃO.
 JHtml::_('behavior.formvalidator');
 
+//OBTER OS CAMPOS PERSONALIZADOS CRIADOS.
+//OBS: OS CAMPOS NÃO ESTÃO SENDO PUXADOS.
+$fieldsets = $this->formulario->getFieldsets('com_fields');
+
 ?>
 
 <!--FORMULÁRIO PARA EXIBIÇÃO DE DADOS.-->
@@ -31,6 +35,16 @@ JHtml::_('behavior.formvalidator');
 			</div>
 		</fieldset>
 	</div>
+
+	<?php 
+
+	foreach ($fieldsets as $fieldset) {
+		
+		echo $this->formulario->renderFieldset($fieldset->name);
+
+	}
+
+	 ?>
 
 	<!--EXIBIR UMA BARRA DE FERRAMENTAS DE BOTÕES-->
 	<div class="btn-toolbar">
@@ -65,6 +79,10 @@ JHtml::_('behavior.formvalidator');
 	<!--ESTE INPUT É NECESSÁRIO PARA REALIZAR AS AÇÕES DOS BOTÕES.-->
 	<!--ELE ENVIARÁ OS PARÂMETROS NA HORA QUE O FORMULÁRIO FOR ENVIADO.-->
 	<input type="hidden" name="task" />
+
+	<!--ESTE INPUT É NECESSÁRIO PARA REALIZAR AS CONFIGURAÇÕES DOS CAMPOS PERSONALIZADOS.-->
+	<!--ELE ENVIARÁ OS PARÂMETROS NA HORA QUE O FORMULÁRIO FOR ENVIADO.-->
+	<input type="hidden" name="modelname" value="form" />
 
 	<!--ESSA SAÍDA HTML SERVE PARA PROTEÇÃO, NO ENVIO DO FORMULÁRIO, CONTRA ATAQUES CSRF.-->
 	<?php echo JHtml::_('form.token'); ?>

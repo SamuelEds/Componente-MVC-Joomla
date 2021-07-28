@@ -336,22 +336,6 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 							<?php echo $this->escape($dados->access_level); ?>
 						</td>
 
-						<td>
-							<?php echo $dados->lft; ?>
-						</td>
-
-						<td>
-							<?php echo $dados->rgt; ?>
-						</td>
-
-						<td>
-							<?php echo $dados->level; ?>
-						</td>
-
-						<td>
-							<?php echo $dados->parent_id; ?>
-						</td>
-
 						<!--SE AS CONFIGURAÇÕES DE ASSOCIAÇÕES ESTIVEREM HABILITADAS...-->
 						<?php if($assoc){ ?>
 							<td align="center">

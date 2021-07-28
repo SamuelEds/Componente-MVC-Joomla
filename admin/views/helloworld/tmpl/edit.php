@@ -157,6 +157,14 @@ $tmpl = $input->getCmd('tmpl', '') === 'component' ? '&tmpl=component' : '';
 		<!--FINALIZAR A TAB-->
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<!--RENDERIZAR O LAYOU PADRÃO DO JOOMLA PARA CONFIGURAÇÃO DE CAMPOS PERSONALIZADOS-->
+
+		<!--AQUI ESTÁ SENDO PASSADO OS CAMPOS DE CONFIGURAÇÃO QUE NÃO SERÁ RENDERIZADO.-->
+		<?php $this->ignore_fieldsets = array('details', 'image-info', 'params', 'item_associations', 'accesscontrol'); ?>
+
+		<!--RENDERIZAR O LAYOUT-->
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 		<!--FINALIZAR O PAINEL-->
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

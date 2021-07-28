@@ -111,6 +111,33 @@ if($src){
 
 <!------------------------------------------------------------------------------------------>
 
+<?php  
+
+echo "<h3>Depois da exibição do título</h3>";
+echo $this->item->afterDisplayTitle;
+
+echo "<h3>Depois da exibição do conteúdo</h3>";
+echo $this->item->beforeDisplayContent;
+
+echo "<h3>Antes da exibição do conteúdo</h3>";
+echo $this->item->afterDisplayContent;
+
+JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+$fields = FieldsHelper::getFields('com_helloworld.helloworld', $this->item, true);
+
+echo "<h3>Campos que não são renderizados automaticamente:</h3>";
+foreach($fields as $field){
+
+	if($field->params->get('display') == '0'){
+
+		echo Fieldshelper::render($field->context, 'field.render', array('field' => $field));
+		echo '<br />';
+
+	}
+}
+
+?>
+
 <!--EXIBINDO O MAPA USANDO A BIBLIOTECA 'OpenStreetMap'-->
 <div id="map" class="map"></div>
 <div class="map-callout map-callout-bottom" id="texto-container"></div>

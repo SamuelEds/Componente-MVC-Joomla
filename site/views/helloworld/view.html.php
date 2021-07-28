@@ -23,6 +23,29 @@ class HelloWorldViewHelloWorld extends JViewlegacy{
 		//OBTER O APLICATIVO.
 		$aplicativo = JFactory::getApplication();
 
+		/**
+		 * 
+		 * PARA CAMPOS PERSONALIZADOS.
+		 * 
+		 * */
+		$dispatcher = JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+		$item = $this->item;
+		$item->text = null;
+
+		$dispatcher->trigger('onContentPrepare', array('com_helloworld.helloworld', &$item, &$item->params, null));
+
+		$results = $dispatcher->trigger('onContentAfterTitle', array('com_helloworld.helloworld', &$item, &$item->params, null));
+		$item->afterDisplayTitle = trim(implode('\n', $results));
+
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_helloworld.helloworld', &$item, &$item->params, null));
+		$item->beforeDisplayContent = trim(implode('\n', $results));
+
+		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_helloworld.helloworld', &$item, &$item->params, null));
+		$item->afterDisplayContent = trim(implode('\n', $results));
+
+		/***************************************************************************/
+
 		//INSERIR DADOS NA VIEW.
 		//OBSERVE O COMANDO '$this->get('UmaMensagem')', '$this' REFERE-SE AO MODELO, 'get('UmaMensagem')' REFERE-SE À FUNÇÃO 'getUmaMensagem' QUE ESTÁ NO ARQUIVO MODELO DA VIEW. ELE IRÁ CONVERTER 'get('UmaMensagem')' EM 'getUmaMensagem'.
 		$this->umaMensagem = $this->get('UmaMensagem');

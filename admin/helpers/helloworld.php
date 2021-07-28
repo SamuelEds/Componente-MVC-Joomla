@@ -40,7 +40,65 @@ abstract class HelloWorldHelper extends JHelperContent{
 			//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
 			$documento->setTitle(JText::_('COM_HELLOWORLD_ADMINISTRATION_CATEGORIES'));
 		}
+
+		//VERIFICAR SE O COMPONENTE DE CAMPOS ESTÁ ATIVO.
+		if(JComponentHelper::isEnabled('com_fields')){
+
+			//CRIAR UMA SIDEBAR (BARRA LATERAL) PARA OS CAMPOS PERSONALIZÁVEIS.
+			//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
+			JHtmlSidebar::addEntry(
+
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_helloworld.helloworld',
+				$submenu = 'fields.fields'
+
+			);
+
+			//CRIAR UMA SIDEBAR (BARRA LATERAL) PARA GRUPOS DE CAMPOS.
+			//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
+			JHtmlSidebar::addEntry(
+
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_helloworld.helloworld',
+				$submenu = 'fields.groups'
+
+			);
+
+		}
 	}
+
+	public static function getContexts(){
+
+		JFactory::getLanguage()->load('com_helloworld', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+
+			'com_helloworld.helloworld' => JText::_('COM_HELLOWORLD_ITEMS'),
+			'com_helloworld.categories' => JText::_('JCATEGORY')
+
+		);
+
+		return $contexts;
+
+	}
+
+	public static function validateSection($section, $item){
+
+		if(JFactory::getApplication()->isClient('site') && $section == 'form'){
+
+			return 'helloworld';
+
+		}
+
+		if($section != 'helloworld' && $section != 'form'){
+
+			return null;
+
+		}
+
+		return $section;
+
+	} 
 }
 
 ?>

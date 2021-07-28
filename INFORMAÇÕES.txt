@@ -1,4 +1,6 @@
-ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 32
+ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 35
+
+OBS: OS CAMPOS NO FORMULÁRIO FRONT-END NÃO ESTÃO SENDO PUXADOS.
 
 =====================================================================================================
 
@@ -72,5 +74,11 @@ Para que funcione é preciso que crie dois módulos específicos: Um que apontar
 - No artigo: 34 (Adicionando um servidor de atualizações)
 
 Não funcionou, motivo desconhecido. :/
+
+=====================================================================================================
+
+- No artigo: 35 (Adicionando campos personalizados)
+
+É preciso que o campo personalizável faça com que o grupo em que o usuário possa modificar esteja tudo permitido e que a categoria pertencente a esse campo esteja como "Tudo".
 
 =====================================================================================================
