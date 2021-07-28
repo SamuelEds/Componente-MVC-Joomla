@@ -43,7 +43,7 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 
 		//PEGAR DADOS DO MODELO.
 		//OS MÉTODOS 'getItems' E 'getPagination' JÁ SÃO DEFINIDOS AUTOMATICAMENTE NO MODELO 'JModelList'.
-		//'this->get('Items')' E '$this->get('Pagination')' SÃO FUNÇÕES NATIVAS DO MODELO USADO NO ARQUIVO DE MODELO DESTA VIEW, QUE NO CASO É 'helloworlds.php'.
+		//'this->get('Items')' E '$this->get('Pagination')' SÃO FUNÇÕES NATIVAS DO MODELO USADO NO ARQUIVO DE MODELO DESTA VIEW, QUE NO CASO É 'helloworld.php'.
 		$this->items = $this->get('Items');
 		
 		//FUNÇÃO PARA GERENCIAR OBJETOS DE PAGINAÇÃO.
@@ -56,11 +56,16 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 			return false;
 		}
 
-		//DEFINIR O SUBMENU.
-		HelloWorldHelper::addSubmenu('helloworlds');
+		//DEFINE O SUBMENU E A BARRA DE FERRAMENTAS D BARRA LATERAL, MAS NÃO DA JANELA MODAL.
+		if($this->getLayout() !== "modal"){
+		
+			//DEFINIR O SUBMENU.
+			HelloWorldHelper::addSubmenu('helloworlds');
+			
+			//CHAMADA PARA CRIAR A BARRA DE TAREFAS E O NÚMERO DE ITEMS ENCONTRADOS. 
+			$this->barraTarefas();
 
-		//CHAMADA PARA CRIAR A BARRA DE TAREFAS E O NÚMERO DE ITEMS ENCONTRADOS. 
-		$this->barraTarefas();
+		}
 
 		//EXIBIR A VIEW.
 		parent::display($tpl);

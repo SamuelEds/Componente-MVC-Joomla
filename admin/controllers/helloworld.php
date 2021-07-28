@@ -16,7 +16,7 @@ class HelloWorldControllerHelloWorld extends JControllerForm{
 
 		//PERMITIR PARA ADICIONAR.
 		//NÃO USADO NO MOMENTO (MAS PODE VER COMO OS OUTROS COMPONENTES O USAM).
-		//SUBSTITUI: 'JControllerForm::allowAdd'
+		//SSUBSTITUI: 'JControllerForm::allowAdd'
 		return parent::allowAdd($data);
 	}
 

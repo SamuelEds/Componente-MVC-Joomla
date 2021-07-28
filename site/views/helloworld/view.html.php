@@ -30,6 +30,7 @@ class HelloWorldViewHelloWorld extends JViewlegacy{
 		}
 
 		//CHAMAR A FUNÇÃO QUE ADICIONAR O MAPA.
+		//NÃO FUNCIONOU.
 		$this->adicionarMapa();
 
 		//CHAMAR PELO GOOGLE MAPS.
@@ -51,7 +52,7 @@ class HelloWorldViewHelloWorld extends JViewlegacy{
 		//ADICIONAR O SCRIPT VIA CDN DO OPENLAYERS
 		$documento->addScript("https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js");
 
-		//ADICIONAR O CSS VIA CDN DO OPENLAYERS.
+		//ADICIONAR O CSS VIA CDN DO OPENLAYERS
 		$documento->addStyleSheet("https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css");
 
 		//ADICIONANDO O ARQUIVO SCRIPT PERSONALIZÁVEL PARA O MAPA.

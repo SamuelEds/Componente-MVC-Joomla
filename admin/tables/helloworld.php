@@ -78,7 +78,7 @@ class HelloWorldTableHelloWorld extends JTable{
 	}
 
 	//MÉTODO PARA OBTER O ID-PAI-DO-ASSET DO ITEM.
-	protected function _getAssetParentId(JTable $table = null, $id = null){
+	protected function _gtAssetParentId(JTable $table = null, $id = null){
 
 		//RECUPERANDO O ASSET-PAI DA TABELA DE ATIVOS.
 		$assetParent = JTable::getInstance('Asset');
@@ -86,7 +86,7 @@ class HelloWorldTableHelloWorld extends JTable{
 		//PADRÃO: SE NENHUM ASSET-PAI PUDER SER ENCONTRADO, É PEGUE O ASSET GLOBAL
 		$assetParentId = $assetParent->getRootId();
 
-		//ESCONTRAR O ASSET-PAI
+		//ESCONTRARO ASSET-PAI
 		if(($this->catid) && !empty($this->catid)){
 
 			//O ITEM TEM UMA CATEGORIA COMO PAI DO ASSET.
@@ -94,7 +94,7 @@ class HelloWorldTableHelloWorld extends JTable{
 
 		}else{
 
-			//O ITEM TEM O COMPONENTE COMO ASSET-PAI.
+			//O ITEM TEM O COMPONENTE COMO ASSET-PAI
 			$assetParent->loadByName('com_helloworld');
 
 		}
@@ -124,7 +124,7 @@ class HelloWorldTableHelloWorld extends JTable{
 		//MÉTODO 'JFiltereOutput::stringUrlSafe()' GARANTIRÁ QUE O ALIAS NÃO TERÁ ESPAÇOS EM BRANCOS E QUE A STRING NÃO TENHA CARACTERES INVÁLIDOS.
 		$this->alias = JFilterOutput::stringUrlSafe($this->alias);
 
-		// SALVAR OS DADOS QUANDO TUDO ESTIVER CONDIZENTE.
+		// SALVAR OS DAOS QUANDO TUDO ESTIVER CONDIZENTE.
 		return true;
 	}
 }

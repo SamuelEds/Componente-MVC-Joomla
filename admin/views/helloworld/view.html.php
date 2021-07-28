@@ -10,9 +10,6 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 
 	//CRIAR A VARIÁVEL QUE RECEBERÁ O FORMULÁRIO DE VISUALIZAÇÃO.
 	protected $form = null;
-	
-	//CRIAR A VARIÁVEL DE REGISTROS.
-	protected $item;
 
 	//CRIAR A VARIÁVEL QUE RECEBERÁ O SCRIPT.
 	protected $script;

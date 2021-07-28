@@ -175,7 +175,7 @@ class HelloWorldControllerHelloWorld extends JControllerForm{
 			//OBTER O CAMINHO ABSOLUTO.
 			$CaminhoAbsoluto = JPATH_ROOT . '/' . $CaminhoRelativo;
 
-			//SE O ARQUIVO NÃO EXISTIR, FARÁ UMA AÇÃO.
+			//SE O ARQUIVO NÃO EXISTIR, FARÁ UMA AÇÀO.
 			if(JFile::exists($CaminhoAbsoluto)){
 
 				//UM ARQUIVO COM ESTE CAMINHO NÃO EXISTE.
@@ -191,7 +191,7 @@ class HelloWorldControllerHelloWorld extends JControllerForm{
 				return false;
 			}
 
-			//UPLOAD BEM-SUCEDIDO.
+			//UPLOAD BEM-SUCEDIDO, 
 			$validaDados['imageinfo']['imagem'] = $CaminhoRelativo;
 
 		}
@@ -274,7 +274,7 @@ class HelloWorldControllerHelloWorld extends JControllerForm{
 		$mailer->Username = $userAdm->email;
 
 		//SENHA DO SEU E-MAIL.
-		$mailer->Password = 'sua_senha_do_email';
+		$mailer->Password = 'papel0192837465';
 
 		//CONFIGURAR O CARA QUE TÁ ENVIANDO O E-MAIL (ESQUECI O NOME).
 		$mailer->setFrom($usuarioAtual->email, $usuarioAtual->username);

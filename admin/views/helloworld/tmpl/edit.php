@@ -33,8 +33,6 @@ JFactory::getDocument()->addScript('
 <!--NOTE TAMBÉM A CLASSE 'form-validade' QUE FARÁ UMA VALIDAÇÃO DO FORMULÁRIO.-->
 <form action="<?php echo JRoute::_('index.php?option=com_helloworld&layout=edit&id='. (int) $this->items->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 
-	<input id="jform_title" type="hidden" name="helloworld-message-title" />
-
 	<!--DIV PARA EXIBIÇÃO DE DADOS-->
 	<div class="form-horizontal">
 	
@@ -74,14 +72,11 @@ JFactory::getDocument()->addScript('
 					<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_IMAGE'); ?></legend>
 					<div class="row-fluid">
 						<div class="span6">
-
-							<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'image-info'.-->
 							<?php echo $this->formulario->renderFieldset('image-info'); ?>
 						</div>
 					</div>
 				</fieldset>
 
-			<!--FINALIZAR TAB-->
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<!--ADICIONAR A TAB DE PARÂMETROS-->

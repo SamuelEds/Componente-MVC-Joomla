@@ -46,7 +46,7 @@
 
 		<!--CAMPO PARA INSERIR O E-MAIL-->
 		<!--OBSERVE O ATRIBUTO 'name' COM O VALOR 'user_to_email' QUE É O MESMO VALOR UTILIZADO NO ARQUIVO CONTROLLER 'site/controllers/helloworld.php'-->
-		<!--NOTE TAMBÉM O ATRIBUTO 'type' COM O VALOR 'user' INDICANDO QUE O CAMPO IRÁ INTERAGIR COM A LISTA DE USUÁRIOS DO JOOMLA.-->
+		<!--NOTE TAMBÉM O ATRIBUTO 'type' COM O VALOR 'user' INDICANDO QUE O CAMPO IRÁ INTERAGIR COM A SESSÃO DO USUÁRIO DO JOOMLA.-->
 		<field
 			name="user_to_email"
 			type="user"

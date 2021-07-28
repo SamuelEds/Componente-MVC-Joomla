@@ -5,7 +5,7 @@
 //COMANDO PARA IMPEDIR O ACESSO DIRETO.
 defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
-//CRIAR A CLASSE QUE HERDARÁ AS FUNÇÕES NECESSÁRIAS PARA O CONTROLLADOR.
+//CRIAR A CLASSE QUE HERDARÁ AS FUNÇÕES NECESSÁRIAS PARA O CONTROLLADOR. (ELA É VAZIA)
 //OBSERVE O PREFIXO 'HelloWorld' CUJO É O MESMO NOME DA INSTÂNCIA NO ARQUIVO PRINCIPAL (site/helloworld.php).
 class HelloWorldController extends JControllerLegacy{
 

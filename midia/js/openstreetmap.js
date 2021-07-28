@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 	const params = Joomla.getOptions('params');
 	ajaxurl = params.ajaxurl;
 
-	//SERÁ USADO O OPENLAYERS PARA DESENHAR O MAPA (MAIS INFORMAÇÕES: http://openlayers.org/)
+	//SERÁ USADO O OPENLAYERS PARA DESENHAR O MAPA (MAAIS INFORMAÇÕES: http://openlayers.org/)
 
 	//OPENLAYERS USA UM SISTEMA DE COORDENADAS X, Y PARA AS POSIÇÕES.
 	//É PRECISO CONVERTER A LATITUDE/LONGITUDE EM UMA PAR X, Y QUE É RELATIVO.
@@ -198,6 +198,7 @@ function displaySearchResults(result){
 	if(result.success){
 		
 		//APRENSENTARÁ OS RESULTADOS.
+
 		var html = "";
 		
 		for(var i = 0; i < result.data.length; i++){

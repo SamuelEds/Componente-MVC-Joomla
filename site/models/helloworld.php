@@ -38,7 +38,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 	protected function populateState(){
 
 		//PEGAR O ID DA MENSAGEM.
-		$id = JFactory::getApplication()->input->getInt('opcao', null, 'INT');
+		$id = JFactory::getApplication()->input->get('opcao', null, 'INT');
 		$this->setState('message.id', $id);
 
 		//CARREGAR OS PARÂMETROS;
@@ -51,7 +51,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 		if(!isset($this->item)){
 
-			//OBTER O ESTADO DO ID. LEMBRE QUE ISSO FOI DEFINIDO NA FUNÇÃO 'populateState()'.
+			//VERIFICAR SE A VIEW FOI ACESSADA DIRETO NO ITEM DE MENU 'mensagens'
 			//OBTER O ESTADO DO ID. LEMBRE QUE ISSO FOI DEFINIDO NA FUNÇÃO 'populateState()'.
 			if(!empty($this->getState('message.id'))){
 
@@ -226,7 +226,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 				//SETAR A QUERY.
 				$db->setQuery($query);
 
-				//CARREGAR OS DADOS ENCONTRADOS EM FORMATO OBJECT CLASS.
+				//CARREGAR OS DADOS ENCONTRADOS EM FORMATO OBJECT CLASS;
 				$resultado = $db->loadObjectList();
 
 			}catch(Exception $e){

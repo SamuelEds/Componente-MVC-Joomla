@@ -1,6 +1,4 @@
-ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 21
-
-- OBS: CONSERTAR ALGUS BUGS DE URL E A TABELA QUE TÁ LOKONA NA VIEW DE LISTA DE CATEGORIAS.
+ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 24
 
 =====================================================================================================
 
@@ -36,7 +34,7 @@ O jeito de enviar e-mail, só deu certo com SMTP. Porém ele expõe a conta do g
 
 - No Artigo: 19 (Adicionando um mapa)
 
-O Open Street Map funciounou!! \o/
+O Open Street Map funcionou!! \o/
 
 
 =====================================================================================================

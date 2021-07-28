@@ -12,7 +12,6 @@ defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 $documento = JFactory::getDocument();
 
 //ADICIONAR UM 'Style' NO APLICATIVO, ASSIM COMO SE ESTIVESSE INSERINDO UMA TAG EM UM DOCUMENTO HTML NORMAL.
-//ISSO IRÁ ADICIONAR UMA IMAGEM AO LADO DO TÍTULO DO COMPONENTE.
 $documento->addStyleDeclaration('.icon-helloworld{background-image: url(/launch/media/com_helloworld/imagens/espadas-16-x-16.png);}');
 
 //IMPORTAR O ARQUIVO AUXILIAR (ARQUIVO HELPER).
