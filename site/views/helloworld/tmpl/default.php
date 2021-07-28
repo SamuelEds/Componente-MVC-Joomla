@@ -37,6 +37,10 @@ if(JLanguageMultilang::isEnabled()){
 //EXIBIR A DESCRIÇÃO DA VERSÃO.
 echo $this->item->description;
 
+//EXIBIR O LAYOOUT PADRÃO DE EXIBIÇÃO DE TAGS DO JOOMLA.
+$tagLayout = new JLayoutFile('joomla.content.tags');
+echo $tagLayout->render($this->item->tags);
+
 //OBTER O CAMINHO DA IMAGEM QUE ANTES ESTAVA EM JSON. ISSO FOI CONFIGURADO NO MODELO 'helloworld.php'.
 $src = $this->item->imageDetails['imagem'];
 

@@ -33,6 +33,11 @@ class HelloWorldViewHelloWorld extends JViewlegacy{
 		//NÃO FUNCIONOU.
 		$this->adicionarMapa();
 
+		//OBTER OS DADOS DA TAG USANDO A FUNÇÃO 'TagsHelper::getItemTags()'.
+		//COM ISSO É POSSÍVEL OBTER O ID, ALIAS, TÍTULO ENTRE OUTROS DADOS DA TAG.
+		$tagsHelper = new JHelperTags;
+		$this->item->tags = $tagsHelper->getItemTags('com_helloworld.helloworld', $this->item->id);
+
 		//OBTER O MODELO DESTA VIEW.
 		$model = $this->getModel();
 

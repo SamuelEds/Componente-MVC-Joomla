@@ -116,6 +116,17 @@
 			
 		</field>
 
+		<!--CAMPO PADRONIZADO DO JOOMLA PARA INSERÇÃO DE TAGS.-->
+		<!-- AS PALAVRAS EM MAIÚSCULAS QUE COMEÇAM COM "J" SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+		<field
+			name="tags"
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			mode="nested"
+			multiple="true">
+		</field>
+
 		<!--ESTE CAMPO IRÁ EXIBIR UMA TEXTAREA PARA QUE O USUÁRIO POSSA DIGITAR UMA DESCRIÇÃO.-->
 		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 		<!--OBSERVE O ATRIBUTO 'hint' QUE EQUIVALE A UM 'placeholder'.-->
@@ -169,6 +180,10 @@
 			default="1"
 			filter="int">
 		</field>
+
+		<!--CAMPO PARA INFORMAR O STATUS DO REGISTRO.-->
+		<!--ELE ESTÁ OCULTO E DEFINIDO O VALOR PADRÃO COMO '1' (PUBLICADO).-->
+		<field name="published" type="hidden" default="1" />
 
 	</fieldset>
 

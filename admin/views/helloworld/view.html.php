@@ -28,6 +28,8 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 
 		//OBTER O FORMULÁRIO DO MODELO.
 		$this->formulario = $this->get('Form');
+
+		//OBTER OS REGISTROS.
 		$this->items = $this->get('Item');
 
 		//AQUI SERÁ A VARIÁVEL RESPONSÁVEL POR CARREGAR SCRIPTS DO PROJETO.

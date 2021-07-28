@@ -27,6 +27,8 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 	 * 
 	 * ESSE MÉTODO TAMBÉM ESTÁ SENDO USADO PARA PREENCHER PREVIAMENTE AS ASSOCIAÇÕES.
 	 * 
+	 * TAMBÉM ESSE MÉTODO ESTÁ SENDO USADO PARA PREENCHER AS TAGS E ASSOCIAÇÕES.
+	 * 
 	 * */
 	public function getItem($pk = null){
 
@@ -43,6 +45,14 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 
 			//O MESMO CONCEITO SEGUE PARA ESTE CUJO O VALUE É 'image-info', PORÉM O TRAÇO NÃO VALE AQUI, FICANDO 'imageinfo'.
 			$item->imageinfo = $registro->toArray();
+		}
+
+		//OBTER OS ID`S DAS TAGS.
+		if(!empty($item->id)){
+
+			$tagsHelper = new JHelperTags;
+			$item->tags = $tagsHelper->getTagIds($item->id, 'com_helloworld.helloworld');
+
 		}
 
 		//CARREGAR ITENS ASSOCIADOS.

@@ -90,6 +90,72 @@ class HelloworldHelperRoute{
 
 	}
 
+	/**
+	 * 
+	 * FUNÇÃO AUXILIAR PARA GERAR O URL PARA UMA PÁGINA HELLOWORLD.
+	 * OBS: ISSO É NECESSÁRIO PARA A FUNCIONALIDADE DE TAGS.
+	 * 
+	 * */
+	public static function getHelloworldRoute($id, $catid = 0, $language = 0){
+
+		//CRIAR O LINK.
+		$link = 'index.php?option=com_helloworld&view=helloworld&id=' . $id;
+
+		if((int) $catid > 1){
+
+			$link .= '&catid=' . $catid;
+		
+		}
+
+		if($language && $language !== '*' && JLanguageMultilang::isEnabled()){
+
+			$link .= '&lang='.  $language;
+
+		}
+
+		//RETORNAR O LINK COMPLETO.
+		return $link;
+
+	}
+
+	/**
+	 * 
+	 * FUNÇÃO AUXILIAR PARA GERAR O URL PARA UM PÁGINA DE CATEGORIA DO HELLOWORLD.
+	 * OBS: ISSO É NECESSÁRIO PARA A FUNCIONALIDADE DE TAGS.
+	 * 
+	 * */
+	public static function getCategoryRoute($catid, $language = 0){
+
+		if($catid instanceof JCategoryNode){
+
+			$id = $catid->id;
+
+		}else{
+
+			$id = (int) $catid;
+
+		}
+
+		if($id < 1){
+
+			$link = '';
+
+		}else{
+
+			$link = 'index.php?option=com_helloworld&view=category&id=' . $id;
+
+			if($language && $language !== '*' && JLanguageMultilang::isEnabled()){
+
+				$link .= '&lang=' . $language;
+
+			}
+
+		}
+
+		return $link;
+
+	}
+
 }
 
 ?>
