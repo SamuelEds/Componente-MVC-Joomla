@@ -62,3 +62,9 @@ O campo para selecionar as associações fica ocultado, mas ele aparece normalme
 Se caso houver erro quando tira as associações de um registro, só voltar para o back-end do componente.
 
 =====================================================================================================
+
+- No artigo: 33 (Adicionando um feed)
+
+Para que funcione é preciso que crie dois módulos específicos: Um que apontará para o menu de categorias (mensagens) chamado "Distribuição de Feed" e outro módulo que se chama "Exibir um feed" que poderá ser apontado para qualquer página que, de preferência, não seja a página categorias. O módulo "Distribuição de feeds" exibirá um link RSS que tem que ser copiado e colado nas configurações do módulo "Exibir um feed" no campo em que pede esse link.
+
+=====================================================================================================

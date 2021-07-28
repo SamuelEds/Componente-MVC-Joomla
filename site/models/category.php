@@ -60,7 +60,7 @@ class HelloWorldModelCategory extends JModelList{
 			$catid = $this->getState('category.id');
 
 		//CRIAR A QUERY.
-			$query->select('id, texto, alias, catid, access')
+			$query->select('id, texto, alias, catid, access, description, imagem')
 			->from($db->quoteName('#__olamundo'))->where('catid = ' . $catid);
 
 		//A FUNÇÃO 'JLanguageMultilang::isEnabled()' IRÁ VERIFICAR SE O SITE ESTÁ CONFIGURADO COMO MULTILÍNGUE.
@@ -223,6 +223,15 @@ class HelloWorldModelCategory extends JModelList{
 			}
 
 			return $items;
+
+		}
+
+		//OBTER AS CATEGORIAS HELLOWORLD.
+		public function getCategory(){
+
+			$categories = JCategories::getInstance('Helloworld', array());
+			$category = $categories->get($this->getState('category.id', 'root'));
+			return $category;
 
 		}
 	}
