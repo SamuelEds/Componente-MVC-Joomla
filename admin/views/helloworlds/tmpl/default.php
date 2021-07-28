@@ -12,7 +12,13 @@ JHtml::_('formbehavior.chosen', 'select');
 $listaOrdem = $this->escape($this->state->get('list.ordering'));
 $listaDirecao = $this->escape($this->state->get('list.direction'));
 
-//CONFIGURAÇÕES DE ASSOCIAÇÕES.
+//OBTER O USUÁRIO JUNTO COM SEU ID.
+$usuario = JFactory::getUser();
+$userId = $usuario->get('id');
+
+/**
+ * CONFIGURAÇÕES DE ASSOCIAÇÕES.
+ * */
 
 //VERIFICAR SE AS CONFIGURAÇÕES DE ASSOCIAÇÕES ESTÃO HABILITADAS.
 $assoc = JLanguageAssociations::isEnabled();
@@ -156,6 +162,20 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 
 							<!--EXIBIR O TEXTO DO BANCO DE DADOS.-->
 							<td>
+
+								<!--EXIBIR UM PEQUEO BOTÃO COM CADEADO QUE IRÁ PEGAR O ID DO USUÁRIO QUE FAZER O CHECKOUT E ENVIAR PARA O BANCO DE DADOS. O JOOMLA FAZ TUDO ISSO AUTOMATICAMENTE.-->
+								<?php if($dados->checked_out){ ?>
+
+									<!--VERIFICAR SE O USUÁRIO TEM PERMISSÃO DE GERENCIAMENTO DO COMPONENTE OU VERIFICAR SE ELE É O MESMO USUÁRIO QUE FEZ O CHECKOUT.-->
+									<?php $podeFazerCheckin = $usuario->authorise('core.manage', 'com_checkin') || $dados->checkout == $userId; ?>
+
+									<!--A SAÍDA 'JHtml' SERÁ A RESPONSÁVEL PARA CRIAR O BOTÃO DE CHECKIN.-->
+									<!--NOTE O PARÂMETROS QUE SÃO: "JHtml::_('tipo_de_saida_html', 'linha_do_registro', 'usuário_que_fez_o_checkin', 'tempo_do_checkin', 'controlador', 'verificação_de_permissão');"-->
+									<?php echo JHtml::_('jgrid.checkedout', $i, $dados->editor, $dados->checked_out_time, 'helloworlds.', $podeFazerCheckin); ?>
+								
+								<?php } ?>
+
+								<!--EXIBIR OS REGISTROS.-->
 								<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_HELLOWORLD_EDIT_HELLOWORLD'); ?>"><?php echo $dados->texto; ?>
 							</a>
 

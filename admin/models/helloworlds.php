@@ -66,7 +66,7 @@ class HelloWorldModelHelloWorlds extends JModelList{
 
 		//CRIAR A CONSULTA.
 		//NOTE A FUNÇÃO 'quoteName()', ELE IRÁ DEFINIR UM APELIDO USADO NA QUERY QUE NESSE CASO É A LETRA 'a'.
-		$query->select('a.id AS id, a.texto AS texto, a.published AS published, a.created AS criado, a.imagem as imagemInfo, a.latitude as latitude, a.longitude as longitude, a.alias as alias, a.language as language')->from($db->quoteName('#__olamundo', 'a'));
+		$query->select('a.id AS id, a.texto AS texto, a.published AS published, a.created AS criado, a.checked_out AS checked_out, a.checked_out_time AS checked_out_time, a.imagem as imagemInfo, a.latitude as latitude, a.longitude as longitude, a.alias as alias, a.language as language')->from($db->quoteName('#__olamundo', 'a'));
 		//$db->setQuery((string) $query);
 
 
@@ -75,6 +75,9 @@ class HelloWorldModelHelloWorlds extends JModelList{
 		
 		//CRIAR UM JOIN COM A TABELA DE USUÁRIOS PARA OBTER O NOME DO AUTHOR.
 		$query->select($db->quoteName('u.username', 'author'))->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = a.created_by');
+
+		//CRIAR UM JOIN COM A TABELA DE USUÁRIOS PARA OBTER A PESSOA QUE FEZ O CHECKOUT NO REGISTRO.
+		$query->select($db->quoteName('u2.username', 'editor'))->join('LEFT' , $db->quoteName('#__users', 'u2') . ' ON u2.id = a.checked_out');
 
 		//CRIAR UM JOIN COM A TABELA DE IDIOMAS PARA OBTER O TÍTULO DO IDIOMA E A IMAGEM A SER EXIBIDA.
 		//OBSERVE COMO OS APELIDOS ESTÃO SENDO ESCRITOS 'l.title AS language_title' E 'l.image AS language_image'. OS APELIDOS 'language_title' E 'language_image' PRECISAM SER ESCRITOS DESTA FORMA PARA QUE A EXIBIÇÃO DA BANDEIRINHA DOS IDIOMAS POSSA FUNCIONAR.

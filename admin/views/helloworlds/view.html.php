@@ -131,6 +131,13 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 			JToolbarHelper::deleteList('','helloworlds.delete');
 		}
 
+		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE EDITAR UM ITEM.
+		if($this->canDo->get('core.edit')){
+
+			//DEFINIR UM BOTÃO PARA FAZER O CHECKIN DE UM REGISTRO.
+			JToolbarHelper::checkin('helloworlds.checkin');
+
+		}
 
 		//ADICIONAR O BOTÃO DE OPÇÕES NA BARRA DE FERRAMENTAS QUANDO O USUÁRIO ESTIVER AUTORIZADO PARA ISSO.
 		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE ADICIONAR UM NOVO ITEM.
