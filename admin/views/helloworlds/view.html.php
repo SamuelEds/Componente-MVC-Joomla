@@ -12,6 +12,28 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 	//O PARÂMETRO '$tpl' IRÁ FAZER UMA BUSCA DO MODELO DA VIEW E POR PADRÃO, ELE É NULO.
 	public function display($tpl = null){
 
+		//OBTER O APLICATIVO.
+		$aplicativo = JFactory::getApplication();
+		$contexto = 'com_helloworld.list.admin.helloworld';
+
+
+		/******************************************************************************************/
+
+		//AQUI ENCONTRA-SE VARIÁVEL CUJO NOMES NÃO PODEM SER MODIFICADOS.
+
+		//AS VARIÁVEIS '$this->filter_order' E '$this->filter_order_Dir' IRÃO ARMAZENAR A COLUNA DE CLASSIFICAÇÃO ATIVA E A DIREÇÃO DE CLASSIFICAÇÃO, RESPECTIVAMENTE. ESSAS VARÁVEIS SÃO RECUPERADAS DAS VARIÁVEIS DE ESTADO DO APLICATIVO.
+		
+		$this->filter_order = $aplicativo->getUserStateFromRequest($contexto.'filter_order', 'filter_order', 'texto', 'cmd');
+		$this->filter_order_Dir = $aplicativo->getUserStateFromRequest($contexto.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
+
+		//IMPORTANTE: O NOME DAS VARIÁVEIS DEVE OBRIGATORIAMENTE ESTAR ESCRITOS COMO MOSTRA ABAIXO.('$this->state', '$this->filterForm', '$this->activeFilters'). JOOMLA NÃO ACEITA QUALQUER TIPO DE NOMENCLATURA.
+
+		$this->state = $this->get('State');
+		$this->filterForm = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+
+		/******************************************************************************************/
+
 		//PEGAR DADOS DO MODELO.
 		//OS MÉTODOS 'getItems' E 'getPagination' JÁ SÃO DEFINIDOS AUTOMATICAMENTE NO MODELO 'JModelList'.
 		//'this->get('Items')' E '$this->get('Pagination')' SÃO FUNÇÕES NATIVAS DO MODELO USADO NO ARQUIVO DE MODELO DESTA VIEW, QUE NO CASO É 'helloworlds.php'.
@@ -29,19 +51,30 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 			return false;
 		}
 
-		//ADICIONAR BARRA DE TAREFAS NO BACK-END
+		//ADICIONAR BARRA DE TAREFAS NO BACK-END E EXIBIR O NÚMERO DE ITENS ENCONTRADOS.
 		$this->barraTarefas();
 
 		//EXIBIR A VIEW.
 		parent::display($tpl);
+
+		//SETAR CONFIGURAÇÕES PARA O DOCUMENTO.
+		$this->setDocumento();
 	}
 
 	//ADICIONAR TÍTULO E BARRA DE TAREFAS.
-	public function barraTarefas(){
+	protected function barraTarefas(){
+
+		//CRIAR UMA VARIÁVEL COM O TÍTULO PADRÃO QUE SERÁ ARMAZENADA NO TÍTULO.
+		$titulo = JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLDS');
+
+		if($this->paginacao->total){
+
+			$titulo .= '<span style="font-size: 0.5em; vertical-align: middle;">'. $this->paginacao->total .'</span>';
+
+		}
 
 		//ADICIONAR UM TÍTULO
-		//AS PALAVRAS EM MAIÚSCULAS SÃO CONTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO. 
-		JToolbarHelper::title(JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLDS'));
+		JToolbarHelper::title($titulo, 'helloworld');
 
 		//ADICIONAR UM BOTÃO DE 'Novo'.
 		//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
@@ -57,6 +90,18 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 		//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
 		//NESSE CASO O CONTROLADOR É 'helloworlds' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'delete', FICANDO 'helloworlds.delete'.
 		JToolbarHelper::deleteList('', 'helloworlds.delete');
+
+	}
+
+	//CONFIGURAR O DOCUMENTO
+	protected function setDocumento(){
+
+		//OBTER O DOCUMENTO.
+		$documento = JFactory::getDocument();
+
+		//SETAR O TÍTULO DO DOCUMENTO.
+		$documento->setTitle(JText::_('COM_HELLOWORLD_ADMINISTRATION'));
+
 
 	}
 

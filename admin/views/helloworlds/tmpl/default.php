@@ -3,11 +3,31 @@
 //IMPEDIR O ACESSO DIRETO
 defined('_JEXEC') or die('Essa página não pode ser processada diretamente.');
 
+//CARREGAR DEPENDÊNCIAS NECESSÁRIAS PARA FAZER O SISTEMA DE FILTRO E CLASSIFICAÇÃO FUNCIONAR.
+JHtml::_('formbehavior.chosen', 'select');
+
+//OBTER DADOS DAS VARIÁVEIS DE FILTRO E CLASSIFICAÇÃO.
+$listaOrdem = $this->escape($this->filter_order);
+$listDirecao = $this->escape($this->filter_order_Dir);
+
 ?>
 
 <!--FORMULÁRIO DE EXIBIÇÃO DOS DADOS.-->
 <!--PERCEBA O ROTEAMENTO NO ATRIBUTO 'action', QUE DEFINE O COMPONENTE A REDIRECIONAR E A VIEW, NESSE CASO, SERÁ REDIRECIONADO PARA ESSA MESMA VIEW, POIS O COMPONENTE TRABALHA COM 'tasks' (TAREFAS). -->
 <form action="index.php?option=com_helloworld&view=helloworlds" method="post" id="adminForm" name="adminForm">
+
+
+	<div class="row-fluid">
+		<div class="span6">
+
+			<!--EXIBIR UM TÍTULO.-->
+			<?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_FILTER'); ?>
+
+			<!--RENDERIZAR OBJETOS DE FILTRO E CLASSIFICAÇÃO.-->
+			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+
+		</div>
+	</div>
 
 	<table class="table table-stripped table-hover">
 		
@@ -22,17 +42,20 @@ defined('_JEXEC') or die('Essa página não pode ser processada diretamente.');
 				<!--O COMANDO 'grid.checkall' IRÁ CRIAR UMA CAIXA DE SELEÇÃO CAPAZ DE PODER SELECIONAR TODAS AS CAIXAS DE SELEÇÕES DISPONÍVEIS NA TELA.-->
 				<td><?php echo JHtml::_('grid.checkall'); ?></td>
 
-				<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
+				<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
+				<!--OS PARÂMETROS DA CLASSE 'JHtml' SEGUEM COMO '('grid.sort', 'Nome_de_exibição', 'campo_do_banco_de_dados', 'comando_estado_por_ordem', 'comando_estado_por_direcao')' -->
+				<!--O MESMO SEGUE-SE PARA O OUTROS DOIS COMANDOS.-->
 				<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-				<td><?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_NAME'); ?></td>
+				<td><?php echo JHtml::_('grid.sort', 'COM_HELLOWORLD_HELLOWORLDS_NAME', 'texto', $listDirecao, $listaOrdem); ?></td>
+
+				<!--EXIBIR UM TÍTULO PARA A LISTA DOS ITENS PUBLICADOS/DESPUBLICADOS.-->
+				<!--A SAÍDA HTML CONFIGURA O TÍTULO DA LISTA COMO FILTRO, PODENDO CONFIGURAR A ORDEM DE EXIBIÇÃO.-->
+				<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+				<td><?php echo JHtml::_('grid.sort', 'COM_HELLOWORLD_PUBLISHED', 'published', $listDirecao, $listaOrdem); ?></td>
 
 				<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
 				<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-				<td><?php echo JText::_('COM_HELLOWORLD_PUBLISHED'); ?></td>
-
-				<!--'JText::_();' É UMA FUNÇÃO PRÓPRIA DO JOOMLA PARA FAZER A TRADUÇÃO AUTOMÁTICA CASO O USUÁRIO QUEIRA TROCAR A LINGUAGEM DO SITE.-->
-				<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-				<td><?php echo JText::_('COM_HELLOWORLD_ID'); ?></td>
+				<td><?php echo JHtml::_('grid.sort', 'COM_HELLOWORLD_ID', 'id', $listDirecao, $listaOrdem); ?></td>
 
 			</tr>
 		</thead>
@@ -98,6 +121,10 @@ defined('_JEXEC') or die('Essa página não pode ser processada diretamente.');
 
 	<!--INPUT NECESSÁRIO PARA CONTROLAR O NÚMERO DE CAIXAS MARCADAS.-->
 	<input type="hidden" name="boxchecked" value="0" />
+
+	<!--CAIXAS QUE IRÃO INFLUENCIAR NAS AÇÕES DAS LISTAS-->
+	<input type="hidden" name="filter_order" value="<?php echo $listaOrdem; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirecao; ?>">
 
 	<!--ESSA SAÍDA HTML IRÁ CRIA UM TOKEN QUANDO O FORMULÁRIO FOR ENVIANDO, ISSO PARA PREVENIR ATAQUES CSRF.-->
 	<?php echo JHtml::_('form.token'); ?>

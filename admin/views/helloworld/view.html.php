@@ -67,6 +67,20 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 
 	}
 
+	//CONFIGURAR O DOCUMENTO NA PARTE DE EDIÇÃO.
+	protected function setDocument(){
+
+		//VERIFICAR SE UM REGISTRO ESTÁ SENDO EDITADO OU CRIADO.
+		$novo = ($this->item->id < 1);
+
+		//OBTER O DOCUMENTO.
+		$documento = JFactory::getDocument();
+
+		//SETAR O TÍTULO.
+		$documento->setTitle($novo ? JText::_('COM_HELLOWORLD_HELLOWORLD_CREATING') : JText::_('COM_HELLOWORLD_HELLOWORLD_EDITING'));
+
+	}
+
 }
 
 ?>

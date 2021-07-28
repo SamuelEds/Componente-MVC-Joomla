@@ -19,7 +19,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.9</version>
+	<version>0.0.10</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>COM_HELLOWORLD_DESCRIPTION</description>
@@ -68,11 +68,17 @@
 		<language tag="en-GB">en-GB/en-GB.com_helloworld.ini</language>
 	</languages>
 
+	<!--ADICIONAR ARQUIVOS DE MÍDIA-->
+	<media destination="com_helloworld" folder="media">
+		<filename>index.html</filename>
+		<folder>images</folder>
+	</media>
+
 	<!--CONFIGURAÇÃO DA PARTE ADMINISTRATIVA DO SITE (BACK-END)-->
 	<administration>
 		
 		<!--SEÇÃO DE MENU DE ADMINISTRAÇÃO-->
-		<menu link="index.php?option=com_helloworld">COM_HELLOWORLD_MENU</menu>
+		<menu link="index.php?option=com_helloworld" img="../media/com_helloworld/images/joao-frango-16-x-16.png">COM_HELLOWORLD_MENU</menu>
 
 		<!--INDICAR A LOCALIZAÇÃO DOS ARQUIVOS QUE SERÃO INSTALADOS NO BACK-END-->
 		<!--ATRIBUTO 'folder' É RESPONSÁVEL POR INDICAR A PASTA DOS ARQUIVOS-->

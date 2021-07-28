@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--INICIALIZAR O ARQUIVO XML-->
+
+<!--A NOMENCLATURA DO ARQUIVO DEVE OBEDECER A SEGUINTE REGRA: 'filter_<nome_do_componente>.xml' -->
+
+<!--CRIAR O FORMULÁRIO-->
+<form>
+	
+	<!--O GRUPO DE CAMPOS DEVE CONTER NO ATRIBUTO 'name' O VALOR COMO 'filter' PARA QUE O JOOMLA O RECONHEÇA COMO CAMPOS QUE SERÃO USADO PARA FILTRO.-->
+	<fields name="filter">
+		
+		<!--CONFIGURAÇÃO DO CAMPO DE PESQUISA.-->
+		<!--AS PALAVRAS EM MAIÚCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<field 
+			name="search"
+			type="text"
+			label="COM_BANNERS_SEARCH_IN_TITLE"
+			hint="JSEARCH_FILTER"
+			class="js-stools-search-string"/>
+
+		<!--CONFIGURAÇÃO DO FILTRO POR PUBLICAÇÃO.-->
+		<!--AS PALAVRAS EM MAIÚCULAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+		<field 
+			name="published"
+			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
+			description="JOPTION_SELECT_PUBLISHED_DESC"
+			onchange="this.form.submit();">
+
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+
+		</field>
+	</fields>
+
+	<!--O GRUPO DE CAMPOS DEVE CONTER NO ATRIBUTO 'name' O VALOR COMO 'list' PARA QUE O JOOMLA O RECONHEÇA COMO CAMPOS QUE SERÃO USADO PARA LISTA.-->
+	<fields name="list">
+		
+		<!--ESTE CAMPO IRÁ CRIAR UMA BOX QUE FARÁ O CONTROLE DO LIMITE DE QUANTOS ITENS PODEM SER EXIBIDOS NA TELA. POR PADRÃO, SERÁ EXIBIDO 10 ITENS.-->
+		<!--OBSERVE O ATRIBUTO 'onchange' COM O VALUE 'this.form.submit()', ISSO INIDICA UMA FUNÇÃO JAVASCRIPT, PARA CADA MUDANÇA NO VALOR DA BOX, ELE IRÁ ENVIAR O NOVO VALOR PARA O JOOMLA MANIPULAR O LIMITE DE EXIBIÇÃO DE ITENS.-->
+		<field 
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_HELLOWORLD_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+
+	</fields>
+
+</form>
