@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--INICIALIZAR O ARQUIVO XML-->
+
+<!--INICIALIZAR A LEITURA DA EXTENSÃO-->
+<!--EXTENSÃO DO TIPO "componente", METHOD "upgrade" A SER INSTALADO NA VERSÃO "3.9" DO JOOMLA-->
+<extension type="component" method="upgrade" version="3.9">
+	
+	<!--NOME DO COMPONENTE-->
+	<name>Hello World</name>
+
+	<!--DADOS DESCRITIVOS DA EXTENSÃO (PODEM SER MODIFICADOS A VONTADE)-->
+	<author>Samuel Edson</author>
+	<authorEmail>samueledshotmailgm@gmail.com</authorEmail>
+	<authorUrl>www.imcdigital.com.br</authorUrl>
+
+	<!--FOI CRIADO UMA DATA DEPOIS POIS EU RECOMECEI O TUTORIAL.-->
+	<creationDate>08/07/2021</creationDate>
+	<license>Projeto sobre licensa GNU</license>
+	<copyright>@ Copyright - Todos os direitos reservados</copyright>
+
+	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
+	<version>0.0.2</version>
+
+	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
+	<description>Aqui vai uma descrição do componente Helloworld...</description>
+
+	<!--INDICAR OS ARQUIVOS DE ATUALIZAÇÃO DO SQL-->
+	<updates>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</updates>
+
+	<!--INDICAR A LOCALIZAÇÃO DOS ARQUIVOS QUE SERÃO INSTALADOS NO FRONT-END-->
+	<!--ATRIBUTO 'folder' É RESPONSÁVEL POR INDICAR A PASTA DOS ARQUIVOS-->
+	<files folder="site">
+		
+		<!--ARQUIVOS A SER INSTALADOS-->
+		<filename>helloworld.php</filename>
+		<filename>index.html</filename>
+		<filename>controller.php</filename>
+
+		<!--PASTAS A SER INSTALADAS-->
+		<folder>views</folder>
+
+	</files>
+
+	<!--CONFIGURAÇÃO DA PARTE ADMINISTRATIVA DO SITE (BACK-END)-->
+	<administration>
+		
+		<!--SEÇÃO DE MENU DE ADMINISTRAÇÃO-->
+		<menu link="index.php?option=com_helloworld">Componente HelloWorld!</menu>
+
+		<!--INDICAR A LOCALIZAÇÃO DOS ARQUIVOS QUE SERÃO INSTALADOS NO BACK-END-->
+		<!--ATRIBUTO 'folder' É RESPONSÁVEL POR INDICAR A PASTA DOS ARQUIVOS-->
+		<files folder="admin">
+			
+			<!--ARQUIVOS A SER INSTALADOS-->
+			<filename>helloworld.php</filename>
+			<filename>index.html</filename>
+
+			<!--PASTAS A SER INSTALADAS-->
+			<folder>sql</folder>
+
+		</files>
+
+	</administration>
+
+</extension>

@@ -8,6 +8,8 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 
 > OBSERVAÇÃO IMPORTANTE: Algumas coisas não estão funcionando a partir da pasta 22, como o Ajax. Outras observações estão logo abaixo.
 
+> OBSERVAÇÃO IMPORTANTE²: COMPACTE OS ARQUIVOS COMO **com_helloworld**. Todos os componentes Joomla precisam estar compactados como **_com__**
+
 ## Copyright e licença
 
 > Projeto sobre licensa GNU.
@@ -21,9 +23,10 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 - [x] Componente 60% funcionando.
 - [x] Componente deboas de usar sem erros que compromentam sua funcionalidade principal.
 - [] Checkagem de principais falhas.
-- [] - Ajax
-- [x] - Imagem
-- [] - Modals
+	- [] Ajax
+	- [x] Imagem
+	- [] Modals
+	- [] Servidor de atualização
 - [] Componente totalmente funcional.
 
 ## Observações principais
