@@ -8,12 +8,12 @@
 	
 	<!--O GRUPO DE CAMPOS DEVE CONTER NO ATRIBUTO 'name' O VALOR COMO 'list' PARA QUE O JOOMLA O RECONHEÇA COMO CAMPOS QUE SERÃO USADO PARA LISTA.-->
 	<fields name="list">
-		
+
 		<!--CAMPO PARA CONFIGURAÇÃO DE ORDENAÇÃO DOS FILTROS.-->
 		<!--NOTE O ATRIBUTO 'name' COM O VALOR 'fullordering' INDICANDO QUE ELE SE COMPORTARÁ COMO FILTRO.-->
 		<!--OBSERVE TAMBÉM O ATRIBUTO 'type' COM O VALOR 'list' QUE INDICA UMA LISTA DE ESCOLHAS DE COMO QUER FAZER A ORDENAÇÃO.-->
 		<!--A LISTAGEM PADRÃO ESTÁ COMO 'texto' NA DIREÇÃO 'ASC'.-->
-		<field
+		<field 
 			name="fullordering"
 			type="list"
 			onchange="this.form.submit();"

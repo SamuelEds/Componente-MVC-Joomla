@@ -1,7 +1,7 @@
 <?php  
 
-//IMPEDIR O ACESSO DIRETO.
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
 /* ARQUIVO MODELO DA VIEW 'category' */
 
@@ -12,15 +12,16 @@ class HelloWorldModelCategory extends JModelList{
 
 	public function __construct($config = array()){
 
-		//CONFIGURAR QUAIS CAMPOS PODEM ATUAR COMO FILTROS.
+		//CONFIGURAR QUAIS CAMPOS PODEM ATUAR COMO FILTROS
 		if(empty($config['filter_fields'])){
 
 			$config['filter_fields'] = array('id', 'texto', 'alias');
 
 		}
 
-		//ENVIAR DADOS PARA O MODELO-PAI.
+		//ENVIAR DADOS PARA O MODELO-PAI
 		parent::__construct($config);
+
 	}
 
 	/*
@@ -30,7 +31,7 @@ class HelloWorldModelCategory extends JModelList{
 	//MÉTODO PARA PREENCHER AUTOMATICAMENTE O ESTADO DO MODELO.
 	//ESTE MÉTODO DEVE SER CHAMADO UMA VEZ POR INSTANCIAÇÃO E É PROJETADO A SER CHAMADO NA PRIMEIRA CHAMADA AO MÉTODO 'getState()', A MENOS QUE ESTEJA DEFINIDO O MODELO SINALIZADOR DE CONFIGURAÇÃO PARA IGNORAR A SOLICITAÇÃO.
 	//OBS: CHAMAR 'getState()' NESTE MÉTODO RESULTARÁ EM RECURSÃO.
-	protected function populateState($ordering = null, $direction = null){
+	public function populateState($ordering = null, $direction = null){
 
 		parent::populateState($ordering, $direction);
 
@@ -46,35 +47,100 @@ class HelloWorldModelCategory extends JModelList{
 
 	}
 
-	protected function getListQuery(){
+	//MÉTODO PARA CONSTRUIR UMA CONSULTA SQL PARA UMA LISTA DE DADOS.
+	public function getListQuery(){
 
 		//OBTER O BANCO DE DADOS.
 		$db = JFactory::getDbo();
 
-		//INICIALIZAR A QUERY.
+		//INICIALIZAR O BANCO.
 		$query = $db->getQuery(true);
 
 		//OBTER O ESTADO. ISSO FOI SETADO NA FUNÇÃO 'populateState()'
 		$catid = $this->getState('category.id');
 
-		//CONSTRUIR A CONSULTA.
-		$query->select('id, texto, alias')->from($db->quoteName('#__olamundo'))->where('catid = ' . $catid);
+		//CRIAR A QUERY.
+		$query->select('id, texto, alias, catid')->from($db->quoteName('#__olamundo'))->where('catid = ' . $catid);
+
+		//A FUNÇÃO 'JLanguageMultilang::isEnabled()' IRÁ VERIFICAR SE O SITE ESTÁ CONFIGURADO COMO MULTILÍNGUE.
+		if(JLanguageMultilang::isEnabled()){
+
+			//OBTER A TAG DO IDIOMA ATUAL.
+			$lang = JFactory::getLanguage()->getTag();
+
+			//FAZER A FILTRAGEM DE IDIOMA POR SQL.
+			$query->where('language IN("*", "' . $lang . '")');
+
+		}
 
 		//CRIAR UM SISTEMA PARA ORDENAR OS ITEMS BUSCADOS NO BANCO.
 
 		//A ORDENAÇÃO PADRÃO É PELO TEXTO...
-		$orderColuna = $this->state->get('list.ordering', 'texto');
+		$ordenarColuna = $this->state->get('list.ordering', 'texto');
 
 		//...EM SENTIDO CRESCENTE.
-		$ordemDirecao = $this->state->get('list.direction', 'ASC');
+		$ordenarDirecao = $this->state->get('list.direction', 'ASC');
 
 		//FAZER A ORDENAÇÃO NA QUERY.
-		$query->order($db->escape($orderColuna) . ' ' . $db->escape($ordemDirecao));
+		$query->order($db->escape($ordenarColuna) . ' ' . $db->escape($ordenarDirecao));
 
 		//RETORNAR A CONSULTA CONSTRUÍDA.
 		return $query;
 	}
 
+	//FUNÇÃO PERSONALIZÁVEL.
+	public function getNomeCategoria(){
+
+		//OBTER O ID DACATEGORIA ESCOLHIDA.
+		//ISTO FOI CONFIGURADO NO MÉTODO 'populateState()'.
+		$catid = $this->getState('category.id');
+
+		//CONFIGURAÇÃO DA API DE CATEGORIAS DO JOOMLA.
+		//OBTER UMA INSTÂNCIA DO OBJETO DECATEGORIES DO COMPONENTE 'Helloworld'.
+		$categorias = JCategories::getInstance('Helloworld', array());
+
+		$categoriaNode = $categorias->get($catid);
+		return $categoriaNode->title;
+
+	}
+
+	//FUNÇÃO PERSONALIZÁVEL.
+	public function getSubcategorias(){
+
+		//OBTER O ID DACATEGORIA ESCOLHIDA.
+		//ISTO FOI CONFIGURADO NO MÉTODO 'populateState()'.
+		$catid = $this->getState('category.id');
+
+		//CONFIGURAÇÃO DA API DE CATEGORIAS DO JOOMLA.
+		//OBTER UMA INSTÂNCIA DO OBJETO DECATEGORIES DO COMPONENTE 'Helloworld'.
+		//É PRECISO QUE EXISTA UM ARQUIVO NA PASTA 'helpers' COM O NOME 'Helloworld' COMO TÁ ESCRITO EM BAIXO.
+		$categorias = JCategories::getInstance('Helloworld', array());
+
+		//AQUI IRÁ RETORNAR UM OBJETO 'CategoryNode' QUE SE RELACIONA COM UMA ÚNICA CATEGORIA.
+		$categoriaNode = $categorias->get($catid);
+		$subcategorias = $categoriaNode->getChildren();
+
+		$lang = JFactory::getLanguage()->getTag();
+
+		//A FUNÇÃO 'JLanguageMultilang::isEnabled()' IRÁ VERIFICAR SE O SITE ESTÁ CONFIGURADO COMO MULTILÍNGUE.
+		if(JLanguageMultilang::isEnabled() && $lang){
+
+			$query_lang = "&lang=".$lang;
+
+		}else{
+
+			$query_lang = "";
+
+		}
+
+		foreach($subcategorias as $subcat){
+
+			$subcat->url = JRoute::_("index.php?view=category&id=" . $subcat->id . $query_lang);
+
+		}
+
+		return $subcategorias;
+	}
 }
 
 ?>

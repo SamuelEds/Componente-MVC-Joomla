@@ -1,13 +1,16 @@
 <?php  
 
-//IMPEDIR O ACESSO DIRETO
-defined('_JEXEC') or die('Essa página não pdoe ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
+//CRIAR A CLASSE DA VIEW.
+//OBSERVE O PREFIXO 'HelloWorld', ESTE É O NOME DO COMPONENTE. EM SEGUIDA A PALAVRA RESERVADA 'View' QUE INDICA O TIPO DE CLASSE USADO. LOGO DEPOIS VEM 'HelloWorlds' NOVAMENTE, CUJO É O NOME DA VIEW QUE PRECISA TAMBÉM SER O MESMO NOME DA PASTA EM QUE ESTÁ SITUADO.
+//EM SUMA, O PADRÃO É '<nome_do_componente>View<nome_da_view>'.
 class HelloWorldViewHelloWorld extends JViewLegacy{
 
-	//CRIAR VARIÁVEL PARA RECEBER O FORMULÁRIO.
-	protected $formulario = null;
-
+	//CRIAR A VARIÁVEL QUE RECEBERÁ O FORMULÁRIO DE VISUALIZAÇÃO.
+	protected $form = null;
+	
 	//CRIAR A VARIÁVEL DE REGISTROS.
 	protected $item;
 
@@ -17,141 +20,130 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 	//CRIAR A VARIÁVEL QUE RECEBERÁ AS PERMISSÕES.
 	protected $canDo;
 
+	//FUNÇÃO PADRÃO PARA EXIBIR A VIEW.
+	//O PARÂMETRO '$tpl' IRÁ FAZER UMA BUSCA DO MODELO DA VIEW E POR PADRÃO, ELE É NULO.
 	public function display($tpl = null){
 
-		//OBTER DADOS DO MODELO.
+		//OBTER OS DADOS DO MODELO PERTENCENTE A ESTA VIEW.
 
 		//OBTER O FORMULÁRIO DO MODELO.
 		$this->formulario = $this->get('Form');
+		$this->items = $this->get('Item');
 
-		//OBTER DADOS DO MODELO.
-		$this->item = $this->get('Item');
-
-		//OBTER OS SCRIPTS.
+		//AQUI SERÁ A VARIÁVEL RESPONSÁVEL POR CARREGAR SCRIPTS DO PROJETO.
 		$this->script = $this->get('Script');
 
 		//QUAIS PERMISSÕES O ATUAL USUÁRIO POSSUI?? O QUE ELE PODE FAZER?
 		//O DOIS ÚLTIMOS PARÂMETROS ESPECIFIAM A VIEW E O ID DO ITEM.
-		$this->canDo = JHelperContent::getActions('com_helloworld', 'helloworld', $this->item->id);
+		$this->canDo = JHelperContent::getActions('com_helloworld', 'helloworld', $this->items->id);
 
-		//VERIFICAR ERROS.
+		//VERIFICAR SE EXISTEM ERROS.
 		if(count($erros = $this->get('Errors')) > 0){
 
-			//LANÇAR UMA EXCEÇÃO
-			throw new Exception(implode('\n', $erros), 500);
-
-			//EXIBIR ERROS.
-			//JError::raiseError(500, implode('<br/>', $erros));
-
+			//EXIBIR OS ERROS.
+			JError::raiseError(500, implode('<br/>', $erros));
+			return false;
 		}
 
-		//EXIBIR BARRA DE TAREFAS.
-		$this->barraTarefas();
+		//ADICIONAR A BARRA DE FERRAMENTAS
+		$this->adicionarBarraFerramentas();
 
-		//EXIBIR VIEW.
+		//EXIBIR A VIEW.
 		parent::display($tpl);
+
+		//SETAR AS PROPRIEDADES DO DOCUMENTO.
+		$this->setDocumento();
 	}
 
-	//CRIAR BOTÕES DE EDIÇÃO NA BARRA DE TAREFAS
-	protected function barraTarefas(){
+	//FUNÇÃO PARA ADICIONAR BARRA DE FERRAMENTAS.
+	protected function adicionarBarraFerramentas(){
 
-		//OBTER O INPUT DA APLICAÇÃO.
-		$input = JFactory::getApplication()->input;
 
-		//VERIFICAR SE ESTÁ SENDO ADICIONADO UM NOVO ITEM (REGISTRO) OU UM ITEM (REGISTRO) EXISTENTE ESTÁ SENDO MODIFICADO.
-		$novo = ($this->item->id == 0);
+		//OCULTAR O MENU PRINCIPAL. (ESSE NEGÓCIO É CHATO, POR ISSO TÁ COMENTADO, MAS SE QUISER USA AÍ.)
+		//$aplicativo = JFactory::getApplication()->input;
+		//$aplicativo->set('hidemainmenu', true);
 
-		//CRIAR UM TÍTULO DE ACORDO COM O ITEM.
-		if($novo){
+		//VERIFICAR SE FOI ADICIONADO UM NOVO REGISTRO. (VALOR: TRUE OU FALSE).
+		$itemNovo = ($this->items->id == 0);
 
-			//VERIFICAR A PERMISSÃO PARA NOVOS REGISTROS.
+		//ADICIONAR UM TÍTULO DE 'Novo Registro' CASO FOR CRIADO UM NOVO REGISTRO OU ADICIONAR UM TÍTULO DE 'Editar Registro' CASO FOR FORNECIDO PARA EDITAR UM REGISTRO EXISTENTE CONFORME A CONDIÇÃO TERNÁRIA.
+		JToolbarHelper::title($itemNovo ? JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLD_NEW') : JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLD_EDIT'), 'helloworld');
+
+		//CRIAR ALGUMAS AÇÕES PARA REGISTROS NOVOS E EXISTENTES.
+		if($itemNovo){
+
+			//PARA NOVOS REGISTROS, VERIFIQUE A PERMISSÃO DE CRIAR UM ITEM.
 			if($this->canDo->get('core.create')){
 
-				//BOTÃO PARA DE APLICAR ALTERAÇÕES.
 				JToolbarHelper::apply('helloworld.apply', 'JTOOLBAR_APPLY');
 
-				//ADICIONAR UM BOTÃO PARA SALVAR ALTERAÇÕES.
-				//NOTE O PARÂMETRO QUE SE REFERE AO CONTROLADOR 'helloworld' E A TASK 'save', FICANDO 'helloworld.save'.
+				//EXIBIR UM BOTÃO DE SALVAR.
 				JToolbarHelper::save('helloworld.save', 'JTOOLBAR_SAVE');
-
-				//SALVAR E CRIAR NOVO REGISTRO.
 				JToolbarHelper::custom('helloworld.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-
 			}
 
-			//EXIBIR UM BOTÃO DE ABORTAR EDIÇÃO, O TÍTULO DO BOTÃO MUDARÁ DE ACORDO COM O REGISTRO (SE FOR NOVO OU EXISTENTE).
+			//EXIBIR UM BOTÃO DE CANCELAR.
 			JToolbarHelper::cancel('helloworld.cancel', 'JTOOLBAR_CANCEL');
-
-			//TÍTULO SE FOR UM NOVO REGISTRO.
-			$title = JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLD_NEW');
 
 		}else{
 
-			//VERIFICAR PERMISSÃO PARA EDITAR.
+			//PARA REGISTROS EXISTENTES, VERIFIQUE A PERMISSÃO DE EDIÇÃO.
 			if($this->canDo->get('core.edit')){
 
-				//PODE SALVAR NOVOS REGISTROS.
+				//PODE SALVAR O NOVO REGISTRO.
 				JToolbarHelper::apply('helloworld.apply', 'JTOOLBAR_APPLY');
-
-				//ADICIONAR UM BOTÃO PARA SALVAR ALTERAÇÕES.
-				//NOTE O PARÂMETRO QUE SE REFERE AO CONTROLADOR 'helloworld' E A TASK 'save', FICANDO 'helloworld.save'.
 				JToolbarHelper::save('helloworld.save', 'JTOOLBAR_SAVE');
 
-				//VERIFICAR PERMISSÃO PARA SALVAR E CRIAR NOVOREGISTRO
+				//PODE SALVAR O REGISTRO, MAS VERIFICAR SE TEM PERMISSÃO DE CRIAR NOVO REGISTRO.
 				if($this->canDo->get('core.create')){
 
 					JToolbarHelper::custom('helloworld.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 
 				}
-
 			}
 
-			//VERIFICAR PERMISSÃO PARA CRIAR NOVO REGISTRO.
+			//VERIFICAR SE TEM PERMISSÃO DE CRIAR NOVO REGISTRO.
 			if($this->canDo->get('core.create')){
 
-				//CRIAR BOTÃO DE CÓPIA.
+				//CRIAR BOTÃO DE SALVAR E COPIAR.
 				JToolbarHelper::custom('helloworld.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
-
 			}
 
-			//TÍTULO SE FOR UM REGISTRO EXISTENTE.
-			$title = JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLD_EDIT');
-
-			//EXIBIR UM BOTÃO DE ABORTAR EDIÇÃO, O TÍTULO DO BOTÃO MUDARÁ DE ACORDO COM O REGISTRO (SE FOR NOVO OU EXISTENTE).
 			JToolbarHelper::cancel('helloworld.cancel', 'JTOOLBAR_CLOSE');
 		}
-
-
-		//ADICIONAR O TÍTULO.
-		JToolbarHelper::title($title, 'helloworld');
-
 	}
 
-	//CONFIGURAR O DOCUMENTO NA PARTE DE EDIÇÃO.
-	protected function setDocument(){
+	//MÉTODO PARA CONFIGURAR AS PROPRIEDADES DO DOCUMENTO.
+	public function setDocumento(){
 
-		//CARREGAR AS DEPENDÊNCIAS NECESSÁRIAS PARA O FUNCIONAMENTO DOS SCRIPTS.
+		//SAÍDAS HTML PARA CARREGAR O SCRIPT DE VALIDAÇÃO.
+		//ESSES DOIS COMANDOS SÃO ESSECIAIS, POIS PERMITEM QUE OS SCRIPTS SEJAM CARREGADOS PRIMEIRO DO QUE OS SCRIPTS NATIVOS DO JOOMLA E QUE NÃO OCORRA ERROS DURANTE ESSE PROCESSO.
 		JHtml::_('behavior.framework');
 		JHtml::_('behavior.formvalidator');
-
-		//VERIFICAR SE UM REGISTRO ESTÁ SENDO EDITADO OU CRIADO.
-		$novo = ($this->item->id < 1);
+		
+		//VERIFICAR SE UM ITEM NOVO FOI ADICIONADO.
+		$itemNovo = ($this->items->id == 0);
 
 		//OBTER O DOCUMENTO.
 		$documento = JFactory::getDocument();
 
-		//SETAR O TÍTULO.
-		$documento->setTitle($novo ? JText::_('COM_HELLOWORLD_HELLOWORLD_CREATING') : JText::_('COM_HELLOWORLD_HELLOWORLD_EDITING'));
-
-		//CARREGAR OS SCRIPTS NO DOCUMENTO.
+		//MUDAR O TÍTULO DO DOCUMENTO.
+		$documento->setTitle($itemNovo ? JText::_('COM_HELLOWORLD_HELLOWORLD_CREATING') : JText::_('COM_HELLOWORLD_HELLOWORLD_EDITING'));
+		
+		//ADICIONAR AO DOCUMENTO DOIS ARQUIVOS SCRIPTS.
 		$documento->addScript(JURI::root() . $this->script);
-		$documento->addScript(JURI::root() . '/administrator/components/com_helloworld/views/helloworld/submitbutton.js');
+		$documento->addScript(JURI::root() . "/administrator/components/com_helloworld"."/views/helloworld/submitbutton.js");
 
-		//CARREGAR A MENSAGEM DE ERRO NO ARQUIVO JAVASCRIPT 'submitbutton.js'.
+		//ADICIONAR TEXTO AO SCRIPT.
 		JText::script('COM_HELLOWORLD_HELLOWORLD_ERROR_UNACCEPTABLE');
 
+		/*
+			ESSA VIEW AGORA:
+			- VERIFICA SE NÃO TEM ERROS NO MODELO.
+			- ADICIONA DOIS ARQUIVOS SCRIPT.
+			- INJETA TRADUÇÃO DE JAVASCRIPT USANDO O COMANDO 'JText::script()'.
+		*/
 	}
-
 }
 
 ?>

@@ -1,37 +1,25 @@
 <?php  
 
-//IMEPDIR O ACESSO DIRETO.
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
 //IMPORTAR O ARQUIVO 'route.php' E FAZER COM QUE SEJA UTILIZÁVEL A CLASSE 'HelloworldHelperRoute'.
 //É ASSIM QUE TAMBÉM UTILIZAMOS OUTRAS CLASSE COMO 'JFactory', 'JRegistry', ENTRE OUTROS.
-JLoader::register('HelloWorldHelperRoute', JPATH_ROOT . '/components/com_helloworld/helpers/route.php');
+JLoader::register('HelloworldHelperRoute', JPATH_ROOT . '/components/com_helloworld/helpers/route.php');
 
 //ARQUIVO QUE SERÁ O MODELO DA VIEW 'helloworld'.
 //OBSERVE QUE O NOME DO ARQUIVO DO MODELO PRECISA SER O MESMO DA VIEW, QUE NESSE CASO É 'helloworld'.
 
-//CLASSE DO MODELO A SER UTILIZADO, NESSE CASO ESTÁ SENDO UTILIZADO O MODELO 'JModelItem' PARA A VIEW 'helloworld', EXISTEM TAMBÉM OUTROS TIPOS DE DE MODELOS.
+//CLASSE DO MODELO A SER UTILIZADO, NESSE CASO ESTÁ SENDO UTILIZADO O MODELO 'JModelItem' PARA A VIEW 'helloworld', EXISTEM TAMBÉM OUTROS TIPODE DE MODELOS.
 //OBSERVE O PREFIXO 'HelloWorld' CUJO É O MESMO NOME DO COMPONENTE. E O SUFIXO 'HelloWorld' QUE PRECISA SER O MESMO NOME DO ARQUIVO DO MODELO.
 //LOGO, A NOMENCLATURA DEVE SER <nome_do_componente>Model<nome_do_modelo>.
 class HelloWorldModelHelloWorld extends JModelItem{
-
-	//CRIANDO UMA VARIÁVEL PARA OBTER A MENSAGEM.
+	
+	//CRIAR UMA VARÁVEL PROTEGIDA.
 	protected $mensagem;
 
-	//MÉTODO PARA PREENCHER AUTOMATICAMENTE O ESTADO DO MODELO.
-	//ESTE MÉTODO DEVE SER CHAMADO UMA VEZ POR INSTANCIAÇÃO E É PROJETADO A SER CHAMADO NA PRIMEIRA CHAMADA AO MÉTODO 'getState()', A MENOS QUE ESTEJA DEFINIDO O MODELO SINALIZADOR DE CONFIGURAÇÃO PARA IGNORAR A SOLICITAÇÃO.
-	//OBS: CHAMAR 'getState()' NESTE MÉTODO RESULTARÁ EM RECURSÃO.
-	protected function populateState(){
-
-		//PEGA O ID DA MENSAGEM
-		$id = JFactory::getApplication()->input->get('opcao', null, 'INT');
-		$this->setState('message.id', $id);
-
-		//CARREGAR PARÂMETROS
-		$this->setState('params', JFactory::getApplication()->getParams());
-		parent::populateState();
-
-	}
+	//CRIAR UMA VARIÁVEL PROTEGIDA PARA ITEM DE OBJETO.
+	protected $item;
 
 	//MÉTODO PARA OBTER UMA TABELA.
 	//'$type' - NOME DA TABELA.
@@ -42,13 +30,29 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 		//RETORNAR A FUNÇÃO JTABLE COM OS PARÂMETROS PADRÕES.
 		return JTable::getInstance($type, $prefix, $config);
-
 	}
 
+	//MÉTODO PARA PREENCHER AUTOMATICAMENTE O ESTADO DO MODELO.
+	//ESTE MÉTODO DEVE SER CHAMADO UMA VEZ POR INSTANCIAÇÃO E É PROJETADO A SER CHAMADO NA PRIMEIRA CHAMADA AO MÉTODO 'getState()', A MENOS QUE ESTEJA DEFINIDO O MODELO SINALIZADOR DE CONFIGURAÇÃO PARA IGNORAR A SOLICITAÇÃO.
+	//OBS: CHAMAR 'getState()' NESTE MÉTODO RESULTARÁ EM RECURSÃO.
+	protected function populateState(){
+
+		//PEGAR O ID DA MENSAGEM.
+		$id = JFactory::getApplication()->input->getInt('opcao', null, 'INT');
+		$this->setState('message.id', $id);
+
+		//CARREGAR OS PARÂMETROS;
+		$this->setState('params', JFactory::getApplication()->getParams());
+		parent::populateState();
+	}
+
+	//COMPREENDER A MENSAGEM ESCRITA EM JSON PARA SER EXIBIDA AO USUÁRIO.
 	public function getItem(){
 
 		if(!isset($this->item)){
 
+			//OBTER O ESTADO DO ID. LEMBRE QUE ISSO FOI DEFINIDO NA FUNÇÃO 'populateState()'.
+			//OBTER O ESTADO DO ID. LEMBRE QUE ISSO FOI DEFINIDO NA FUNÇÃO 'populateState()'.
 			if(!empty($this->getState('message.id'))){
 
 				$id = $this->getState('message.id');
@@ -65,179 +69,198 @@ class HelloWorldModelHelloWorld extends JModelItem{
 			$query = $db->getQuery(true);
 
 			//CONSTRUIR A CONSULTA.
-			//CRIAR UM JOIN COM A TABELA DE CATEGORIAS.
-			$query->select('h.texto, h.params, h.imagem AS imagem, c.title AS category, h.latitude AS latitude, h.longitude AS longitude')->from($db->quoteName('#__olamundo', 'h'))->leftJoin($db->quoteName('#__categories', 'c') . ' ON h.catid = c.id')->where('h.id = ' . (int) $id);
+			$query->select('h.texto, h.params, h.imagem as imagem, c.title AS categoria, h.latitude AS latitude, h.longitude AS longitude')->from($db->quoteName('#__olamundo', 'h'))->leftJoin('#__categories AS c ON h.catid = c.id')->where('h.id = ' . (int) $id);
+
+			//A FUNÇÃO 'JLanguageMultilang::isEnabled()' IRÁ VERIFICAR SE O SITE ESTÁ CONFIGURADO COMO MULTILÍNGUE.
+			if(JLanguageMultilang::isEnabled()){
+
+				//OBTER A TAG DO IDIOMA ATUAL.
+				$lang = JFactory::getLanguage()->getTag();
+
+				//FAZER A FILTRAGEM DE IDIOMA POR SQL.
+				$query->where('h.language IN("*", "' . $lang . '")');
+
+			}
 
 			//SETAR A QUERY.
 			$db->setQuery((string) $query);
 
-			//CASO SEJA ENCONTRADO ALGUM REGISTRO.
 			if($this->item = $db->loadObject()){
 
-				//CARREGAR A STRING JSON
-				$params = new JRegistry;
-				$params->loadString($this->item->params, 'JSON');
-				$this->item->params = $params;
+				//CARREGAR A STRING JSON.
+				$parametros = new JRegistry;
+				$parametros->loadString($this->item->params, 'JSON');
+				$this->item->params = $parametros;
 
-				//MESCLAR PARÂMETROS GLOBAIS COM PARÂMETROS DO ITEM.
-				$params = clone $this->getState('params');
-				$params->merge($this->item->params);
-				$this->item->params = $params;
+				//MESCLAR OS PARÂMETROS GLOBAIS COM OS PARÂMETROS DE ITEM.
+				//OBSERVE A PALAVRA-CHAVE 'clone' QUE FARÁ UM CLONE COM AS MESMAS PROPRIEDADES DO '$this->getState()'.
+				$parametros = clone $this->getState('params');
+				$parametros->merge($this->item->params);
+				$this->item->params = $parametros;
 
-				//CONVERTA AS INFORMAÇÕES DA IMAGEM CONDIFICADA EM JSON EM UMA MATRIZ
+				//CONVERTA AS INFORMAÇÕES DA IMAGEM, CODIFICADA EM JSON, EM UMA MATRIZ.
 				$image = new JRegistry;
 				$image->loadString($this->item->imagem, 'JSON');
 
 				//COLOCAR O ARRAY DENTRO DE UMA VARIÁVEL. (ELA SERÁ USADA NO ARQUIVO 'default.php')
 				$this->item->imageDetails = $image;
 
+			}else{
+
+				//LANÇAR UM ERRO CASO A QUERY NÃO FOR CARREGADA.
+				throw new Exception('HelloWorld não foi encontrado! :(', 404);
+
 			}
 		}
 
-		//RTORNAR TODOS OS REGISTROS.
-		return $this->item;
-		
-	}
-
-	public function getMapParams(){
-
-		if($this->item){
-
-			//OBTER A URL DE UMA DETERMINADA MENSAGEM. ISSO ESTÁ CONFIGURADO NO ARQUIVO DA CLASSE 'HelloworldHelperRoute'.
-			$url = HelloWorldHelperRoute::getAjaxURL();
-
-			$this->mapParams = array(
-
-				'latitude' => $this->item->latitude,
-				'longitude' => $this->item->longitude,
-				'zoom' => 10,
-				'texto' => $this->item->texto,
-				'ajaxurl' => $url
-			
-			);
-
-			//RETORNAR OS PARÂMETROS DEFINIDOS.
-			return $this->mapParams;
-
-		}else{
-
-			//LANÇAR UMA EXCEÇÃO.
-			throw new Exception('Sem detalhes helloworld disponíveis para o mapa.', 500);
-
-		}
-
-	}
-
-	public function getMapSearchResults($mapbounds){
-
-		try{
-
-			//OBTER O BANCO DE DADOS.
-			$db = JFactory::getDbo();
-
-			//INICIALIZAR A QUERY.
-			$query = $db->getQuery(true);
-
-			//CRIAR UMA CONSULTA.
-			$query->select('o.id, o.texto, o.latitude, o.longitude')->from($db->quoteName('#__olamundo', 'o'))->where('
-
-					o.latitude > '. $mapbounds['minlat'] .'
-					 AND o.latitude < '. $mapbounds['maxlat'] .'
-					 AND o.longitude > '. $mapbounds['minlng'] .'
-					 AND o.longitude < '. $mapbounds['maxlng'] .'
-
-				');
-
-			//SETAR A QUERY.
-			$db->setQuery($query);
-			
-			//CARREGAR OS DADOS ENCONTRADOS EM FORMATO OBJECT CLASS.
-			$resultado = $db->loadObjectList();
-
-		}catch(Exception $e){
-
-			$msg = $e->getMessage();
-
-			JFactory::getApplication()->enqueueMessage($msg, 'error');
-
-			$resultado = null;
-
-		}
-
-		//CRIAR UMA LAÇO DE REPETIÇÃO PARA ARMAZENAR A URL.
-		for ($i = 0; $i < count($resultado); $i++) {
-
-			//ARMAZENAR A URL DE CADA MENSAGEM.
-			$resultado[$i]->url = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $resultado[$i]->id);
-		}
-
 		//RETORNAR OS ITEMS ENCONTRADOS.
-		return $resultado;
-
+		return $this->item;
 	}
 
-	//UMA FUNÇÃO CRIADA A PARTIR DE UM PREFIXO 'get'.
-	/*public function getUmaMensagem($id = 1){
+	//UMA FUNÇÃO CRIADA A PARTIRI DE UM PREFIXO 'get'.
+	//POR PADRÃO, A FUNÇÃO TERÁ O VALOR 1 COMO PARÂMETRO.
+	public function getUmaMensagem($pos = 1){
 
 		if(!is_array($this->mensagem)){
-
 			$this->mensagem = array();
-
 		}
+		
+		//CASO NÃO TIVER NADA DENTRO DA VARIÁVEL, ACONTECERÁ UMA AÇÃO.
+		if(!isset($this->mensagem[$pos])){
 
-		if(!isset($this->mensagem[$id])){
-
-			//OBTENDO O APLICATIVO.
-			$aplicativo = JFactory::getApplication();
-
-			//OBTENDO O INPUT.
-			$input = $aplicativo->input;
-
-			//OBTENDO O ID ESCOLHIDO PELA SOLICITAÇÃO VIA HTTP POST.
 			//A OPÇÃO ESCOLHIDA NO TIPO DE ITEM DE MENU SERÁ OBTIDA ATRAVÉS DO COMANDO 'JFactory::getApplication()->input->getInt('opcao', 1, 'INT')', CUJO, 'getInt' INFORMA QUE O TIPO DE DADO A SER OBTIDO É DO TIPO INTEIRO, 'opcao' É O NOME DO CAMPO CUJO O VALOR ESTÁ SENDO OBTIDO, NESSE CASO ESTÁ PEGANDO O VALOR DO CAMPO 'opcao' DO ARQUIVO 'default.xml', E O VALOR '1' É O VALOR PADRÃO.
-			$id = $input->getInt('opcao', 1);
+			$opcaoEscolhida = JFactory::getApplication()->input->getInt('opcao', 1, 'INT');
 
-			//OBTER UMA INSTÂNCIA DA TABELA.
-			$tabela = $this->getTable();
+			//OBTER UMA INSTÂNCIA DA JTABLE HELLOWORLD
+			$table = $this->getTable();
 
-			//CARREGAR A MENSAGEM.
-			$tabela->load($id);
+			//CARREGAR OS DADOS DA TABELA DE ACORDO COM A OPÇÃO ESCOLHIDA
+			$table->load($opcaoEscolhida);
 
-			//ATRIBUIR A MENSAGEM.
-			$this->mensagem[$id] = $tabela->texto;
+			//ATRIBUIR A MENSAGEM PARA A VARIÁVEL;
+			$this->mensagem[$pos] = $table->texto;
+
+			//UM SWITCH CASE DE LEVES. PARA PASSAR O VALOR PARA A VARIÁVEL.
+			/*switch($opcaoEscolhida){
+				case 1:
+					$mensagem = 'Olá Mundo!!';
+					break;
+				case 2:
+					$mensagem = 'Adeus, Mundo!!';
+					break;
+				case 3:
+					$mensagem = 'Denovo Mundo??';
+					break;
+				default:
+					$mensagem = 'Olá Mundo!!';
+					break;
+				}*/
+
+			//RETORNAR O VALOR ESCOLHIDO.
+			//return $mensagem;
+			}
+
+		//RETORNAR O VALOR ESCOLHIDO.
+		return $this->mensagem[$pos];
 
 		}
 
-		//FAZENDO UM SWITCH CASE PARA INFORMAR A MENSAGEM ESCOLHIDA.
-		/*switch ($id) {
-			case 1:
-					
-				$this->mensagem = "Olá Mundo! - OPÇÃO 01";
+		public function getMapParams(){
 
-				break;
+			//SE HOUVER DADOS NO BANCO, FAZ UMA AÇÃO.
+			if($this->item){
 
-			case 2:
+				//OBTER A URL DE UMA DETERMINADA MENSAGEM. ISSO ESTÁ CONFIGURADO NO ARQUIVO DA CLASSE 'HelloworldHelperRoute'.
+				$url = HelloworldHelperRoute::getAjaxUrl();
 
-				$this->mensagem = "Até logo mundo! - OUTRA OPÇÃO";
+				//FAZER A CONFIGURAÇÃO DO JS POR MEIO DE ARRAY PARA CONFIGURAR O MAPA.
+				$this->mapParams = array(
+					'latitude' => $this->item->latitude,
+					'longitude' => $this->item->longitude,
+					'zoom' => 10,
+					'texto' => $this->item->texto,
+					'ajaxurl' => $url
+				);
 
-				break;
+				//RETORNAR O RESULTADO ENCONTRADO.
+				return $this->mapParams;
+			}else{
+
+				//CASO NÃO HOUVER DADOS NO BANCO, LANÇAR UMA EXCEÇÃO.
+				throw new Exception('Nenhum detalhe do helloworld disponível para o mapa.', 500);
+			}
 			
-			default:
+		}
+
+		public function getMapSearchResults($mapBounds){
+
+			try{
+
+				//OBTER O BANCO DE DADOS.
+				$db = JFactory::getDbo();
+
+				//INICIALIZAR A QUERY
+				$query = $db->getQuery(true);
+
+				//CONSTRUIR A SOLICITAÇÃO.
+				$query->select('o.id, o.alias, o.texto, o.catid, o.latitude, o.longitude')->from($db->quoteName('#__olamundo', 'o'))->where('
+
+						o.latitude > '. $mapBounds['minlat'] .'
+						AND o.latitude < '. $mapBounds['maxlat'] .'
+						AND o.longitude > '. $mapBounds['minlng'] .'
+						AND o.longitude < ' . $mapbounds['maxlng'] . '
+
+					');
 				
-				$this->mensagem = "Olá Mundo! - OPÇÃO 01";
+				//A FUNÇÃO 'JLanguageMultilang::isEnabled()' IRÁ VERIFICAR SE O SITE ESTÁ CONFIGURADO COMO MULTILÍNGUE.
+				if(JLanguageMultilang::isEnabled()){
 
-				break;
-		}*/
+					//OBTER A TAG DO IDIOMA ATUAL.
+					$lang = JFactory::getLanguage()->getTag();
 
-		/*return $this->mensagem[$id];
+					//FAZER A FILTRAGEM DE IDIOMA POR SQL.
+					$query->where('o.language IN("*", "' . $lang . '")');
 
-		//ATRIBUIRÁ A MENSAGEM À VARIÁVEL NA VIEW.
-		//return 'Olá mundo para o cliente - uma mensagem aleatória!';
+				}
 
-	}*/
+				//SETAR A QUERY.
+				$db->setQuery($query);
 
+				//CARREGAR OS DADOS ENCONTRADOS EM FORMATO OBJECT CLASS.
+				$resultado = $db->loadObjectList();
 
+			}catch(Exception $e){
 
-}
+				$msg = $e->getMessage();
+				JFactory::getApplication()->enqueueMessage($msg, 'error');
+				$resultado = null;
 
-?>
+			}
+
+			//A FUNÇÃO 'JLanguageMultilang::isEnabled()' IRÁ VERIFICAR SE O SITE ESTÁ CONFIGURADO COMO MULTILÍNGUE.
+			//A VARIÁVEL '$query_lang' ARMAZENARÁ A TAG DA LINGUAGEM PARA SER USADA NA FUNÇÃO 'JRoute::_()'.
+			if(JLanguageMultilang::isEnabled()){
+
+				$query_lang = "&lang=".$lang;
+
+			}else{
+
+				$query_lang = "";
+
+			}
+
+			//CRIAR UMA LAÇO DE REPETIÇÃO PARA ARMAZENAR A URL.
+			for($i = 0;$i < count($resultado);$i++){
+
+				//ARMAZENAR A URL DE CADA MENSAGEM.
+				$resultado[$i]->url = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $resultado[$i]->id . ":" . $resultado[$i]->alias . "&catid=" . $resultado[$i]->catid . $query_lang);
+			}
+
+			//RETORNAR OS ITEMS ENCONTRADOS.
+			return $resultado;
+
+		}
+
+	}
+
+	?>

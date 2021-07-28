@@ -1,25 +1,31 @@
+
+<!--ARQUIVO RESPONSÁVEL PELO CONTROLE DE EXECUÇÕES-->
+
 <?php  
 
-//IMPEDIR O ACESSO DIRETO
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
+
+//SETAR O ÍCONE DAS ESPADAS.
 
 //OBTER O DOCUMENTO.
 $documento = JFactory::getDocument();
 
-//ADICIONAR UMA DELCARAÇÃO AO DOCUMENTO.
-$documento->addStyleDeclaration('.icon-helloworld{background-image: url(../media/com_helloworld/images/joao-frango-16-x-16.png);}');
-
-//VERIFICAÇÃO DE ACESSO: VERIFICAR SE O USUÁRIO ATUAL TEM ACESSO À ADMINISTRAÇÃO DESTE COMPONENTE.
-if(!JFactory::getUser()->authorise('core.manage', 'com_helloworld')){
-
-	//LANÇAR UMA EXCEÇÃO.
-	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
-
-} 
+//ADICIONAR UM 'Style' NO APLICATIVO, ASSIM COMO SE ESTIVESSE INSERINDO UMA TAG EM UM DOCUMENTO HTML NORMAL.
+//ISSO IRÁ ADICIONAR UMA IMAGEM AO LADO DO TÍTULO DO COMPONENTE.
+$documento->addStyleDeclaration('.icon-helloworld{background-image: url(/launch/media/com_helloworld/imagens/espadas-16-x-16.png);}');
 
 //IMPORTAR O ARQUIVO AUXILIAR (ARQUIVO HELPER).
 //NOTE O COMANDO 'JPATH_COMPONENT', ELE É UMA CONSTANTE PADRÃO DO JOOMLA QUE INDICA O DIRETÓRIO DE ONDE O COMPONENTE, QUE ESTÁ SENDO RODADO NO MOMENTO (QUE NESTE CASO É O COMPONENTE HELLOWORLD), ESTÁ LOCALIZADO.
 JLoader::register('HelloWorldHelper', JPATH_COMPONENT . '/helpers/helloworld.php');
+
+//RESTRIGIR O ACESSO AO BACK-END DO COMPONENTE CASO O USUÁRIO NÃO TIVER AUTORIZAÇÃO.
+if(!JFactory::getUser()->authorise('core.manage', 'com_helloworld')){
+
+	//LANÇAR UM ERRO CASO A PERMISSÃO NÃO FOR SATISFEITA.
+	//AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.
+	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+}
 
 //INSTANCIAR O CONTROLADOR GERAL.
 //INFORMAR O NOME DO CONTROLADOR ENTRE PARÊNTESES.

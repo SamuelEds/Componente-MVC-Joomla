@@ -1,107 +1,128 @@
 
 <!--ARQUIVO VIEW PADRÃO DA PÁGINA 'category'-->
 
-<?php
+<?php  
 
-//IMPEDIR O ACESSO DIRETO
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
 /* ARQUIVO DE LAYOUT PARA EXIBIR MENSAGENS DO BANCO PERTENCENTES A UMA DETERMINADA CATEGORIA */
 
 //ESSA SAÍDA HTML É IMPORTANTE PARA FAZER O SISTEMA DE FILTRAGEM.
 JHtml::_('formbehavior.chosen', 'select');
 
-//TRABALHAR COM OBJETOS DE FILTROS.
+//TRABALHAR COM OBJETOS DE FILTROS
 $listaOrdem = $this->escape($this->state->get('list.ordering'));
-$listDirecao = $this->escape($this->state->get('list.direction'));
+$listaDirecao = $this->escape($this->state->get('list.direction'));
+
+//OBTER A TAG DE IDIOMA ATUAL.
+$lang = JFactory::getLanguage()->getTag();
+
+//VERIFICAR SE O SITE É MULTILÍNGUE.
+if(JLanguageMultilang::isEnabled() && $lang){
+
+	$query_lang = "&lang=".$lang;
+
+}else{
+	$query_lang = "";
+}
 
 ?>
 
-<form action="#" method="post" id="adminForm" name="adminForm">
+<form action="#" id="adminForm" name="adminForm">
 	
-	<div id="j-mail-container" class="span10">
+	<!--EXIBIR O NOME DA CATEGORIA.-->
+	<h1><?php echo $this->nomeCategoria; ?></h1>
+
+	<div id="j-main-container" class="span10">
 		<div class="row-fluid">
 			<div class="span10">
 
 				<!--EXIBIR OS BOTÕES DE OPÇÕES PARA CONFIGURAR OS FILTROS.-->
-				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'searchButton' => false)); ?>
-
+				<?php echo JLayoutHelper::render('joomla.searchtools.default', 
+				array('view' => $this, 'seachButton' => false)); ?>
 			</div>
 		</div>
+	</div>
 
-		<!--TABELA PARA EXIBIR OS DADOS.-->
-		<table class="table table-striped table-hover">
-			
-			<thead>
-				<tr>
+	<br>
+	<br>
+	<br>
 
-					<!--EXIBIR NUMERAÇÃO GLOBAL.-->
-					<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO JOOMLA AUTOMATICAMENTE.-->
-					<th><?php echo JText::_('JGLOBAL_NUM'); ?></th>
+	<!--TABELA PARA EXIBIR OS DADOS.-->
+	<table class="table table-striped table-hover">
+		
+		<thead>
+			<tr>
 
-					<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
-					<!--OS PARÂMETROS SIGNIFICAM: "JHtml::_('tipo_de_saida_html, 'texto_a_ser_exibido', 'campo_interagível_do_banco_de_dados', 'direção_(ASC/DESC)_de_listagem', 'ordem_de_listagem')"-->
-					<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLD_TEXTO_LABEL', 'texto', $listDirecao, $listaOrdem); ?></th>
+				<!--EXIBIR NUMERAÇÃO GLOBAL.-->
+				<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO JOOMLA AUTOMATICAMENTE.-->
+				<th><?php echo JText::_('JGLOBAL_NUM'); ?></th>
 
-					<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
-					<!--OS PARÂMETROS SIGNIFICAM: "JHtml::_('tipo_de_saida_html, 'texto_a_ser_exibido', 'campo_interagível_do_banco_de_dados', 'direção_(ASC/DESC)_de_listagem', 'ordem_de_listagem')"-->
-					<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLD_ALIAS_LABEL', 'alias', $listDirecao, $listaOrdem ); ?></th>
+				<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
+				<!--OS PARÂMETROS SIGNIFICAM: "JHtml::_('tipo_de_saida_html, 'texto_a_ser_exibido', 'campo_interagível_do_banco_de_dados', 'direção_(ASC/DESC)_de_listagem', 'ordem_de_listagem')"-->
+				<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+				<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLD_TEXTO_LABEL', 'texto', $listaDirecao, $listaOrdem); ?></th>
 
-					<!--A FUNÇÃO 'JText::_()' IRÁ TRADUZIR O TEXTO ENTRE PARÊNTESES DE ACORDO COM A TRADUÇÃO DO SITE.-->
-					<!--OS PARÂMETROS SIGNIFICAM: "JHtml::_('tipo_de_saida_html, 'texto_a_ser_exibido', 'campo_interagível_do_banco_de_dados', 'direção_(ASC/DESC)_de_listagem', 'ordem_de_listagem')"-->
-					<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<th><?php echo JText::_('COM_HELLOWORLD_HELLOWORLD_FIELD_URL_LABEL'); ?></th>
+				<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
+				<!--OS PARÂMETROS SIGNIFICAM: "JHtml::_('tipo_de_saida_html, 'texto_a_ser_exibido', 'campo_interagível_do_banco_de_dados', 'direção_(ASC/DESC)_de_listagem', 'ordem_de_listagem')"-->
+				<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+				<th width="20%"><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLD_ALIAS_LABEL', 'alias', $listaDirecao, $listaOrdem); ?></th>
 
-					<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
-					<!--OS PARÂMETROS SIGNIFICAM: "JHtml::_('tipo_de_saida_html, 'texto_a_ser_exibido', 'campo_interagível_do_banco_de_dados', 'direção_(ASC/DESC)_de_listagem', 'ordem_de_listagem')".-->
-					<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-					<th><?php echo JHtml::_('searchtools.sort', 'JGLOBAL_FIELD_ID_LABEL', 'id', $listDirecao, $listaOrdem); ?></th>
-				</tr>
-			</thead>
+				<!--A FUNÇÃO 'JText::_()' IRÁ TRADUZIR O TEXTO ENTRE PARÊNTESES DE ACORDO COM A TRADUÇÃO DO SITE.-->
+				<!--OS PARÂMETROS SIGNIFICAM: "JHtml::_('tipo_de_saida_html, 'texto_a_ser_exibido', 'campo_interagível_do_banco_de_dados', 'direção_(ASC/DESC)_de_listagem', 'ordem_de_listagem')"-->
+				<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+				<th><?php echo JText::_('COM_HELLOWORLD_HELLOWORLD_FIELD_URL_LABEL'); ?></th>
 
-			<tbody>
+				<!--ESSA SAÍDA HTML IRÁ RETORNAR UMA OPÇÃO DE PODER ORGANIZAR OS ITENS AO CLICAR EM CADA UM DOS TEXTOS.-->
+				<!--OS PARÂMETROS SIGNIFICAM: "JHtml::_('tipo_de_saida_html, 'texto_a_ser_exibido', 'campo_interagível_do_banco_de_dados', 'direção_(ASC/DESC)_de_listagem', 'ordem_de_listagem')"-->
+				<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+				<th><?php echo JHtml::_('searchtools.sort', 'COM_HELLOWORLD_HELLOWORLD_FIELD_ID_LABEL', 'id', $listaDirecao, $listaOrdem); ?></th>
+			</tr>
+		</thead>
 
-				<!-- CASO HOUVER REGISTROS NO BANCO DE DADOS FARÁ UMA AÇÃO. -->
-				<?php if(!empty($this->items)){ ?>
+		<tbody>
 
-					<!--LAÇO DE REPETIÇÃO PARA EXIBIR OS DADOS.-->
-					<?php foreach($this->items as $i => $dados){ ?>
+			<!-- CASO HOUVER REGISTROS NO BANCO DE DADOS FARÁ UMA AÇÃO. -->
+			<?php if(!empty($this->items)){ ?>
 
-						<!--CRIAR ROTEAMENTO DIRECIONANDO PARA A VIEW 'helloworld' COM O DETERMINADO ID DO DADO SENDO BUSCADO..-->
-						<?php $link = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $dados->id); ?>
+				<!--LAÇO DE REPETIÇÃO PARA EXIBIR OS DADOS.-->
+				<?php foreach($this->items as $i => $dados){ ?>
 
-						<tr>
-							
-							<!--NUMERAR CADA ITEM PARA FAZER O CONTROLE DE PAGINAÇÃO.-->
-							<td align="center"><?php echo $this->paginacao->getRowOffset($i); ?></td>
+					<!--CRIAR ROTEAMENTO DIRECIONANDO PARA A VIEW 'helloworld' COM O DETERMINADO ID DO DADO SENDO BUSCADO..-->
+					<?php $url = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $dados->id . ':' . $dados->alias . '&catid=' . $dados->catid . $query_lang); ?>
 
-							<!--EXIBIR ITEMS-->
-							<td align="center"><?php echo $dados->texto; ?></td>
-							<td align="center"><?php echo $dados->alias; ?></td>
+					<tr>
 
-							<!--EXIBIR O ID E A URL DE CADA ITEM.-->
-							<td align="center"><a href="<?php echo $link; ?>"><?php echo $link; ?></a></td>
-							<td align="center"><?php echo $dados->id; ?></td>
+						<!--NUMERAR CADA ITEM PARA FAZER O CONTROLE DE PAGINAÇÃO.-->
+						<td><?php echo $this->paginacao->getRowOffset($i); ?></td>
 
-						</tr>
+						<!--EXIBIR ITEMS-->
+						<td><?php echo $dados->texto; ?></td>
+						<td><?php echo $dados->alias; ?></td>
 
-					<?php } ?>
+						<!--EXIBIR O ID E A URL DE CADA ITEM.-->
+						<td><a href="<?php echo $url; ?>"><?php echo $url; ?></a></td>
+						<td><?php echo $dados->id; ?></td>
+					</tr>
 
 				<?php } ?>
-				
-			</tbody>
+			<?php } ?>
+		</tbody>
 
-			<tfoot>
-				
-				<tr>
-					<td colspan="5"><?php echo $this->paginacao->getListFooter(); ?></td>
-				</tr>
+		<tfoot>
+			<td colspan="5">Quantidade de itens para exibir: <?php echo $this->paginacao->getListFooter(); ?></td>
+		</tfoot>
+	</table>
 
-			</tfoot>
+	<!--EXIBIÇÃO DAS SUBCATEGORIAS.-->
+	<h1><?php echo JText::_('COM_HELLOWORLD_HEADER_SUBCATEGORIES'); ?></h1>
+	
+	<?php foreach($this->subcategorias as $subcategoria){ ?>
 
-		</table>
+		<h3><a href="<?php echo $subcategoria->url ?>"><?php echo $subcategoria->title; ?></a></h3>
+		<p><?php echo $subcategoria->description; ?></p>
 
-	</div>
+	<?php } ?>
 </form>
+

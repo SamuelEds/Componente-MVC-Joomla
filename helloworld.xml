@@ -10,21 +10,19 @@
 
 	<!--DADOS DESCRITIVOS DA EXTENSÃO (PODEM SER MODIFICADOS A VONTADE)-->
 	<author>Samuel Edson</author>
-	<authorEmail>samueledshotmailgm@gmail.com</authorEmail>
+	<authorEmail>samuelsampaio@gmail.com</authorEmail>
 	<authorUrl>www.imcdigital.com.br</authorUrl>
-
-	<!--FOI CRIADO UMA DATA DEPOIS POIS EU RECOMECEI O TUTORIAL.-->
-	<creationDate>08/07/2021</creationDate>
+	<creationDate>Maio de 2021</creationDate>
 	<license>Projeto sobre licensa GNU</license>
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.20</version>
+	<version>0.0.21</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<description>COM_HELLOWORLD_DESCRIPTION</description>
+	<description>COM_HELLOWORLD_DESCRICAO</description>
 
-	<!--É EXECUTADO NA INSTALAÇÃO/DESINSTALAÇÃO/ATUALIZAÇÃO DO COMPONENTE.-->
+	<!--EXECUTA NA INSTALAÇÃO/DESINSTALAÇÃO/ATUALIZAÇÃO-->
 	<scriptfile>script.php</scriptfile>
 
 	<!--INDICAR O ARQUIVO PARA INSTALAÇÃO DO BANCO DE DADOS-->
@@ -53,67 +51,67 @@
 	<!--INDICAR A LOCALIZAÇÃO DOS ARQUIVOS QUE SERÃO INSTALADOS NO FRONT-END-->
 	<!--ATRIBUTO 'folder' É RESPONSÁVEL POR INDICAR A PASTA DOS ARQUIVOS-->
 	<files folder="site">
-		
+
 		<!--ARQUIVOS A SER INSTALADOS-->
-		<filename>helloworld.php</filename>
 		<filename>index.html</filename>
+		<filename>helloworld.php</filename>
 		<filename>controller.php</filename>
 		<filename>router.php</filename>
 
 		<!--PASTAS A SER INSTALADAS-->
 		<folder>views</folder>
 		<folder>models</folder>
-		<folder>language</folder>
 		<folder>controllers</folder>
 		<folder>helpers</folder>
-
 	</files>
 
 	<!--CONFIGURAÇÃO PARA INSTALAÇÃO DE IDIOMAS NA PARTE DO FRONT-END-->
 	<languages folder="site/language">
 		<language tag="en-GB">en-GB/en-GB.com_helloworld.ini</language>
+		<language tag="fr-FR">fr-FR/fr-FR.com_helloworld.ini</language>
 	</languages>
 
-	<!--ADICIONAR ARQUIVOS DE MÍDIA-->
-	<media destination="com_helloworld" folder="media">
+	<!---IMPORTAR OOS ARQUIVOS DE MÍDIA-->
+	<media destination="com_helloworld" folder="midia">
 		<filename>index.html</filename>
-		<folder>images</folder>
-		<folder>js</folder>
+		<folder>imagens</folder>
 		<folder>css</folder>
+		<folder>js</folder>
 	</media>
 
 	<!--CONFIGURAÇÃO DA PARTE ADMINISTRATIVA DO SITE (BACK-END)-->
 	<administration>
-		
+
 		<!--SEÇÃO DE MENU DE ADMINISTRAÇÃO-->
-		<menu link="index.php?option=com_helloworld" img="../media/com_helloworld/images/joao-frango-16-x-16.png">COM_HELLOWORLD_MENU</menu>
+		<!--O ATRIBUTO 'img' ADICIONARÁ O ÍCONE NO MENU DE ADMINISTRAÇÃO.-->
+		<menu link="index?option=com_helloworld" img="../media/com_helloworld/imagens/dexis-16.png" >COM_HELLOWORLD_MENU</menu>
 
 		<!--INDICAR A LOCALIZAÇÃO DOS ARQUIVOS QUE SERÃO INSTALADOS NO BACK-END-->
 		<!--ATRIBUTO 'folder' É RESPONSÁVEL POR INDICAR A PASTA DOS ARQUIVOS-->
 		<files folder="admin">
-			
+
 			<!--ARQUIVOS A SER INSTALADOS-->
-			<filename>helloworld.php</filename>
 			<filename>index.html</filename>
+			<filename>helloworld.php</filename>
+			<filename>controller.php</filename>
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
 
 			<!--PASTAS A SER INSTALADAS-->
 			<folder>views</folder>
-			<folder>models</folder>
 			<folder>controllers</folder>
-			<folder>sql</folder>
+			<folder>models</folder>
 			<folder>tables</folder>
-			<folder>language</folder>
+			<folder>sql</folder>
 			<folder>helpers</folder>
 
 		</files>
-
-		<!--CONFIGURAÇÃO PARA INSTALAÇÃO DE IDIOMAS NA PARTE DO BACK-END-->
+		<!--CONFIGURAÇÃO DE INSTALAÇÃO DO IDIOMA NA PARTE DO BACK-END-->
 		<languages folder="admin/language">
 			<language tag="en-GB">en-GB/en-GB.com_helloworld.ini</language>
 			<language tag="en-GB">en-GB/en-GB.com_helloworld.sys.ini</language>
+			<language tag="fr-FR">fr-FR/fr-FR.com_helloworld.sys.ini</language>
+			<language tag="fr-FR">fr-FR/fr-FR.com_helloworld.ini</language>
 		</languages>
 
 	</administration>

@@ -6,18 +6,18 @@
 <!--CRIAR O FORMULÁRIO-->
 <!--NOTE O ATRIBUTO 'addrulepath' QUE IRÁ ADICIONAR UMA REGRA DE FORMULÁRIO. FUNCIONA COM A MESMA LÓGICA DO 'addfieldpath'-->
 <form addrulepath="/administrator/components/com_helloworld/models/rules">
-
+	
 	<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 	<!--O FIELDSET ESTÁ SENDO IDENTIFICADO PELA TAG 'name' COM O VALOR 'details'-->
 	<fieldset
 		name="details"
 		label="COM_HELLOWORLD_HELLOWORLD_DETAILS">
-		
+
 		<!--CAMPO IR DO FORMULÁRIO (ELE É ESCONDIDO). SERVE PARA INFORMAR O ID OBTIDO AUTOMATICAMENTE.-->
 		<field 
 			name="id"
 			type="hidden"/>
-
+		
 		<!--CAMPO PARA O USUÁRIO ESCREVER O TEXTO.-->
 		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 		<!--O ATRIBUTO 'validate' IRÁ ESPECIFICAR QUAL É O ARQUIVO PHP QUE FARÁ A VALIDAÇÃO NO LADO DO SERVIDOR. NESSE CASO SERÁ O ARQUIVO 'texto.php'.-->
@@ -37,14 +37,13 @@
 		<!--CAMPO PARA O USUÁRIO ESCREVER UM ALIAS PARA O TEXTO.-->
 		<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO JOOMLA AUTOMATICAMENTE.-->
 		<!--OBSERVE O ATRIBUTO 'hint' QUE EQUIVALE A UM PLACEHOLDER DE UM INPUT HTML NORMAL.-->
-		<field
+		<field 
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="40"
-			/>
+			size="40"/>
 
 		<!--CRIAR UM CAMPO PARA GERENCIAR AS CATEGORIAS DO COMPONENTE.-->
 		<!--OBSERVE O ATRIBUTO 'type' QUE FAZ COM QUE O CAMPO SEJA RECONHECIDO COMO CATEGORIA.-->
@@ -55,12 +54,11 @@
 			name="catid"
 			type="category"
 			extension="com_helloworld"
-			class="inputbox"
 			default=""
 			label="COM_HELLOWORLD_HELLOWORLD_FIELD_CATID_LABEL"
 			description="COM_HELLOWORLD_HELLOWORLD_FIELD_CATID_DESC"
 			required="true">
-
+			
 			<option value="0">JOPTION_SELECT_CATEGORY</option>
 		</field>
 
@@ -69,10 +67,10 @@
 		<fields
 			name="imageinfo"
 			label="COM_HELLOWORLD_HELLOWORLD_IMAGE_LABEL">
-			
+
 			<!--CAMPO PARA INSERIR A IMAGEM. NOTE QUE ELE POSSUI ESSA FUNCIONALIDDE GRAÇAS AO ATRIBUTO 'type' COM O VALOR 'file'.-->
 			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-			<field
+			<field 
 				name="imagem"
 				type="file"
 				label="COM_HELLOWORLD_HELLOWORLD_PICTURE_LABEL"
@@ -82,7 +80,7 @@
 
 			<!--CAMPO PARA INSERIR UM CAPTION PARA A IMAGEM.-->
 			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-			<field
+			<field 
 				name="caption"
 				type="text"
 				label="COM_HELLOWORLD_HELLOWORLD_CAPTION_LABEL"
@@ -96,13 +94,25 @@
 			<field
 				name="alt"
 				type="text"
-				label="COM_HELLOWORLD_HELLOWORLD_ALTTEXT_LABEL"
-				description="COM_HELLOWORLD_HELLOWORLD_ALTTEXT_DESC"
+				label="COM_HELLOWORLD_HELLOWORLD_ALT_LABEL"
+				description="COM_HELLOWORLD_HELLOWORLD_ALT_DESC"
 				size="40"
 				class="inputbox">
 			</field>
-
+			
 		</fields>
+
+		<!--CAMPO PARA INSERIR O ALT DA IMAGEM.-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<!--OBSERVE O ATRIBUTO 'type' COM O VALUE 'contentlanguage', FAZENDO COM QUE O JOOMLA IDENTIFIQUE ESTE CAMPO COMO SELETOR DE IDIOMAS E FARÁ AS MODIFICAÇÕES PADRÃO PARA QUE ELE FUNCIONE COMO UM.-->
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="JFIELD_LANGUAGE_DESC"
+			class="inputbox">
+			
+		</field>
 
 		<!--ESTE CAMPO IRÁ EXIBIR UMA TEXTAREA PARA QUE O USUÁRIO POSSA DIGITAR UMA DESCRIÇÃO.-->
 		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
@@ -129,20 +139,17 @@
 			validate="captcha">
 		</field>
 
-		<fields
-			name="params">
-			
-			<!--CAMPO QUE EXIBIRÁ AS OPÇÕES DE EXIBIR OU NÃO AS CATEGORIAS DE CADA MENSAGEM.-->
-			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-			<!--OBSERVE O ATRIBUTO 'hint' QUE EQUIVALE A UM 'placeholder'.-->
-			<field 
+		<!--CAMPO QUE EXIBIRÁ AS OPÇÕES DE EXIBIR OU NÃO AS CATEGORIAS DE CADA MENSAGEM.-->
+		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+		<fields>
+			<field
 				name="show_category"
 				type="list"
 				label="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_LABEL"
 				description="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_DESC"
-				default=""
+				desfault="true"
 				useglobal="true">
-
+				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 
@@ -150,4 +157,5 @@
 		</fields>
 
 	</fieldset>
+
 </form>

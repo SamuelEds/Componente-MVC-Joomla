@@ -1,14 +1,18 @@
 <?php  
 
-//IMPEDIR O ACESSO DIRETO.
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//ESSE ARQUIVO SERÁ USADO PELO SERVIDOR PARA FAZER A VERIFICAÇÃO DE VALIDAÇÃO.
 
-//CLASSE DE REGRA DE FORMULÁRIO PARA JOOMLA FRAMEWORK.
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
+
+//CLASSE PARA REGRA DE FORMULÁRIO DO FRAMEWORK JOOMLA.
 class JFormRuleTexto extends JFormRule{
 
-	//UMA EXPRESSÃO REGULAR.
-	//ISSO É TUDO QUE PRECISA NESSE MOMENTO.
-	protected $regex  = '^[^\*]+$';
+	//AS FUNÇÕES NECESSÁRIAS JÁ SÃO HERDADAS DE 'JFormRule', TUDO QUE PRECISAMOS É DE UMA EXPRESSÃO REGULAR.
+
+	//DEFININDO UMA EXPRESSÃO REGULAR.
+	protected $regex = '^[^\*]+$';
+	//protected $regex = '^[^0-9]+$';
 
 }
 

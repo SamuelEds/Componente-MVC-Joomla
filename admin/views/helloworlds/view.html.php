@@ -1,7 +1,7 @@
 <?php  
 
-//IMPEDIR O ACESSO DIRETO.
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
 //CRIAR A CLASSE DA VIEW.
 //OBSERVE O PREFIXO 'HelloWorld', ESTE É O NOME DO COMPONENTE. EM SEGUIDA A PALAVRA RESERVADA 'View' QUE INDICA O TIPO DE CLASSE USADO. LOGO DEPOIS VEM 'HelloWorlds' NOVAMENTE, CUJO É O NOME DA VIEW QUE PRECISA TAMBÉM SER O MESMO NOME DA PASTA EM QUE ESTÁ SITUADO.
@@ -12,12 +12,15 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 	//O PARÂMETRO '$tpl' IRÁ FAZER UMA BUSCA DO MODELO DA VIEW E POR PADRÃO, ELE É NULO.
 	public function display($tpl = null){
 
-		//OBTER O APLICATIVO.
+		//OBTER O APLICATIVO JOOMLA.
 		$aplicativo = JFactory::getApplication();
-		$contexto = 'com_helloworld.list.admin.helloworld';
 
+		//ARMAZENAR UM CONTEXTO PARA SER USADO DEPOIS.
+		$contexto = "helloworld.list.admin.helloworld";
 
-		/******************************************************************************************/
+		//PEGAR DADOS DO MODELO.
+
+		//------------------------------------------------------------\\
 
 		//AQUI ENCONTRA-SE VARIÁVEL CUJO NOMES NÃO PODEM SER MODIFICADOS.
 
@@ -32,94 +35,89 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		//QUAIS PERMISSÕES DE ACESSO ESTE USUÁRIO POSSUI? O QUE É QUE ELE PODE FAZER?
+		//QUAIS PERMISSÕES ESTE USUÁRIO (ATIVO NO MOMENTO) POSSUI? O QUE ELE PODE FAZER?
+		//A CLASSE 'JHelperContent' É USADA PARA ENCONTRAR AS PERMISSÕES.
 		$this->canDo = JHelperContent::getActions('com_helloworld');
 
-		/******************************************************************************************/
+		//------------------------------------------------------------\\
 
 		//PEGAR DADOS DO MODELO.
 		//OS MÉTODOS 'getItems' E 'getPagination' JÁ SÃO DEFINIDOS AUTOMATICAMENTE NO MODELO 'JModelList'.
 		//'this->get('Items')' E '$this->get('Pagination')' SÃO FUNÇÕES NATIVAS DO MODELO USADO NO ARQUIVO DE MODELO DESTA VIEW, QUE NO CASO É 'helloworlds.php'.
 		$this->items = $this->get('Items');
-
+		
 		//FUNÇÃO PARA GERENCIAR OBJETOS DE PAGINAÇÃO.
 		$this->paginacao = $this->get('Pagination');
 
-		//CHECAR OS ERROS.
-		if(count($erros = $this->get('Errors')) > 0){
-
-			//LANÇAR UMA EXCEÇÃO.
-			throw new Exception(implode('<br />', $erros), 500);
-
+		//FAZER UMA VERIFICAÇÃO DE ERRORS.
+		if(count($errors = $this->get('Errors')) > 0){
 			//INFORMAR OS ERROS NA TELA.
-			//JError::raiseError(500, implode('<br/>', $erros));
-
-			//return false;
+			JError::raiseError(500, implode('<br/>', $errors));
+			return false;
 		}
 
 		//DEFINIR O SUBMENU.
-		//PASSAR COMO PARÂMETRO QUAL SUBMENU DESEJA EXIBIR POR PADRÃO.
 		HelloWorldHelper::addSubmenu('helloworlds');
 
-		//ADICIONAR BARRA DE TAREFAS NO BACK-END E EXIBIR O NÚMERO DE ITENS ENCONTRADOS.
+		//CHAMADA PARA CRIAR A BARRA DE TAREFAS E O NÚMERO DE ITEMS ENCONTRADOS. 
 		$this->barraTarefas();
 
 		//EXIBIR A VIEW.
 		parent::display($tpl);
 
-		//SETAR CONFIGURAÇÕES PARA O DOCUMENTO.
+		//SETAR O DOCUMENTO
 		$this->setDocumento();
 	}
 
-	//ADICIONAR TÍTULO E BARRA DE TAREFAS.
+	//CRIAR UMA BARRA DE TAREFAS.
 	protected function barraTarefas(){
 
-		//CRIAR UMA VARIÁVEL COM O TÍTULO PADRÃO QUE SERÁ ARMAZENADA NO TÍTULO.
+		//ARMAZENAR O TÍTULO EM UMA VARIÁVEL.
+		//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
 		$titulo = JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLDS');
 
+		//AQUI VAI MOSTRAR O NÚMERO DE REGISTROS AO LADO DO TÍTULO.
 		if($this->paginacao->total){
-
-			$titulo .= '<span style="font-size: 0.5em; vertical-align: middle;">'. $this->paginacao->total .'</span>';
-
+			$titulo .= "<span style='font-size: 0.5em; vertical-align: middle;'>(".$this->paginacao->total.")</span>";
 		}
 
-		//ADICIONAR UM TÍTULO
-		JToolbarHelper::title($titulo, 'helloworld');
+		//OBSERVE OS ARGUMENTOS ENTRE PARÊNTESES, ELES SERVEM PARA DEFINIR UMA INSTÂNCIA USADA PELO CONTROLADOR PARA FAZER UMA AÇÃO QUANDO O USUÁRIO APERTAR NO BOTÃO.
+		//CADA PARÂMETRO É CRIADO COMO '...('nome_do_controlador.task')'.
+
+		//DEFINIR UM TÍTULO.
+		//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
+		JToolbarHelper::title($titulo);
 
 		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE CRIAR UM NOVO ITEM.
 		if($this->canDo->get('core.create')){
-
-			//ADICIONAR UM BOTÃO DE 'Novo'.
-			//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
-			//NESSE CASO O CONTROLADOR É 'helloworld' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'add', FICANDO 'helloworld.add'.
+			
+			//DEFINIR O BOTÃO DE 'Novo'.
+			//AQUI O NOME DO CONTROLADOR É 'helloworld' E A TASK É 'add'
 			JToolbarHelper::addNew('helloworld.add');
-
 		}
+
 
 		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE EDITAR UM ITEM.
 		if($this->canDo->get('core.edit')){
 
-			//ADICIONAR UM BOTÃO DE 'Editar'.
-			//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
-			//NESSE CASO O CONTROLADOR É 'helloworld' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'edit', FICANDO 'helloworld.edit'.
+			//DEFINIR UM BOTÃO PARA EDITAR.
+			//AQUI O NOME DO CONTROLADOR É 'helloworld' E A TASK É 'edit'
 			JToolbarHelper::editList('helloworld.edit');
-
 		}
 
 		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE DELETAR UM ITEM.
 		if($this->canDo->get('core.delete')){
 
-			//ADICIONAR UM BOTÃO DE 'Deletar'.
-			//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
-			//NESSE CASO O CONTROLADOR É 'helloworlds' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'delete', FICANDO 'helloworlds.delete'.
-			JToolbarHelper::deleteList('', 'helloworlds.delete');
-
+			//DEFINIR UM BOTÃO PARA DELETAR.
+			//AQUI O NOME DO CONTROLADOR É 'helloworlds' E A TASK É 'delete'
+			//AQUI USA OUTRO CONTROLADOR, POR QUE ELE É ESPECÍFICO PARA ESSA VIEW, JÁ QUE É UM CONTROLE DE EXCLUSÃO DE UM ITEM.
+			JToolbarHelper::deleteList('','helloworlds.delete');
 		}
+
 
 		//ADICIONAR O BOTÃO DE OPÇÕES NA BARRA DE FERRAMENTAS QUANDO O USUÁRIO ESTIVER AUTORIZADO PARA ISSO.
 		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE ADICIONAR UM NOVO ITEM.
 		if($this->canDo->get('core.admin')){
-
 
 			//CRIAR UMA BARRA DE PREFERÊNCIAS. (CRIAR BOTÃO DE OPÇÕES).
 			JToolbarHelper::preferences('com_helloworld');
@@ -131,16 +129,15 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 
 	}
 
-	//CONFIGURAR O DOCUMENTO
-	protected function setDocumento(){
+	//MÉTODO PARA SETAR AS PROPRIEDADES DO DOCUMENTO.
+	public function setDocumento(){
 
 		//OBTER O DOCUMENTO.
 		$documento = JFactory::getDocument();
 
-		//SETAR O TÍTULO DO DOCUMENTO.
+		//SETAR O TÍTULO DO NAVEGADOR.
+		//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
 		$documento->setTitle(JText::_('COM_HELLOWORLD_ADMINISTRATION'));
-
-
 	}
 
 }

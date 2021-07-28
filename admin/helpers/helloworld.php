@@ -1,14 +1,13 @@
 <?php  
 
-//IMPEDIRO O ACESSO DIRETO.
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
+/*
 
-/**
- * 
- * ARQUIVO AUXILIAR PARA A CRIAÇÃO DO SUBMENU.
- * 
- * */
+	ARQUIVO AUXILIAR PARA CRIAÇÃO DE SUBMENU.
+
+*/	
 
 //CLASSE ABSTRATA PARA CRIAR O CONTEÚDO AUXILIAR.
 //A NOMENCLATURA SEGUE '<nome_componente>Helper'.
@@ -22,13 +21,17 @@ abstract class HelloWorldHelper extends JHelperContent{
 		//CRIAR UMA SIDEBAR (BARRA LATERAL).
 		//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
 		JHtmlSidebar::addEntry(JText::_('COM_HELLOWORLD_SUBMENU_MESSAGES'), 'index.php?option=com_helloworld', $submenu == 'helloworlds');
+
 		JHtmlSidebar::addEntry(JText::_('COM_HELLOWORLD_SUBMENU_CATEGORIES'), 'index.php?option=com_categories&view=categories&extension=com_helloworld', $submenu == 'categories');
 
-		//DEFINIR CONFIGURAÇÕES GLOBAIS E CONFIGURAR O DOCUMENTO.
+		//SETAR PROPRIEDADES DO DOCUMENTO.
+
+		//OBTER O DOCUMENTO.
 		$documento = JFactory::getDocument();
 
-		//ADICIONAR UMA DECLARAÇÃO CSS AO DOCUMENTO.
-		$documento->addStyleDeclaration('.icon-48-helloworld{background-image: url(..media/com_helloworld/images/joao-frango-48-x-48.png);}');
+		//DEFINIR UMA DECLARAÇÃO DE ESTILO.
+		$documento->addStyleDeclaration('.icon-48-helloworld'.
+										'{background-image: url(../midia/com_helloworld/imagens/espadas-48-x-48.png);}');
 
 		//SE A VIEW QUE ESTIVER ATIVA FOR A VIEW DE CATEGORIAS.
 		if($submenu == 'categories'){
@@ -37,9 +40,7 @@ abstract class HelloWorldHelper extends JHelperContent{
 			//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
 			$documento->setTitle(JText::_('COM_HELLOWORLD_ADMINISTRATION_CATEGORIES'));
 		}
-
 	}
-
-} 
+}
 
 ?>

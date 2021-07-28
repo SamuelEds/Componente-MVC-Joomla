@@ -1,8 +1,11 @@
 <?php  
 
-//IMPEDIR O ACESSO DIRETO.
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
+//CLASSE DO MODELO A SR UTILIZADO, NESSE CASO ESTÁ SENDO UTILIZADO O MODELO 'JModelList' PARA A VIEW 'helloworld', EXISTEM TAMBÉM OUTROS TIPODE DE MODELOS.
+//OBSERVE O PREFIXO 'HelloWorld' CUJO É O MESMO NOME DO COMPONENTE. E O SUFIXO 'HelloWorld' QUE PRECISA SER O MESMO NOME DO ARQUIVO DO MODELO.
+//LOGO, A NOMENCLATURA DEVE SER <nome_do_componente>Model<nome_do_modelo>.
 class HelloWorldModelHelloWorlds extends JModelList{
 
 	//MÉTODO PARA CONFIGURAR OS CAMPOS QUE FARÃO OS FILTROS.
@@ -10,39 +13,42 @@ class HelloWorldModelHelloWorlds extends JModelList{
 	public function __construct($config = array()){
 
 		if(empty($config['filter_fields'])){
-
 			$config['filter_fields'] = array(
-
 				'id',
 				'texto',
 				'author',
 				'created',
-				'published'
-
+				'language',
+				'publicado'
 			);
-
 		}
 
+		//SETAR AS CONFIGURAÇÕES.
 		parent::__construct($config);
-
 	}
 
-	public function getListQuery(){
+	//MÉTODO PARA CONSTRUIR UMA CONSULTA SQL PARA UMA LISTA DE DADOS.
+	protected function getListQuery(){
 
-		//OBTER O BANCO DE DADOS
+		//INICIALIZAR AS VARIÁVEIS.
 		$db = JFactory::getDbo();
-
-		//INICIALIZAR A QUERY.
 		$query = $db->getQuery(true);
 
-		//CRIAR A SOLICITAÇÃO.
-		$query->select('a.id AS id, a.texto AS texto, a.published AS published, a.created AS created, a.imagem AS imageInfo, a.latitude AS latitude, a.longitude AS longitude, a.alias AS alias')->from($db->quoteName('#__olamundo', 'a'));
+		//CRIAR A CONSULTA.
+		//NOTE A FUNÇÃO 'quoteName()', ELE IRÁ DEFINIR UM APELIDO USADO NA QUERY QUE NESSE CASO É A LETRA 'a'.
+		$query->select('a.id AS id, a.texto AS texto, a.published AS published, a.created AS criado, a.imagem as imagemInfo, a.latitude as latitude, a.longitude as longitude, a.alias as alias, a.language as language')->from($db->quoteName('#__olamundo', 'a'));
+		//$db->setQuery((string) $query);
+
 
 		//CRIAR UM JOIN COM A TABELA DE CATEGORIAS.
 		$query->select($db->quoteName('c.title', 'category_title'))->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = a.catid');
-
+		
 		//CRIAR UM JOIN COM A TABELA DE USUÁRIOS PARA OBTER O NOME DO AUTHOR.
 		$query->select($db->quoteName('u.username', 'author'))->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = a.created_by');
+
+		//CRIAR UM JOIN COM A TABELA DE IDIOMAS PARA OBTER O TÍTULO DO IDIOMA E A IMAGEM A SER EXIBIDA.
+		//OBSERVE COMO OS APELIDOS ESTÃO SENDO ESCRITOS 'l.title AS language_title' E 'l.image AS language_image'. OS APELIDOS 'language_title' E 'language_image' PRECISAM SER ESCRITOS DESTA FORMA PARA QUE A EXIBIÇÃO DA BANDEIRINHA DOS IDIOMAS POSSA FUNCIONAR.
+		$query->select($db->quoteName('l.title', 'language_title') . ', ' . $db->quoteName('l.image', 'language_image'))->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON l.lang_code = a.language');
 
 		//--------------------------------------------------\\
 
@@ -56,15 +62,13 @@ class HelloWorldModelHelloWorlds extends JModelList{
 
 		//OBTER O VALOR REPASSADO NO CAMPO 'search' DO FORMULÁRIO NO ARQUIVO 'filter_helloworlds.xml'.
 		//IMPORTANTE: É OBRIGATÓRIO QUE O PARÂMETRO SEJA 'filter.search'.
-
-		//OBTER O VALOR REPASSADO NO CAMPO 'search' DO FORMULÁRIO NO ARQUIVO 'filter_helloworlds.xml'.
-		//IMPORTANTE: É OBRIGATÓRIO QUE O PARÂMETRO SEJA 'filter.search'.
 		$pesquisa = $this->getState('filter.search');
 
+		//FILTROS: LIKE/PESQUISAR
 		if(!empty($pesquisa)){
 
-			$like = $db->quote('%' . $pesquisa . '%');
-			$query->where('texto LIKE ' . $like);
+			$like = $db->quote('%'.$pesquisa.'%');
+			$query->where('texto LIKE '.$like);
 
 		}
 
@@ -72,34 +76,40 @@ class HelloWorldModelHelloWorlds extends JModelList{
 		//IMPORTANTE: É OBRIGATÓRIO QUE O PARÂMETRO SEJA 'filter.published'.
 		$publicado = $this->getState('filter.published');
 
+		//FILTRAR POR ESTADO PUBLICADO.
 		if(is_numeric($publicado)){
 
-			$query->where('a.published = ' . (int) $publicado);
+			$query->where('a.published = '.(int) $publicado);
 
-		}else if($publicado === ''){
+		}elseif($publicado === ''){
 
-			$query->where('(a.published IN(0, 1))');
+			$query->where('(a.published IN (0, 1))');
 
 		}
 
+		//FILTRAR POR IDIOMA, SE O USUÁRIO TIVER DEFINIDO ISSO NO CAMPO DE FILTRO.
+		$idioma = $this->getState('filter.language');
+		if($idioma){
+
+			$query->where('a.language = ' . $db->quote($idioma));
+
+		}
 
 		//ADICIONAR CLÁUSULA DE ORDENAÇÃO DE LISTA.
 		//PRECISA SER A MESMA VARIÁVEL OBTIDA NO ARQUIVO VIEW DESSE MODELO, QUE NESSE CASO É '$this->state'.
 
-		//AQUI, O SEGUNDO PARÂMETRO É O CAMPO PADRÃO DE ORDENAÇÃO TODA VEZ QUE O COMPONENTE FOR CARREGADO. NESSE CASO SERÁ O CAMPO PADRÃO É O 'texto'.
-		$orderColuna = $this->state->get('list.ordering', 'texto');
+		//AQUI, O SEGUNDO PARÂMETRO É O CAMPO PADRÃO DE ORDENAÇÃO TODA VEZ QUE O COMPONENTE FOR CARREGADO. NESSE CASO SERÁ O CAMPO PADRÃO É O 'id'.
+		$ordenarCol = $this->state->get('list.ordering', 'id');
 
 		//AQUI, O SEGUNDO PARÂMETRO É O A "DIREÇÃO" PADRÃO QUE DEVE SER SEGUIDO INICIALMENTE, SÃO DOIS VALORES 'ASC' E 'DESC'.
-		$ordemDirecao = $this->state->get('list.direction', 'ASC');
+		$ordenarDir = $this->state->get('list.direction', 'ASC');
 
-		//APLICAR A ORDENAÇÃO.
-		$query->order($db->escape($orderColuna) . ' ' . $db->escape($ordemDirecao));
+		//FAZER A ORDENAÇÃO.
+		$query->order($db->escape($ordenarCol).' '.$db->escape($ordenarDir)); 
 
-		//RETORNAR OS DADOS OBTIDOS.
+		//RETORNAR O RESULTADO ESPERADO.
 		return $query;
-
 	}
-
 }
 
 ?>

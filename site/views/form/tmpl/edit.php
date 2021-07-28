@@ -1,6 +1,6 @@
-<?php
+<?php  
 
-//IMPEDIR O ACCESSO DIRETO.
+//IMPEDIR O ACESSO DIRETO.
 defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
 
 //ADICIONAR JAVASCRIPT DE VALIDAÇÃO.
@@ -13,13 +13,13 @@ JHtml::_('behavior.formvalidator');
 <!--ESTÁ TAMBÉM PASSANDO UM PARÂMETRO 'layout' COM O VALOR 'edit'-->
 <!--NOTE TAMBÉM A CLASSE 'form-validade' QUE FARÁ UMA VALIDAÇÃO DO FORMULÁRIO.-->
 <!--OBSERVE O ATRIBUTO 'enctype' QUE FARÁ COM QUE SERÁ POSSÍVEL QUE O FORMULÁRIO ENVIE ARQUIVOS DE IMAGEM.-->
-<form action="<?php echo JRoute::_('index.php?option=com_helloworld&view=form&layout=edit'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
-	
+<form action="<?php echo JRoute::_('index.php?option=com_helloworld&view=form&layout=edit'); ?>" method="post" id="adminForm" name="adminForm" class="form-validate" enctype="multipart/form-data">
+
 	<div class="form-horizontal">
-		<fieldset class="adminForm">
-			
+		<fieldset class="adminform">
+
 			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-			<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_DETAILS'); ?></legend>
+			<legend><?php JText::_('COM_HELLOWORLD_LEGEND_DETAILS'); ?></legend>
 
 			<!--EXIBIR OS CAMPOS DE DETERMINADO FIELDSET-->
 			<div class="row-fluid">
@@ -29,7 +29,6 @@ JHtml::_('behavior.formvalidator');
 					<?php echo $this->formulario->renderFieldset('details'); ?>
 				</div>
 			</div>
-
 		</fieldset>
 	</div>
 
@@ -40,17 +39,13 @@ JHtml::_('behavior.formvalidator');
 			<!--EXIBIR UM BOOTÃO QUE PERMITE SALVAR AS ALTERAÇÕES.-->
 			<!--NOTE NA FUNÇÃO 'onclick' QUE AO CLIAR NESTE BOTÃO, JOOMLA IRÁ DISPARÁ O EVENTO 'submitbutton' COM O CONTROLADOR 'helloworld' E A TASK 'save'.-->
 			<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('helloworld.save');">
-				
+
 				<!--AQUI IRÁ EXIBIR UM ÍCONE PADRÃO DO JOOMLA JUNTAMENTE COM O LABEL DO BOTÃO.-->
 				<!--VEJA MAIS ÍCONES PADRÕES NO LINK: https://docs.joomla.org/J3.x:Joomla_Standard_Icomoon_Fonts -->
 				<!--AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELA SERÁ TRADUZIDA AUTOMATICAMENTE PELO JOOMLA.-->
-				<span class="icon-ok"></span> <?php echo JText::_('JSAVE'); ?>
+				<span class="icon-ok"></span><?php echo JText::_('JSAVE'); ?>
 			</button>
-
-		</div>
-
-		<div class="btn-group">
-
+			
 			<!--EXIBIR UM BOOTÃO QUE PERMITE SALVAR AS ALTERAÇÕES.-->
 			<!--NOTE NA FUNÇÃO 'onclick' QUE AO CLIAR NESTE BOTÃO, JOOMLA IRÁ DISPARÁ O EVENTO 'submitbutton' COM O CONTROLADOR 'helloworld' E A TASK 'cancel'.-->
 			<button type="button" class="btn" onclick="Joomla.submitbutton('helloworld.cancel');">
@@ -58,10 +53,13 @@ JHtml::_('behavior.formvalidator');
 				<!--AQUI IRÁ EXIBIR UM ÍCONE PADRÃO DO JOOMLA JUNTAMENTE COM O LABEL DO BOTÃO.-->
 				<!--VEJA MAIS ÍCONES PADRÕES NO LINK: https://docs.joomla.org/J3.x:Joomla_Standard_Icomoon_Fonts -->
 				<!--AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELA SERÁ TRADUZIDA AUTOMATICAMENTE PELO JOOMLA.-->
-				<span class="icon-cancel"></span> <?php echo JText::_('JCANCEL'); ?>
+				<span class="icon-cancel"></span><?php echo JText::_('JCANCEL'); ?>
 			</button>
-
 		</div>
+
+		<!--<div class="btn-group">
+
+		</div>-->
 	</div>
 
 	<!--ESTE INPUT É NECESSÁRIO PARA REALIZAR AS AÇÕES DOS BOTÕES.-->
@@ -70,5 +68,5 @@ JHtml::_('behavior.formvalidator');
 
 	<!--ESSA SAÍDA HTML SERVE PARA PROTEÇÃO, NO ENVIO DO FORMULÁRIO, CONTRA ATAQUES CSRF.-->
 	<?php echo JHtml::_('form.token'); ?>
-
+	
 </form>

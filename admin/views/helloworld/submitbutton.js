@@ -1,4 +1,5 @@
 
+
 /*
 
 	AQUI É ONDE FARÁ A VALIDAÇÃO QUANDO O BOTÃO DE SALVAR É CLICADO.
@@ -13,12 +14,11 @@
 	O PARÂMETRO 'task' IRÁ PEGAR A TAREFA QUE FOI SOLICITADA QUANDO O
 	FORMULÁRIO FOR ENVIADO. (AS TASK, NESSE CASO, SÃO 'Salvar' E 'Cancelar/Fechar').
 */
-
 Joomla.submitbutton = function(task){
 
 	//SE NENHUMA TAREFA FOR SOLICITADA, ELE NÃO FARÁ NADA.
 	if(task == ''){
-
+		
 		return false;
 
 	}else{
@@ -34,27 +34,24 @@ Joomla.submitbutton = function(task){
 			ARMAZENARÁ DA SEGUINTE FORMA: '<controlador_responsavel>.task'.
 		*/
 		var acao = task.split('.');
-		
+
 		//CASO O USUÁRIO NÃO TENHA CANCELADO/FECHADO A TELA DE EDIÇÃO, ELE FARÁ UMA AÇÃO.
-		if(acao[1] != 'cancel' || acao[1] != 'close'){
+		if(acao[1] != 'cancel' && acao[1] != 'close'){
 
 			//AQUI PEGARÁ TODOS OS FORMULÁRIOS QUE POSSUEM A CLASSE 'form-validate'
-			var forms = jQuery('form .form-validate');
-
+			var formularios = jQuery('form.form-validate');
+			
 			//O LAÇO IRÁ PERCORRER TODOS OS CAMPOS DOS FORMULÁRIOS.
-			for(var i = 0; i < forms.length; i++){
+			for(var i = 0; i < formularios.length; i++){
 
 				//IRÁ FAZER UMA VERIFICAÇÃO DE CADA CAMPO DE DETERMINADO FORMULÁRIO.
-				if(!document.formvalidator.isValid(forms[i])){
+				if(!document.formvalidator.isValid(formularios[i])){
 
 					//SE DETERMINADO CAMPO NÃO FOR VALIDO, ELE NÃO VALIDARÁ O FORMULÁRIO.
 					eValido = false;
 					break;
-
 				}
-
 			}
-
 		}
 
 		//SE O FORMULÁRIO FOR VÁLIDO, ELE FARÁ UMA AÇÃO.
@@ -73,11 +70,8 @@ Joomla.submitbutton = function(task){
 			TRADUÇÃO. É O MESMO QUE 'JText::_('ALGUM TEXTO')'.
 			
 			*/
-			alert(Joomla.JText._('COM_HELLOWORLD_HELLOWORLD_ERROR_UNACCEPTABLE', 'Alguns valores são INACEITÁVEIS!!'));
+			alert(Joomla.JText._('COM_HELLOWORLD_HELLOWORLD_ERROR_UNACCEPTABLE', 'Alguns valores são inaceitáveis.'));
 			return false;
-
 		}
-
 	}
-
 }

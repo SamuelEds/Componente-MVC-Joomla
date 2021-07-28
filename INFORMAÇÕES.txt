@@ -1,24 +1,56 @@
 ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 21
 
-OBS: PAREI NA PARTE site/views/category/tmpl/default.php
+- OBS: CONSERTAR ALGUS BUGS DE URL E A TABELA QUE TÁ LOKONA NA VIEW DE LISTA DE CATEGORIAS.
 
 =====================================================================================================
 
-- No artigo: 01 (Desenvolvendo um componente básico)
-
-Para ver funcionando no front-end, é preciso digitar na barra de endereço: 
-http://localhost/seu-site-joomla/index.php?option=com_helloworld
+OBS: DEPOIS TEM QUE CONSERTAR O AJAX NO ARTIGO 20
 
 =====================================================================================================
 
-- No artigo: 03 (Adicionando um tipo de item de menu)
+	A L G U M A - N O T A S
 
-Funcionará ao criar um menu e selecionar o componente Helloworld dentre a lista de componentes de tipos de itens de menu.
+- No Artigo: 12 (Adicionando categorias)
+
+Para fazer as configurações de categorias, é preciso que exista um arquivo '.xml' chamado 'access.xml', sem esse arquivo, os botões 'Novo', 'Editar', etc, não irão aparecer na view de categorias.
 
 =====================================================================================================
 
-- No artigo: 20 (Adicionando Ajax)
+- No Artigo: 15 (Adicionando ACL - Lista de Controle de Acesso)
 
-Tem que consertar o Ajax, o maldito não funciona :/
+Existem 2 ações que precisam ser definidas no nível do componente para que esse ofereça suporte básico à ACL:
+
+	1. Configurar (core.admin): quais grupos têm permissão para configurar as permissões de nível de componente por meio do botão 'Opções' da barra de ferramentas?
+
+	2. Componente de acesso (core.manage): quais grupos têm permissão para acessar o back-end do componente?
+
+=====================================================================================================
+
+
+- No Artigo: 17 (Adicionando um formulário no Front-End)
+
+O jeito de enviar e-mail, só deu certo com SMTP. Porém ele expõe a conta do google junto com a senha. Então para usar de modo público, é preciso ocultar a senha.
+
+
+=====================================================================================================
+
+- No Artigo: 19 (Adicionando um mapa)
+
+O Open Street Map funciounou!! \o/
+
+
+=====================================================================================================
+
+- No Artigo: 20 (Adicionando AJAX)
+
+O Ajax não funcionou. :/
+
+
+=====================================================================================================
+
+- No Artigo: 22 (Adicionando Rescurso de filtro de idioma)
+
+Para que as mensagens apareçam, a categoria/subcategoria relacionada a essa mensagem precisa ter no campo "Nota" a palavara "Ajax".
+
 
 =====================================================================================================

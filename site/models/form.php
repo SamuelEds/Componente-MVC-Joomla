@@ -1,4 +1,4 @@
-<?php  
+<?php 
 
 //IMPEDIR O ACESSO DIRETO.
 defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
@@ -21,12 +21,14 @@ class HelloWorldModelForm extends JModelAdmin{
 		return JTable::getInstance($type, $prefix, $config);
 	}
 
+	//MÉTODO PARA OBTER UM FORMULÁRIO DE REGISTRO.
+	//ESSE MÉTODO DEVE SER OBRIGATÓRIO QUANDO FOR USAR O MODELO 'JModelAdmin'.
 	public function getForm($data = array(), $loadData = true){
 
 		//OBTER O FORMULÁRIO.
 		//O MÉTODO 'loadForm()' IRÁ PESQUISAR O FORMULÁRIO NA PASTA DE FORMULÁRIOS. (EM 'site/models/forms').
 		//DEPOIS DO PARÂMETRO 'com_helloworld.form', É INSERIDO O NOME DO FORMULÁRIO NA PASTA DE FORMULÁRIOS CUJO O MODELO VAI TRABALHAR.
-		$formulario = $this->loadForm('com_helloworld.form' , 'add-form', array('control' => 'jform', 'load_data' => $loadData));
+		$formulario = $this->loadForm('com_helloworld.form', 'add-form', array('control' => 'jform', 'load_data' => $loadData));
 
 		//CASO NÃO OBTIVER NENHUM FORMULÁRIO...
 		if(empty($formulario)){
@@ -34,7 +36,7 @@ class HelloWorldModelForm extends JModelAdmin{
 			//IRÁ LANÇAR UM ERRO.
 			$erros = $this->getErrors();
 			throw new Exception(implode('\n', $erros), 500);
-
+			
 		}
 
 		//RETORNAR O FORMULÁRIO ENCONTRADO.
@@ -49,15 +51,15 @@ class HelloWorldModelForm extends JModelAdmin{
 
 		//RETORNAR OS DADOS ENCONTRADOS.
 		return $dados;
+
 	}
 
 	//MÉTODO PARA OBTER O SCRIPT QUE DEVE SER INCLUÍDO NO FORMULÁRIO.
-	//IRÁ RETORNAR O SCRIPT ASSOCIADO À VALIDAÇÃO DE TEXTO DO CAMPO HELLOWORLD.
+	//IRÁ RETORNAR O SCRIPT ASSOCIADO À VALIDAÇÃO DE TEXTO DO CAMPO HELLOWORLD
 	public function getScript(){
 
 		//IRÁ RETORNAR O SCRIPT.
-		return 'administrator/components/com_helloworld/models/forms/helloworld.js';
-
+		return 'administrator/components/com_helloworld/models/form/helloworld.js';
 	}
 
 }

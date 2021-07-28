@@ -5,19 +5,19 @@
 
 <!--CRIAR O FORMULÁRIO-->
 <form>
-	
+
 	<!--O GRUPO DE CAMPOS DEVE CONTER NO ATRIBUTO 'name' O VALOR COMO 'filter' PARA QUE O JOOMLA O RECONHEÇA COMO CAMPOS QUE SERÃO USADO PARA FILTRO.-->
 	<fields name="filter">
-		
+
 		<!--CONFIGURAÇÃO DO CAMPO DE PESQUISA.-->
 		<!--AS PALAVRAS EM MAIÚCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 		<field 
 			name="search"
 			type="text"
 			label="COM_BANNERS_SEARCH_IN_TITLE"
-			hint="JSEARCH_FILTER"
+			hint="Pesquisar"
 			class="js-stools-search-string"/>
-
+		
 		<!--CONFIGURAÇÃO DO FILTRO POR PUBLICAÇÃO.-->
 		<!--AS PALAVRAS EM MAIÚCULAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
 		<field 
@@ -26,10 +26,26 @@
 			label="JOPTION_SELECT_PUBLISHED"
 			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();">
+			
+			<option value="">JOPTION_SELECT_PUBLISHED</option>		
+		
+		</field>
 
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		<!--CONFIGURAÇÃO DO FILTRO POR IDIOMA.-->
+		<!--AS PALAVRAS EM MAIÚCULAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+		<!--OBSERVE O ATRIBUTO 'type' COM O VALUE 'contentlanguage', FAZENDO COM QUE O JOOMLA IDENTIFIQUE ESTE CAMPO COMO SELETOR DE IDIOMAS E FARÁ AS MODIFICAÇÕES PADRÃO PARA QUE ELE FUNCIONE COMO UM.-->
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JOPTION_FILTER_LANGUAGE"
+			description="JOPTION_FILTER_LANGUAGE_DESC"
+			onchange="this.form.submit();">
+			
+			<option value="">JOPTION_SELECT_LANGUAGE</option>
+			<option value="*">JALL</option>
 
 		</field>
+	
 	</fields>
 
 	<!--O GRUPO DE CAMPOS DEVE CONTER NO ATRIBUTO 'name' O VALOR COMO 'list' PARA QUE O JOOMLA O RECONHEÇA COMO CAMPOS QUE SERÃO USADO PARA LISTA.-->
@@ -42,11 +58,11 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_HELLOWORLD_LIST_FULL_ORDERING"
+			label="COM_HELLOWORLD_FULL_ORDERING"
 			description="COM_HELLOWORLD_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="texto ASC">
-			
+
 			<!--AQUI SÃO TODAS AS OPÇÕES DE FILTROS POR CADA CAMPO, DIVIDIDO EM ASC/DESC (CRESCENTE/DECRESCENTE).-->
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="texto ASC">COM_HELLOWORLD_ORDERING_ASC</option>
@@ -56,10 +72,12 @@
 			<option value="published ASC">COM_HELLOWORLD_PUBLISHED_ASC</option>
 			<option value="published DESC">COM_HELLOWORLD_PUBLISHED_DESC</option>
 			<option value="author ASC">COM_HELLOWORLD_AUTHOR_ASC</option>
-			<option value="author DESC">COM_HELLOWOLD_AUTHOR_DESC</option>
+			<option value="author DESC">COM_HELLOWORLD_AUTHOR_DESC</option>
 			<option value="created ASC">COM_HELLOWORLD_CREATED_ASC</option>
 			<option value="created DESC">COM_HELLOWORLD_CREATED_DESC</option>
-
+			<option value="language ASC">COM_HELLOWORLD_LANGUAGE_ASC</option>
+			<option value="language DESC">COM_HELLOWORLD_LANGUAGE_DESC</option>
+			
 		</field>
 		
 		<!--ESTE CAMPO IRÁ CRIAR UMA BOX QUE FARÁ O CONTROLE DO LIMITE DE QUANTOS ITENS PODEM SER EXIBIDOS NA TELA. POR PADRÃO, SERÁ EXIBIDO 10 ITENS.-->
@@ -68,12 +86,11 @@
 			name="limit"
 			type="limitbox"
 			class="input-mini"
-			default="25"
+			default="15"
 			label="COM_CONTENT_LIST_LIMIT"
-			description="COM_HELLOWORLD_LIST_LIMIT_DESC"
-			onchange="this.form.submit();"
-		/>
-
+			description="COM_HELLOWORLD_LIST_LIMIT"
+			onchange="this.form.submit();"/>
+	
 	</fields>
 
 </form>

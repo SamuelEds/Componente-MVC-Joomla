@@ -9,39 +9,35 @@
 	<!--EXIBIR UM TÍTULO PARA O TIPO DE ITEM DE MENU.-->
 	<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 	<layout title="COM_HELLOWORLD_CATEGORY_VIEW_TITLE">
-		
+
 		<!--EXIBIR UMA DESCRIÇÃO PARA O TIPO DE ITEM DE MENU.-->
 		<message>
 
 			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-			<![CDATA[COM_HELLOWORLD_HELLOWORLD_CATEGORY_VIEW_DESC]]>	
+			<![CDATA[COM_HELLOWORLD_CATEGORY_VIEW_DESC]]>
 		</message>
-
 	</layout>
 
 	<!--ADICIONANDO UMA SOLICITAÇÃO DE VARIÁVEL.-->
 	<!--OBS: É PRECISO QUE EXISTA O ATRIBUTO 'name' COM O VALUE 'request' PARA QUE A SOLICITAÇÃO FUNCIONE.-->
-	<fields
-		name="request">
+	<fields name="request">
 
-		<fieldset
-			name="request"
-			addfieldpath="/administrator/components/com_helloworld/models/fields">
-
+		<!--OBSERVE O ATRIBUTO 'addfieldpath' QUE FARÁ A REFERÊNCIA DOS CAMPOS PERSONALIZADOS.-->
+		<fieldset name="request" addfieldpath="/administrator/components/com_helloworld/models/fields">
+			
 			<!--CAMPO RESPONSÁVEL POR FAZER A SOLICITAÇÃO DA VARIÁVEL 'id'.-->
 			<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO JOOMLA AUTOMATICAMENTE.-->
 			<!--OBSERVE O 'type' COM O VALUE 'category', SIGNIFICANDO QUE ELE ACESSARÁ A LISTA DE CATEGORIAS.-->
 			<!--OBSERVE TAMBÉ O ATRIBUTO 'extension' COM O VALUE 'com_helloworld'. ISSO IRÁ FAZER COM QUE SEJA EXIBÍVEL A LISTA DE CATEGORIAS QUE FORAM CRIADOS PARA O COMPONENTE 'helloworld'.-->
-			<field
+			<field 
 				name="id"
 				type="category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
-				extension="com_helloworld" />
+				extension="com_helloworld"/>
 
 		</fieldset>
-		
-
 	</fields>
 
 </metadata>
+

@@ -1,3 +1,4 @@
+
 /*
 	ESTE ARQUIVO SERÁ O MANIPULADOR DO VALIDADOR DE FORMULÁRIOS DO JOOMLA, QUE FARÁ A
 	MANIPULAÇÃO NOS FORMULÁRIOS DE EDIÇÃO ('helloworld/edit.php') E ('site/form/tmpl/edit.php').
@@ -22,6 +23,7 @@ jQuery(function(){
 
 		//DEFINIR UMA EXPRESSÃO REGULAR COMO FORMA DE VALIDAR O CAMPO.
 		//ISSO VERIFICARÁ SE O CAMPO FOI PREENCHIDO.
+		//regex = /^[^0-9]+$/;
 		regex = /^[^\*]+$/;
 		return regex.test(value);
 

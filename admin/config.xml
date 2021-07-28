@@ -7,12 +7,11 @@
 <config>
 	
 	<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
-	<fieldset
+	<fieldset 
 		name="textos"
-		label="COM_HELLOWORLD_CONFIG_TEXTO_SETTINGS_LABEL"
-		description="COM_HELLOWORLD_CONFIG_TEXTO_SETTINGS_DESC"
-		>
-
+		label="COM_HELLOWORLD_TEXTO_SETTINGS_LABEL"
+		description="COM_HELLOWORLD_TEXTO_SETTINGS_DESC">
+		
 		<!--AQUI ESTÁ SENDO PASSADO SOMENTE UM PARÂMETRO, SE O TÍTULO DA CATEGORIA É EXIBIDO OU NÃO NO FRONT-END.-->
 		<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
 		<field
@@ -20,8 +19,8 @@
 			type="radio"
 			label="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_LABEL"
 			description="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_DESC"
-			default="0">
-			
+			default="1">
+
 			<!--AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA-->
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -76,8 +75,7 @@
 			validate="rules"
 			filter="rules"
 			component="com_helloworld"
-			section="component"
-			/>
+			section="component"/>
 
 	</fieldset>
 

@@ -1,7 +1,7 @@
-<?php  
+<?php
 
-//IMPEDIR O ACESSO DIRETO.
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//COMANDO PARA IMPEDIR O ACESSO DIRETO.
+defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 
 //AQUI VAI O CONTROLADOR CHAMADO 'helloworlds'.
 
@@ -15,14 +15,13 @@ class HelloWorldControllerHelloWorlds extends JControllerAdmin{
 	//'$config' - MATRIZ DE CONFIGURAÇÃO PARA O MODELO.
 
 	//FUNÇÃO PARA OBTER O MODELO PARA GERENCIAR ESSE CONTROLADOR.
-	public function getModel($name = 'HelloWorld', $prefix = 'HelloWorldModel', $config = array('ignore_request' => true)){
+	public function getModel($nome = 'HelloWorld', $prefixo = 'HelloWorldModel', $config = array('ignore.request' => true)){
 
 		//PASSAR O MODELO PARA UMA VARIÁVEL E AO MESMO TEMPO LANÇÁ-LA PARA O CONTROLADOR.
-		$model = parent::getModel($name, $prefix, $config);
+		$model = parent::getModel($nome, $prefixo, $config);
 
 		//RETORNAR O MODELO.
 		return $model;
-
 	}
 
 }

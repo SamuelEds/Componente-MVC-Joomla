@@ -1,7 +1,7 @@
 <?php  
 
-//IMPEDIR O ACESSO DIRETO.
-defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
+//IMPEDIR O ACESSO DIRETO
+defined('_JEXEC') or die("Essa página não pode ser acessada diretamente.");
 
 /*
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
 	
 	- ESSE TIPO DE CLASSE É USADO PARA AÇÕES DE AUTOMAÇÃO PERSONALIZADAS NO PROCESSO DE INSTALAÇÃO DO COMPONENTE.
 
-	- PARA ESPECIFICAR ESSE ARQUIVO NO MANIFESTO É PRECISO USAR O COMANDO: '<scriptfile>script.php</scriptfile>'.
+	- PARA ESPECIFICAR ESSE ARQUIVO NO MANIFESTO É PRECISO USAR O COMANDO: '<script>script.php</script>'.
 
 */
 
@@ -24,8 +24,8 @@ class com_helloWorldInstallerScript{
 	public function install($parent){
 
 		//REDIRECIONAR PARA DEETERMINADA URL.
-		$parent->getParent()->setRedirectUrl('index.php?option=com_helloworld');
-
+		$parent->getParent()->setRedirectURL('index.php?option=com_helloworld');
+	
 	}
 
 	//ESTE MÉTODO É CHAMADO DEPOIS QUE UM COMPONENTE É DESINSTALADO.
@@ -33,8 +33,7 @@ class com_helloWorldInstallerScript{
 	public function uninstall($parent){
 
 		//EXIBIR UMA MENSAGEM.
-		echo "<p>". JText::_('COM_HELLOWORLD_UNINSTALL_TEXT') ."</p>";
-
+		echo '<p> '. JText::_('COM_HELLOWORLD_UNINSTALL_TEXT') .' </p>';
 	}
 
 	//ESTE MÉTODO É CHAMADO APÓS A ATUALIZAÇÃO DE UM COMPONENTE.
@@ -42,8 +41,7 @@ class com_helloWorldInstallerScript{
 	public function update($parent){
 
 		//EXIBIR UMA MENSAGEM.
-		echo "<p>". JText::sprintf('COM_HELLOWORLD_UPDATE_TEXT', $parent->get('manifest')->version) ."</p>";
-
+		echo '<p> '. JText::sprintf('COM_HELLOWORLD_UPDATE_TEXT', $parent->get('manifest')->version) .' </p>';
 	}
 
 	//ESTE MÉTODO SERÁ EXECUTADO ANTES DE QUALQUER EXECUÇÃO DE INSTALAÇÃO DO COMPONENTE.
@@ -53,8 +51,7 @@ class com_helloWorldInstallerScript{
 	public function preflight($type, $parent){
 
 		//EXIBIR UMA MENSAGEM.
-		echo "<p>". JText::_('COM_HELLOWORLD_PREFLIGHT_'.$type.'_TEXT') ."</p>";
-
+		echo '<p> '. JText::_('COM_HELLOWORLD_PREFLIGHT_'.$type.'_TEXT') .' </p>';
 	}
 
 	//ESTE MÉTODO É EXECUTADO APÓS QUALQUER OUTRA EXECUÇÃO DE INSTALAÇÃO DO COMPONENTE.
@@ -63,10 +60,8 @@ class com_helloWorldInstallerScript{
 	public function postflight($type, $parent){
 
 		//EXIBIR UMA MENSAGEM.
-		echo "<p>". JText::_('COM_HELLOWORLD_POSTFLIGHT_'.$type.'_TEXT') ."</p>";
-
+		echo '<p> ' .JText::_('COM_HELLOWORLD_POSTFLIGHT_'.$type.'_TEXT'). ' </p>';
 	}
-
 }
 
 ?>
