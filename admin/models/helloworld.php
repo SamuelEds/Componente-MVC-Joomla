@@ -70,6 +70,17 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 
 	}
 
+	//MÉTODO PARA VERIFICAR SE ESTÁ TUDO BEM EM DELETAR UMA MENSAGEM. SUBSTITUI O MÉTODO 'JModelAdmin::canDelete()'.
+	protected function canDelete($record){
+
+		if(!empty($record->id)){
+
+			return JFactory::getUser()->authorise('core.delete', 'com_helloworld.helloworld.' . $record->id);
+
+		}
+
+	}
+
 }
 
 ?>

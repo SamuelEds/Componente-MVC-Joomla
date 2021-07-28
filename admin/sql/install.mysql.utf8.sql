@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS `#__olamundo`;
 CREATE TABLE `#__olamundo` (
 
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`asset_id` INT(10) NOT NULL DEFAULT '0',
 	`texto` VARCHAR(255) NOT NULL,
 	`published` tinyint(4) NOT NULL DEFAULT '1',
 	`catid` INT(11) NOT NULL DEFAULT '0',

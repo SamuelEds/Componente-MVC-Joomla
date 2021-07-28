@@ -89,4 +89,33 @@
 			</field>
 		</fieldset>
 	</fields>
+
+	<!--MOSTRANDO A CONFIGURAÇÃO DE PERMISSÕES NO NÍVEL DE ITEM.-->
+	<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+	<!--NOTE O ATRIBUTO 'name' COM O VALOR 'accesscontrol', SIGNIFICANDO QUE ESTE CAMPO SERÁ CONFIGURADO DE ACORDO COM O CONTORLE DE ACESSO PADRÃO DO JOOMLA.-->
+	<fieldset
+		name="accesscontrol"
+		label="COM_HELLOWORLD_FIELDSET_RULES">
+		
+		<field 
+			name="asset_id"
+			type="hidden"
+			filter="unset"
+			/>
+
+		<!--ESTE CAMPO IRÁ INFORMAR AS REGRAS.-->
+		<!--NOTE OS ATRIBUTOS 'name', 'type', 'filter', 'validate' COM O VALOR 'rules', SIGNIFICANDO QUE ELES SERÃO CONFIGURADOS DE ACORDO COM CONTROLE DE ACESSO PADRÃO DEFINIDO PELO JOOMLA.-->
+		<!--NOTE TAMBÉM O ATRIBUTO 'section' COM O VALOR 'message', ELE ESTÁ ESPECIFICANDO QUAL É A SECTION COM QUE ELE TEM QUE TRABALHAR, AS SECTIONS SÃO DEFINIDAS NO ARQUIVO 'config.xml'.-->
+		<field 
+			name="rules"
+			type="rules"
+			label="COM_HELLOWORLD_FIELD_RULES_LABEL"
+			filter="rules"
+			validate="rules"
+			class="inputbox"
+			component="com_helloworld"
+			section="message"/>
+
+	</fieldset>
+
 </form>

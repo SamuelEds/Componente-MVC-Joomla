@@ -32,6 +32,9 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
+		//QUAIS PERMISSÕES DE ACESSO ESTE USUÁRIO POSSUI? O QUE É QUE ELE PODE FAZER?
+		$this->canDo = JHelperContent::getActions('com_helloworld');
+
 		/******************************************************************************************/
 
 		//PEGAR DADOS DO MODELO.
@@ -45,10 +48,13 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 		//CHECAR OS ERROS.
 		if(count($erros = $this->get('Errors')) > 0){
 
-			//INFORMAR OS ERROS NA TELA.
-			JError::raiseError(500, implode('<br/>', $erros));
+			//LANÇAR UMA EXCEÇÃO.
+			throw new Exception(implode('<br />', $erros), 500);
 
-			return false;
+			//INFORMAR OS ERROS NA TELA.
+			//JError::raiseError(500, implode('<br/>', $erros));
+
+			//return false;
 		}
 
 		//DEFINIR O SUBMENU.
@@ -80,23 +86,48 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 		//ADICIONAR UM TÍTULO
 		JToolbarHelper::title($titulo, 'helloworld');
 
-		//ADICIONAR UM BOTÃO DE 'Novo'.
-		//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
-		//NESSE CASO O CONTROLADOR É 'helloworld' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'add', FICANDO 'helloworld.add'.
-		JToolbarHelper::addNew('helloworld.add');
+		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE CRIAR UM NOVO ITEM.
+		if($this->canDo->get('core.create')){
 
-		//ADICIONAR UM BOTÃO DE 'Editar'.
-		//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
-		//NESSE CASO O CONTROLADOR É 'helloworld' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'edit', FICANDO 'helloworld.edit'.
-		JToolbarHelper::editList('helloworld.edit');
+			//ADICIONAR UM BOTÃO DE 'Novo'.
+			//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
+			//NESSE CASO O CONTROLADOR É 'helloworld' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'add', FICANDO 'helloworld.add'.
+			JToolbarHelper::addNew('helloworld.add');
 
-		//ADICIONAR UM BOTÃO DE 'Deletar'.
-		//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
-		//NESSE CASO O CONTROLADOR É 'helloworlds' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'delete', FICANDO 'helloworlds.delete'.
-		JToolbarHelper::deleteList('', 'helloworlds.delete');
+		}
 
-		//CRIAR UMA BARRA DE PREFERÊNCIAS. (CRIAR BOTÃO DE OPÇÕES).
-		JToolbarHelper::preferences('com_helloworld');
+		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE EDITAR UM ITEM.
+		if($this->canDo->get('core.edit')){
+
+			//ADICIONAR UM BOTÃO DE 'Editar'.
+			//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
+			//NESSE CASO O CONTROLADOR É 'helloworld' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'edit', FICANDO 'helloworld.edit'.
+			JToolbarHelper::editList('helloworld.edit');
+
+		}
+
+		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE DELETAR UM ITEM.
+		if($this->canDo->get('core.delete')){
+
+			//ADICIONAR UM BOTÃO DE 'Deletar'.
+			//NOTE O PARÂMETRO QUE É PASSADO, ELE FARÁ UM GATILHO NO JAVASCRIPT DO JOOMLA INFORMANDO O CONTROLADOR E A TASK A SER FEITA.
+			//NESSE CASO O CONTROLADOR É 'helloworlds' (UM ARQUIVO QUE SERÁ ENCONTRADO NA PASTA 'controllers') E A TASK É 'delete', FICANDO 'helloworlds.delete'.
+			JToolbarHelper::deleteList('', 'helloworlds.delete');
+
+		}
+
+		//ADICIONAR O BOTÃO DE OPÇÕES NA BARRA DE FERRAMENTAS QUANDO O USUÁRIO ESTIVER AUTORIZADO PARA ISSO.
+		//VERIFICAR SE O USUÁRIO ATUAL (USUÁRIO LOGADO) TEM PERMISSÃO DE ADICIONAR UM NOVO ITEM.
+		if($this->canDo->get('core.admin')){
+
+
+			//CRIAR UMA BARRA DE PREFERÊNCIAS. (CRIAR BOTÃO DE OPÇÕES).
+			JToolbarHelper::preferences('com_helloworld');
+
+			//CRIAR UM DIVISOR NA BARRA DE TAREFAS.
+			JToolbarHelper::divider();
+		}
+
 
 	}
 

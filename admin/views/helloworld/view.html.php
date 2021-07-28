@@ -8,6 +8,15 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 	//CRIAR VARIÁVEL PARA RECEBER O FORMULÁRIO.
 	protected $formulario = null;
 
+	//CRIAR A VARIÁVEL DE REGISTROS.
+	protected $item;
+
+	//CRIAR A VARIÁVEL QUE RECEBERÁ O SCRIPT.
+	protected $script;
+
+	//CRIAR A VARIÁVEL QUE RECEBERÁ AS PERMISSÕES.
+	protected $canDo;
+
 	public function display($tpl = null){
 
 		//OBTER DADOS DO MODELO.
@@ -21,11 +30,18 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 		//OBTER OS SCRIPTS.
 		$this->script = $this->get('Script');
 
+		//QUAIS PERMISSÕES O ATUAL USUÁRIO POSSUI?? O QUE ELE PODE FAZER?
+		//O DOIS ÚLTIMOS PARÂMETROS ESPECIFIAM A VIEW E O ID DO ITEM.
+		$this->canDo = JHelperContent::getActions('com_helloworld', 'helloworld', $this->item->id);
+
 		//VERIFICAR ERROS.
 		if(count($erros = $this->get('Errors')) > 0){
 
+			//LANÇAR UMA EXCEÇÃO
+			throw new Exception(implode('\n', $erros), 500);
+
 			//EXIBIR ERROS.
-			JError::raiseError(500, implode('<br/>', $erros));
+			//JError::raiseError(500, implode('<br/>', $erros));
 
 		}
 
@@ -48,25 +64,66 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 		//CRIAR UM TÍTULO DE ACORDO COM O ITEM.
 		if($novo){
 
+			//VERIFICAR A PERMISSÃO PARA NOVOS REGISTROS.
+			if($this->canDo->get('core.create')){
+
+				//BOTÃO PARA DE APLICAR ALTERAÇÕES.
+				JToolbarHelper::apply('helloworld.apply', 'JTOOLBAR_APPLY');
+
+				//ADICIONAR UM BOTÃO PARA SALVAR ALTERAÇÕES.
+				//NOTE O PARÂMETRO QUE SE REFERE AO CONTROLADOR 'helloworld' E A TASK 'save', FICANDO 'helloworld.save'.
+				JToolbarHelper::save('helloworld.save', 'JTOOLBAR_SAVE');
+
+				//SALVAR E CRIAR NOVO REGISTRO.
+				JToolbarHelper::custom('helloworld.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+
+			}
+
+			//EXIBIR UM BOTÃO DE ABORTAR EDIÇÃO, O TÍTULO DO BOTÃO MUDARÁ DE ACORDO COM O REGISTRO (SE FOR NOVO OU EXISTENTE).
+			JToolbarHelper::cancel('helloworld.cancel', 'JTOOLBAR_CANCEL');
+
 			//TÍTULO SE FOR UM NOVO REGISTRO.
 			$title = JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLD_NEW');
 
 		}else{
 
+			//VERIFICAR PERMISSÃO PARA EDITAR.
+			if($this->canDo->get('core.edit')){
+
+				//PODE SALVAR NOVOS REGISTROS.
+				JToolbarHelper::apply('helloworld.apply', 'JTOOLBAR_APPLY');
+
+				//ADICIONAR UM BOTÃO PARA SALVAR ALTERAÇÕES.
+				//NOTE O PARÂMETRO QUE SE REFERE AO CONTROLADOR 'helloworld' E A TASK 'save', FICANDO 'helloworld.save'.
+				JToolbarHelper::save('helloworld.save', 'JTOOLBAR_SAVE');
+
+				//VERIFICAR PERMISSÃO PARA SALVAR E CRIAR NOVOREGISTRO
+				if($this->canDo->get('core.create')){
+
+					JToolbarHelper::custom('helloworld.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+
+				}
+
+			}
+
+			//VERIFICAR PERMISSÃO PARA CRIAR NOVO REGISTRO.
+			if($this->canDo->get('core.create')){
+
+				//CRIAR BOTÃO DE CÓPIA.
+				JToolbarHelper::custom('helloworld.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+
+			}
+
 			//TÍTULO SE FOR UM REGISTRO EXISTENTE.
 			$title = JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLD_EDIT');
 
+			//EXIBIR UM BOTÃO DE ABORTAR EDIÇÃO, O TÍTULO DO BOTÃO MUDARÁ DE ACORDO COM O REGISTRO (SE FOR NOVO OU EXISTENTE).
+			JToolbarHelper::cancel('helloworld.cancel', 'JTOOLBAR_CLOSE');
 		}
+
 
 		//ADICIONAR O TÍTULO.
 		JToolbarHelper::title($title, 'helloworld');
-
-		//ADICIONAR UM BOTÃO PARA SALVAR ALTERAÇÕES.
-		//NOTE O PARÂMETRO QUE SE REFERE AO CONTROLADOR 'helloworld' E A TASK 'save', FICANDO 'helloworld.save'.
-		JToolbarHelper::save('helloworld.save', 'JTOOLBAR_SAVE');
-
-		//EXIBIR UM BOTÃO DE ABORTAR EDIÇÃO, O TÍTULO DO BOTÃO MUDARÁ DE ACORDO COM O REGISTRO (SE FOR NOVO OU EXISTENTE).
-		JToolbarHelper::cancel('helloworld.cancel', $novo ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
 
 	}
 

@@ -20,4 +20,28 @@
 
 		</field>
 	</fieldset>
+
+	<!--AQUI SERÁ O CAMPO PARA CONFIGURAÇÃO DO ACL.-->
+	<!--OBSERVE O ATRIBUTO 'name' COM O VALOR 'permissions', SIGNIFICANDO QUE ESTE FIELDSET ESTÁ RECEBENDO VALORES DE CONFIGURAÇÃO DO ACL DO JOOMLA.-->
+	<!--AS LETRAS EM MAIÚSCULAS SÃO CONSTANTES PADRÃO DO JOOMLA, ELAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC">
+		
+		<!--CAMPO PARA CONFIGURAÇÃO DA ACL-->
+		<!--NOTE OS ATRIBUTOS 'type', 'name', 'validate', 'filter' QUE RECEBEM O VALOR 'rules', SIGNIFICANDO QUE ELES FICARÃO CONFIGURADOS PELO PADRÃO QUE O JOOMLA ESTABELECER PARA ESSE VALOR.-->
+		<field 
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox"
+			validate="rules"
+			filter="rules"
+			component="com_helloworld"
+			section="component"
+			/>
+
+	</fieldset>
+
 </config>
