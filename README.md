@@ -22,12 +22,12 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 - [x] Componente pelo menos 60% do tutorial.
 - [x] Componente 60% funcionando.
 - [x] Componente deboas de usar sem erros que compromentam sua funcionalidade principal.
-- [] Checkagem de principais falhas.
-	- [] Ajax
+- [ ] Checkagem de principais falhas.
+	- [ ] Ajax
 	- [x] Imagem
-	- [] Modals
-	- [] Servidor de atualização
-- [] Componente totalmente funcional.
+	- [ ] Modals
+	- [ ] Servidor de atualização
+- [ ] Componente totalmente funcional.
 
 ## Observações principais
 
