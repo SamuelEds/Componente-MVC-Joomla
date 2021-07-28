@@ -14,6 +14,10 @@ class HelloWorldTableHelloWorld extends JTableNested{
 	//'$db' É UM CONECTOR DE BANCO DE DADOS.
 	function __construct($db){
 
+		//AQUI FICA O CÓDIGO DE VERSÃO DO HISTÓRICO DE CONTEÚDO DENTRO DA CLASSE 'JTableObserverContenthistory'.
+		//ELE PROCURA UM PARÂMETRO 'com_helloworld.save_history' PARA DETERMINAR SE ELE DEVE CRIAR AS VERSÕES DE REGISTRO PARA O COMPONENTE HELLOWORLD.
+		JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'HelloWorldTableHelloWorld', array('typeAlias' => 'com_helloworld.helloworld'));
+
 		//CRIAR A TABELA.
 		//OS PARÂMETROS PASSADOS SÃO: parent::__construct('nome_tabela', 'identificador_principal', 'conector_do_banco').
 		parent::__construct('#__olamundo', 'id', $db);

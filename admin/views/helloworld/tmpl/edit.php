@@ -61,10 +61,14 @@ $tmpl = $input->getCmd('tmpl', '') === 'component' ? '&tmpl=component' : '';
 			<legend><?php echo JText::_('COM_HELLOWORLD_LEGEND_DETAILS'); ?></legend>
 
 			<div class="row-fluid">
-				<div class="span6">
+				<div class="span3">
 
 					<!--EXIBIR OS CAMPOS DE ACORDO COM O FIELDSET, NESSE CASO ESTÁ SENDO EXIBIDO O FIELDSET COM A TAG 'name' COM O VALOR 'details'.-->
 					<?php echo $this->formulario->renderFieldset('details'); ?>
+				</div>
+
+				<div class="span9">
+					<?php echo $this->formulario->getInput('description'); ?>
 				</div>
 			</div>
 

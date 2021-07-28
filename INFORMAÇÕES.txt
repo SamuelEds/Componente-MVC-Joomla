@@ -6,8 +6,6 @@ NO TÍTULO: Helloworlds MVC.
 
 =====================================================================================================
 
-OBS: O ALIAS NÃO PERMITE SALVAR COMO CÓPIA, DEPOIS TEM QUE CONSERTAR ISSO.
-
 OBS: DEPOIS TEM QUE CONSERTAR O AJAX NO ARTIGO 20
 
 OBS: DEPOIS VER O QUE HÁ DE ERRADO AO CONVERTER JSON EM STRING NO ARQUIVO: 'site/models/helloworld.php'.

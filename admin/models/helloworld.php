@@ -17,6 +17,9 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 	//'JModelAdmin' PRECISA SABER DISSO PARA ARMAZENAR AS ASSOCIAÇÕES.
 	protected $associationsContext = 'com_helloworld.item';
 
+	//O HISTÓRIICO DE CONTEÚDO PRECISA SABER DISSO PARA RESTAURAR AS VERSÒES ANTERIORES.
+	public $typeAlias = 'com_helloworld.helloworld';
+
 	/** 
 	 * MÉTODO PARA SUBSTITUIR O 'getItem()' PARA PERMITIR CONVERTER AS INFORMAÇÕES A IMAGEM 
 	 * CODIFICADA EM JSON NO REGISTRO DO BANCO DE DADOS EM UMA MATRIZ PARA O 

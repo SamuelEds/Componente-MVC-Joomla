@@ -17,6 +17,9 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 	//CRIAR A VARIÁVEL QUE RECEBERÁ AS PERMISSÕES.
 	protected $canDo;
 
+	//CRIAR VARIÁVEL QUE RECEBERÁ O STATE DO MODELO.
+	protected $state;
+
 	//FUNÇÃO PADRÃO PARA EXIBIR A VIEW.
 	//O PARÂMETRO '$tpl' IRÁ FAZER UMA BUSCA DO MODELO DA VIEW E POR PADRÃO, ELE É NULO.
 	public function display($tpl = null){
@@ -29,6 +32,9 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 
 		//AQUI SERÁ A VARIÁVEL RESPONSÁVEL POR CARREGAR SCRIPTS DO PROJETO.
 		$this->script = $this->get('Script');
+
+		//OBTER O 'State' DO MODELO.
+		$this->state = $this->get('State');
 
 		//QUAIS PERMISSÕES O ATUAL USUÁRIO POSSUI?? O QUE ELE PODE FAZER?
 		//O DOIS ÚLTIMOS PARÂMETROS ESPECIFIAM A VIEW E O ID DO ITEM.
@@ -97,6 +103,20 @@ class HelloWorldViewHelloWorld extends JViewLegacy{
 					JToolbarHelper::custom('helloworld.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 
 				}
+
+				//OBTER AS CONFIGURAÇÕES DO SISTEMA.
+				//$config = JFactory::getConfig();
+				//$save_history = $config->get('save_history', 0);
+
+				//VERIFICAR SE O PARÂMETRO DE CONFIGURAÇÃO 'save_history' ESTÁ DEFINIDO COMO VERDADEIRO ANTES DE EXIBIR O BOTÃO.
+				//OBS: SÓ DEU CERTO DESSA FORMA, NA FORMA DO TUTORIAL NÃO DEU BOM.
+				if(JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0)){
+
+					//EXIBIR O BOTÃO DE VERSÕES.
+					JToolbarHelper::versions('com_helloworld.helloworld', $this->items->id);
+
+				}
+
 			}
 
 			//VERIFICAR SE TEM PERMISSÃO DE CRIAR NOVO REGISTRO.

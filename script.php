@@ -63,7 +63,7 @@ class com_helloWorldInstallerScript{
 		//echo '<p> ' .JText::_('COM_HELLOWORLD_POSTFLIGHT_'.$type.'_TEXT'). ' </p>';
 
 		//OBTER O BANCO DE DAADOS.
-		$db = JFactory::getDbo();
+		/*$db = JFactory::getDbo();
 
 		//ESIBINDO UMA MENSAGEM.
 		echo "<p>Verificando se o registro raíz já está presente...</p>";
@@ -290,8 +290,7 @@ class com_helloWorldInstallerScript{
 
 			}
 
-		}
-
+		}*/
 	}
 }
 

@@ -76,7 +76,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 				h.longitude AS longitude, h.id AS id, 
 				h.alias AS alias, h.catid AS catid, 
 				h.parent_id AS parent_id, 
-				h.level AS level')->from($db->quoteName('#__olamundo', 'h'))->leftJoin('#__categories AS c ON h.catid = c.id')->where('h.id = ' . (int) $id);
+				h.level AS level, h.description AS description')->from($db->quoteName('#__olamundo', 'h'))->leftJoin('#__categories AS c ON h.catid = c.id')->where('h.id = ' . (int) $id);
 
 			//A FUNÇÃO 'JLanguageMultilang::isEnabled()' IRÁ VERIFICAR SE O SITE ESTÁ CONFIGURADO COMO MULTILÍNGUE.
 			if(JLanguageMultilang::isEnabled()){

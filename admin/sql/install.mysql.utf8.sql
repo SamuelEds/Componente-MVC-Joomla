@@ -13,6 +13,7 @@ CREATE TABLE `#__olamundo`(
 	`checked_out` 		INT(10) NOT NULL DEFAULT '0',
 	`checked_out_time` 	DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`texto` 			VARCHAR(100) NOT NULL,
+	`description`		VARCHAR(255) NOT NULL DEFAULT '',
 	`alias` 			VARCHAR(40) NOT NULL DEFAULT '',
 	`language` 			CHAR(7) NOT NULL DEFAULT '*',
 	`parent_id`			INT(10) NOT NULL DEFAULT '1',
@@ -41,3 +42,38 @@ VALUES ('Olá Mundo!! root', 'ola-mundo-root-alias', 'pt-BR', 0, 0, '', 0, 5, 1)
 ('Olá Mundo!', 'ola-mundo', 'pt-BR', 1, 1, 'ola-mundo', 1, 2, 0), 
 ('Adeus, Mundo!', 'adeus-mundo', 'en-GB', 1, 1, 'adeus-mundo', 3, 4, 0),
 ('Denovo, mundo??', 'denovo-mundo', 'fr-FR', 1, 1, 'denovo-mundo', 5, 6, 0);
+
+INSERT INTO `#__content_types` (`type_title`, `type_alias`, `content_history_options`) 
+VALUES
+('Helloworld', 'com_helloworld.helloworld', 
+
+	'{"formFile":"administrator\\/components\\/com_helloworld\\/models\\/forms\\/helloworld.xml", 
+	"hideFields":["asset_id", "checked_out", "checked_out_time", "version", "lft", "rgt", "level", "path"], 
+	"ignoreChanges":["checked_out", "checked_out_time", "path"],
+	"convertToInt":[], 
+	"displayLookup":[
+ 
+		{"sourceColumn": "created_by", "targetTable":"#__users", "targetColumn": "id", "displayColumn": "name"},
+		{"sourceColumn": "parent_id", "targetTable":"#__olamundo", "targetColumn": "id", "displayColumn": "texto"},
+		{"sourceColumn": "catid", "targetTable":"#__categories", "targetColumn": "id", "displayColumn": "title"}
+
+		]
+	}'
+),
+
+('Helloworld Category', 'com_helloworld.category',
+
+	'{"formFile": "administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", 
+	"hideFields": ["asset_id", "checked_out","checked_out_time", "version", "lft", "rgt", "level", "path", "extension"], 
+	"ignoreChanges": ["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],
+	"convertToInt": ["publish_up", "publish_down"], 
+	"displayLookup": [
+
+		{"sourceColumn": "created_user_id", "targetTable": "#__users", "targetColumn": "id", "displayColumn": "name"},
+		{"sourceColumn": "access", "targetTable":"#__viewlevels", "targetColumn": "id", "displayColumn": "title"},
+		{"sourceColumn": "modified_user_id", "targetTable": "#__users", "targetColumn": "id", "displayColumn": "name"},
+		{"sourceColumn": "parent_id", "targetTable": "#__categories", "targetColumn": "id", "displayColumn": "title"}
+		
+		]
+	}'
+);

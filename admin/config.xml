@@ -44,6 +44,38 @@
 
 		</field>
 
+		<!--CAMPOS PARA DEFINIÇÃO DE CONFIGURAÇÕES DO HISTÓRICO DO COMPONENTE.-->
+
+		<!--CAMPO PARA DEFINIR SE VAI PODER OU NÃO SALVAR O HISTÓRICO DO COMPONENTE.-->
+		<!--OBSERVE O ATRIBUTO 'type' COM O VALUE 'radio' ESPECIFICANDO O TIPO DE CAMPO COMO RADIO.-->
+		<!--AS LETRAS MAIÚSCULAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+		<field
+			name="save_history"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
+			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC">
+			
+			<!--OPÇÕES DO CAMPO.-->
+			<!--AS LETRAS MAIÚSCULAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+
+		</field>
+
+		<!--CAMPO PARA DEFINIR O NÚMERO DE VERSÕES A SEREM MANTIDAS.-->
+		<!--AS LETRAS MAIÚSCULAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+		<!--O ATRIBUTO 'filter' FARÁ O TRABALHO DE PERMITIR SOMENTE NÚMEROS.-->
+		<field
+			name="history_limit"
+			type="text"
+			filter="integer"
+			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
+			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
+			default="5">
+		</field>
+
 		<!--CAMPO PARA INSERIR O E-MAIL-->
 		<!--OBSERVE O ATRIBUTO 'name' COM O VALOR 'user_to_email' QUE É O MESMO VALOR UTILIZADO NO ARQUIVO CONTROLLER 'site/controllers/helloworld.php'-->
 		<!--NOTE TAMBÉM O ATRIBUTO 'type' COM O VALOR 'user' INDICANDO QUE O CAMPO IRÁ INTERAGIR COM A SESSÃO DO USUÁRIO DO JOOMLA.-->

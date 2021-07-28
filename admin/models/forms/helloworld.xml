@@ -132,7 +132,31 @@
 			size="1">
 		</field>
 
+		<!--CAMPO PARA NOTAS DE VERSÃO.-->
+		<!--AS LETRAS EM MAIÚSCULAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.-->
+		<!--OBS: É OBRIGATÓRIO QUE O VALUE DO ATRIBUTO 'name' SEJA 'version_note'.-->
+		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox"
+			size="45"
+			labelClass="control-label">
+		</field>
+
 	</fieldset>
+
+	<!--CAMPO PARA INFORMAR A DESCRIÇÃO DA VERSÃO.-->
+	<!--OBSERVE O ATRIBUTO 'type' COM O VALUE 'editor', SIGNIFICANDO QUE SERÁ EXIBIDO O EDITOR PADRÃO DO JOOMLA PARA INSERÇÃO DE DETALHES. NESSE CASO SERÁ EXIBIDO O EDITOR 'TinyMCE'-->
+	<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+	<field
+		name="description"
+		type="editor"
+		label="COM_HELLOWORLD_HELLOWORLD_FIELD_DESCRIPTION_LABEL"
+		description="COM_HELLOWORLD_HELLOWORLD_FIELD_DESCRIPTION_DESC"
+		filter="JComponent::filterText"
+		buttons="true" />
 
 	<!--GRUPO DE CAMPOS PARA INSERÇÃO DAS IMAGENS E SEUS DADOS.-->
 	<fields

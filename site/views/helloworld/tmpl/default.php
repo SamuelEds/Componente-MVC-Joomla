@@ -32,7 +32,10 @@ if(JLanguageMultilang::isEnabled()){
 
 <!--EXIBIR UMA IMAGEM (ARTIGO 18)-->
 
-<?php  
+<?php
+
+//EXIBIR A DESCRIÇÃO DA VERSÃO.
+echo $this->item->description;
 
 //OBTER O CAMINHO DA IMAGEM QUE ANTES ESTAVA EM JSON. ISSO FOI CONFIGURADO NO MODELO 'helloworld.php'.
 $src = $this->item->imageDetails['imagem'];
