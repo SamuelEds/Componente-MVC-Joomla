@@ -10,6 +10,7 @@ CREATE TABLE `#__olamundo` (
 	`created` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`created_by` INT(10) NOT NULL DEFAULT '0',
 	`texto` VARCHAR(255) NOT NULL,
+	`alias` VARCHAR(40) NOT NULL DEFAULT '',
 	`published` tinyint(4) NOT NULL DEFAULT '1',
 	`catid` INT(11) NOT NULL DEFAULT '0',
 	`params` VARCHAR(255) NOT NULL DEFAULT '',
@@ -20,5 +21,5 @@ CREATE TABLE `#__olamundo` (
 
 ) DEFAULT CHARSET = utf8;
 
-INSERT INTO `#__olamundo` (`texto`) VALUES
-('Olá mundo!'), ('Até mais mundo!'); 
+INSERT INTO `#__olamundo` (`texto`, `alias`) VALUES
+('Olá mundo!', 'ola-mundo'), ('Até mais mundo!', 'ate-mais-mundo'); 

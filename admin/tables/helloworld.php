@@ -114,6 +114,26 @@ class HelloWorldTableHelloWorld extends JTable{
 
 	}
 
+	//SOBRESCREVER A FUNÇÃO 'JTable::check()' PARA GARANTIR QUE O ALIAS QUE FOR ENVIANDO PARA O BANCO SEJA VÁLIDO.
+	public function check(){
+
+		//REOMOVER ESPAÇOS EM BRANCO.
+		$this->alias = trim($this->alias);
+
+		if(empty($this->alias)){
+
+			$this->alias = $this->texto;
+
+		}
+
+		//MÉTODO 'JFiltereOutput::stringUrlSafe()' GARANTIRÁ QUE O ALIAS NÃO TERÁ ESPAÇOS EM BRANCOS E QUE A STRING NÃO TENHA CARACTERES INVÁLIDOS.
+		$this->alias = JFilterOutput::stringUrlSafe($this->alias);
+
+		// SALVAR OS DADOS QUANDO TUDO ESTIVER CONDIZENTE.
+		return true;
+
+	}
+
 }
 
 ?>

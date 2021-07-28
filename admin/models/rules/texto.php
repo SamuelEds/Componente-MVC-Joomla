@@ -8,7 +8,7 @@ class JFormRuleTexto extends JFormRule{
 
 	//UMA EXPRESSÃO REGULAR.
 	//ISSO É TUDO QUE PRECISA NESSE MOMENTO.
-	protected $regex  = '^[^0-9]+$';
+	protected $regex  = '^[^\*]+$';
 
 }
 

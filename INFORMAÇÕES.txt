@@ -1,4 +1,6 @@
-ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 20
+ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 21
+
+OBS: PAREI NA PARTE site/views/category/tmpl/default.php
 
 =====================================================================================================
 

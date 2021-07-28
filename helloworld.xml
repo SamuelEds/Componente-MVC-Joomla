@@ -19,7 +19,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.19</version>
+	<version>0.0.20</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>COM_HELLOWORLD_DESCRIPTION</description>
@@ -58,12 +58,14 @@
 		<filename>helloworld.php</filename>
 		<filename>index.html</filename>
 		<filename>controller.php</filename>
+		<filename>router.php</filename>
 
 		<!--PASTAS A SER INSTALADAS-->
 		<folder>views</folder>
 		<folder>models</folder>
 		<folder>language</folder>
 		<folder>controllers</folder>
+		<folder>helpers</folder>
 
 	</files>
 

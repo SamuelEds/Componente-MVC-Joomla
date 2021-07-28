@@ -127,6 +127,16 @@ $listDirecao = $this->escape($this->state->get('list.direction'));
 									<?php echo $dados->texto; ?>
 								</a>
 
+								<!--SEÇÃO PARA EXIBIR O ALIAS-->
+								<span class="small break-word">
+									
+									<!--EXIBIR O ALIAS DE CADA REGISTRO.-->
+									<!--AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO JOOMLA AUTOMATICAMENTE.-->
+									<!--AO MESMO TEMPO, IRÁ ESCREVER O ALIAS ENCONTRADO NO BANCO.-->
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($dados->alias)); ?>
+
+								</span>
+
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ':' . $this->escape($dados->category_title); ?>
 								</div>

@@ -104,8 +104,75 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 			return JFactory::getUser()->authorise('core.delete', 'com_helloworld.helloworld.' . $record->id);
 
 		}
+	}
+
+	/*
+	
+		MÉTODO PARA SUBSTITUIR A FUNÇÃO 'save()' DO 'JModelAdmin' PARA LIDAR COM O 'Salvar como cópia' CORRETAMENTE.
+
+		* '$dados' - OS DADOS DO REGISTRO HELLOWORLD ENVIADOS A PARTIR DO FORMULÁRIO. 
+	
+	*/
+	public function save($data){
+
+		//OBTER O INPUT DA APLICAÇÃO.
+		$input = JFactory::getApplication()->input;
+
+		//IMPORTAR O ARQUIVO 'categories.php' E FAZER COM QUE SEJA UTILIZÁVEL A CLASSE 'CategoriesHelper'.
+		//É ASSIM QUE TAMBÉM UTILIZAMOS OUTRAS CLASSE COMO 'JFactory', 'JRegistry', ENTRE OUTROS.
+		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+
+		if((int) $data['catid'] > 0){
+
+			$data['catid'] = CategoriesHelper::validateCategoryId($data['catid'], 'com_helloworld');
+
+		}
+
+		//ALTERE O TEXTO E O ALIAS PARA SALVAR COMO CÓPIA.
+		if($input->get('task') == 'save2copy'){
+
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if($data['texto'] == $origTable->texto){
+
+				//A FUNÇÃO 'generateNewTitle()' FAZ COM QUE O JOOMLA SUPORTE A ADIÇÃO DE NÚMERO E NO TÍTULO E NO ALIAS ATÉ ENCONTRAR UMA COMBINAÇÃO ATÉ ONDE A COMBINAÇÃO DE ALIAS + CATEGORIA NÃO EXISTA NO BANCO DE DADOS.
+				//A FUNÇÃO 'list' CRIA VARIÁVEIS COMO SE FOSSEM ARRAYS.
+				list($texto, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['texto']);
+				$data['texto'] = $texto;
+				$data['alias'] = $alias;
+
+			}else{
+
+				if($data['alias'] == $origTable->alias){
+
+
+					$data['alias'] = '';
+
+				}
+
+			}
+
+			//A PRÁTICA PADRÃO DO JOOMLA É DEFINIR O NOVO REGISTRO COMO NÃO PUBLICADO.
+			$data['published'] = 0;
+
+		}
+
+		//SALVAR OS DADOS NORMALMENTE.
+		return parent::save($data);
 
 	}
+
+	//MÉTODO PARA VERIFICAR SE ESTÁ TUDO BEM PARA EXCLUIR UMA MENSAGEM. SUBSTITUI 'JModelAdmin::canDelete'.
+	/*protected function canDelete($registro){
+
+		if(!empty($registro->id)){
+
+			return JFactory::getUser()->authorise('core.delete', 'com_helloworld.helloworld.' . $registro->id);
+
+		}
+
+	}*/
 
 }
 

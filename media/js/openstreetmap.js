@@ -1,4 +1,9 @@
+
+//CRIAR A VARIÁVEL PARA O MAPA.
 var map;
+
+//CRIAR VARIÁVEL PARA URL DO AJAX.
+var ajaxurl;
 
 jQuery(document).ready(function(){
 
@@ -6,6 +11,7 @@ jQuery(document).ready(function(){
 	/*O PARÂMETRO 'params' É UM OBJETO JAVASCRIPT COM PROPRIEDADES PARA A EXIBIÇÃO DO MAPA: 
 	LATITUDE CENTRAL, LONGITUDE CENTRAL, ZOOM E TEXTO.*/
 	const params = Joomla.getOptions('params');
+	ajaxurl = params.ajaxurl;
 
 	//SERÁ USADO O OPENLAYERS PARA DESENHAR O MAPA (MAIS INFORMAÇÕES: http://openlayers.org/)
 
@@ -178,7 +184,7 @@ function searchHere(){
 		DO JSON. A CHAMADA DA VIEW ESTÁ CONFIGURADA NO CONTROLADOR PRINCIPAL.
 
 		*/
-
+		url: ajaxurl,
 		data: {[token]: "1", task: "mapsearch", format: "json", mapBounds: mapBounds},
 		success: function(result, status, xhr){ displaySearchResults(result); },
 		error: function(){ console.log('Erro na chamada Ajax! :('); }
@@ -197,7 +203,8 @@ function displaySearchResults(result){
 
 		for (var i = 0; i < result.data.length; i++) {
 			
-			html += "<p>"+ result.data[i].texto 
+			html += "<p>"+ "<a href='"+ result.data[i].url +"'>"  
+					+ result.data[i].texto + "</a>"
 					+"@ " + result.data[i].latitude
 					+ ", " + result.data[i].longitude
 					+"</p>";

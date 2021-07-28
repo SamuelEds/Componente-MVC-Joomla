@@ -22,7 +22,7 @@ jQuery(function(){
 
 		//DEFINIR UMA EXPRESSÃO REGULAR COMO FORMA DE VALIDAR O CAMPO.
 		//ISSO VERIFICARÁ SE O CAMPO FOI PREENCHIDO.
-		regex = /^[^0-9]+$/;
+		regex = /^[^\*]+$/;
 		return regex.test(value);
 
 	});

@@ -3,6 +3,10 @@
 //IMEPDIR O ACESSO DIRETO.
 defined('_JEXEC') or die('Essa página não pode ser acessada diretamente.');
 
+//IMPORTAR O ARQUIVO 'route.php' E FAZER COM QUE SEJA UTILIZÁVEL A CLASSE 'HelloworldHelperRoute'.
+//É ASSIM QUE TAMBÉM UTILIZAMOS OUTRAS CLASSE COMO 'JFactory', 'JRegistry', ENTRE OUTROS.
+JLoader::register('HelloWorldHelperRoute', JPATH_ROOT . '/components/com_helloworld/helpers/route.php');
+
 //ARQUIVO QUE SERÁ O MODELO DA VIEW 'helloworld'.
 //OBSERVE QUE O NOME DO ARQUIVO DO MODELO PRECISA SER O MESMO DA VIEW, QUE NESSE CASO É 'helloworld'.
 
@@ -20,7 +24,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 	protected function populateState(){
 
 		//PEGA O ID DA MENSAGEM
-		$id = JFactory::getApplication()->input->get('opcao', 1, 'INT');
+		$id = JFactory::getApplication()->input->get('opcao', null, 'INT');
 		$this->setState('message.id', $id);
 
 		//CARREGAR PARÂMETROS
@@ -45,8 +49,14 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 		if(!isset($this->item)){
 
-			//OBTER A MENSAGEM DO 'State'.
-			$id = $this->getState('message.id');
+			if(!empty($this->getState('message.id'))){
+
+				$id = $this->getState('message.id');
+			
+			}else{
+
+				$id = JFactory::getApplication()->input->get('id', 1, 'INT');
+			}
 
 			//OBTER O BANCO DE DADOS.
 			$db = JFactory::getDbo();
@@ -93,12 +103,16 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 		if($this->item){
 
+			//OBTER A URL DE UMA DETERMINADA MENSAGEM. ISSO ESTÁ CONFIGURADO NO ARQUIVO DA CLASSE 'HelloworldHelperRoute'.
+			$url = HelloWorldHelperRoute::getAjaxURL();
+
 			$this->mapParams = array(
 
 				'latitude' => $this->item->latitude,
 				'longitude' => $this->item->longitude,
 				'zoom' => 10,
-				'texto' => $this->item->texto
+				'texto' => $this->item->texto,
+				'ajaxurl' => $url
 			
 			);
 
@@ -125,7 +139,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 			$query = $db->getQuery(true);
 
 			//CRIAR UMA CONSULTA.
-			$query->select('o.texto, o.latitude, o.longitude')->from($db->quoteName('#__olamundo', 'o'))->where('
+			$query->select('o.id, o.texto, o.latitude, o.longitude')->from($db->quoteName('#__olamundo', 'o'))->where('
 
 					o.latitude > '. $mapbounds['minlat'] .'
 					 AND o.latitude < '. $mapbounds['maxlat'] .'
@@ -150,6 +164,14 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 		}
 
+		//CRIAR UMA LAÇO DE REPETIÇÃO PARA ARMAZENAR A URL.
+		for ($i = 0; $i < count($resultado); $i++) {
+
+			//ARMAZENAR A URL DE CADA MENSAGEM.
+			$resultado[$i]->url = JRoute::_('index.php?option=com_helloworld&view=helloworld&id=' . $resultado[$i]->id);
+		}
+
+		//RETORNAR OS ITEMS ENCONTRADOS.
 		return $resultado;
 
 	}
