@@ -80,6 +80,12 @@ class HelloWorldModelForm extends JModelAdmin{
 
 	}
 
+	//FUNÇÃO PARA LIMPAR O CACHE.
+	protected function cleanCache($group = null, $cliente_id = 0){
+
+		parent::cleanCache('com_helloworld');
+
+	}
 
 }
 

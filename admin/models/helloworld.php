@@ -429,6 +429,13 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 			return true;
 
 		}
+
+		//FUNÇÃO PARA LIMPPAR O CACHE. ELE É CHAMADA PELO 'JModelAdmin'.
+		protected function cleanCache($group = null, $cliente_id = 0){
+
+			parent::cleanCache('com_helloworld');
+
+		}
 	}
 
 	?>

@@ -230,7 +230,35 @@ class HelloWorldModelHelloWorld extends JModelItem{
 			
 		}
 
-		public function getMapSearchResults($mapBounds){
+		public function getMapSearchResults($mapbounds){
+			
+			if(JFactory::getConfig()->get('caching') >= 1){
+
+				//CONSTRUIR UM ID DE CACHE COM BASE NAS CONDIÇÕES PARA A CLÁUSULA WHERE DO SQL.
+				$groups = implode(',', JFactor::getUser()->getAuthorisedViwLevels());
+				$cacheId = $groups . '.' . $mapbounds['minlat'] . '.' . $mapbounds['maxlat'] . '.' . $mapbounds['minlng'] . '.' . $mapbounds['maxlng'];
+
+				//VRIFICAR SE O SITE É MULTILÍNGUE.
+				if(JLanguageMultilang::isEnabled()){
+
+					$lang = JFactory::getLanguage()->getTag();
+					$cacheId .= $lang;
+
+				}
+
+				$cache = JFactor::getCache('com_helloworld', 'callback');
+				$results = $cache->get(array($this, '_getMapSearchResults'), array($mapbounds), md5($cacheId), false);
+				return $results;
+
+			}else{
+
+				return $this->_getMapSearchResults($mapbounds);
+
+			}
+
+		}
+
+		public function _getMapSearchResults($mapbounds){
 
 			try{
 
@@ -243,9 +271,9 @@ class HelloWorldModelHelloWorld extends JModelItem{
 				//CONSTRUIR A SOLICITAÇÃO.
 				$query->select('o.id, o.alias, o.texto, o.catid, o.latitude, o.longitude, o.access')->from($db->quoteName('#__olamundo', 'o'))->where('
 
-						o.latitude > '. $mapBounds['minlat'] .'
-						AND o.latitude < '. $mapBounds['maxlat'] .'
-						AND o.longitude > '. $mapBounds['minlng'] .'
+						o.latitude > '. $mapbounds['minlat'] .'
+						AND o.latitude < '. $mapbounds['maxlat'] .'
+						AND o.longitude > '. $mapbounds['minlng'] .'
 						AND o.longitude < ' . $mapbounds['maxlng'] . '
 
 					');
