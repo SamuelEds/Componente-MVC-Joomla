@@ -1,0 +1,3 @@
+<!--EXIBIR UM TEXTO SIMPLES NA TELA QUANDO O USUÁRIO ACESSAR O FRONT-END-->
+
+Um olá mundo para o cliente.

@@ -1,0 +1,10 @@
+ARTIGO ONDE EU PAREI: PAREI NO ARTIGO 04
+
+=====================================================================================================
+
+- No artigo: 01 (Desenvolvendo um componente básico)
+
+Para ver funcionando no front-end, é preciso digitar na barra de endereço: 
+http://localhost/seu-site-joomla/index.php?option=com_helloworld
+
+=====================================================================================================
