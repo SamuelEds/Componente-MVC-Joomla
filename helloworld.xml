@@ -6,7 +6,7 @@
 <extension type="component" method="upgrade" version="3.9">
 	
 	<!--NOME DO COMPONENTE-->
-	<name>Hello World</name>
+	<name>COM_HELLOWORLD</name>
 
 	<!--DADOS DESCRITIVOS DA EXTENSÃO (PODEM SER MODIFICADOS A VONTADE)-->
 	<author>Samuel Edson</author>
@@ -19,10 +19,10 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<description>Aqui vai uma descrição do componente Helloworld...</description>
+	<description>COM_HELLOWORLD_DESCRIPTION</description>
 
 	<!--INDICAR O ARQUIVO PARA INSTALAÇÃO DO BANCO DE DADOS-->
 	<install>
@@ -59,14 +59,20 @@
 		<!--PASTAS A SER INSTALADAS-->
 		<folder>views</folder>
 		<folder>models</folder>
+		<folder>language</folder>
 
 	</files>
+
+	<!--CONFIGURAÇÃO PARA INSTALAÇÃO DE IDIOMAS NA PARTE DO FRONT-END-->
+	<languages folder="site/language">
+		<language tag="en-GB">en-GB/en-GB.com_helloworld.ini</language>
+	</languages>
 
 	<!--CONFIGURAÇÃO DA PARTE ADMINISTRATIVA DO SITE (BACK-END)-->
 	<administration>
 		
 		<!--SEÇÃO DE MENU DE ADMINISTRAÇÃO-->
-		<menu link="index.php?option=com_helloworld">Componente HelloWorld!</menu>
+		<menu link="index.php?option=com_helloworld">COM_HELLOWORLD_MENU</menu>
 
 		<!--INDICAR A LOCALIZAÇÃO DOS ARQUIVOS QUE SERÃO INSTALADOS NO BACK-END-->
 		<!--ATRIBUTO 'folder' É RESPONSÁVEL POR INDICAR A PASTA DOS ARQUIVOS-->
@@ -82,8 +88,15 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
+			<folder>language</folder>
 
 		</files>
+
+		<!--CONFIGURAÇÃO PARA INSTALAÇÃO DE IDIOMAS NA PARTE DO BACK-END-->
+		<languages folder="admin/language">
+			<language tag="en-GB">en-GB/en-GB.com_helloworld.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_helloworld.sys.ini</language>
+		</languages>
 
 	</administration>
 
