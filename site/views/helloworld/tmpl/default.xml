@@ -16,4 +16,28 @@
 		<message>COM_HELLOWORLD_HELLOWORLD_VIEW_DEFAULT_DESC</message>
 	</layout>
 
+	<!--ADICIONANDO UMA SOLICITAÇÃO DE VARIÁVEL-->
+	<!--OBS: É PRECISO QUE EXISTA O ATRIBUTO 'name' COM O VALUE 'request' PARA QUE A SOLICITAÇÃO FUNCIONE.-->
+	<fields name="request">
+		<fieldset name="request">
+			
+			<!--INFORMAR O CAMPO E SEUS PARÂMETROS-->
+			<!--ESSE CAMPO ESTÁ SENDO RECONHECIDO PELA TAG 'name' COMO 'opcao', ISSO SERVIRÁ PARA PEGAR O VALOR DO CAMPO NO MODELO-->
+			<!--ESSE CAMPO ESTARÁ VISÍVEL NO TIPO DE ITEM DE MENU DA VIEW 'HelloWorld'-->
+			<!--AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.-->
+			<field
+				name="opcao"
+				type="list"
+				label="COM_HELLOWORLD_HELLOWORLD_FIELD_TEXTO_LABEL"
+				description="COM_HELLOWORLD_HELLOWORLD_FIELD_TEXTO_DESC"
+				default="1">
+				
+				<option value="1">Olá Mundo! - OPÇÃO 01</option>
+				<option value="2">Até logo mundo! - OUTRA OPÇÃO</option>
+
+			</field>
+
+		</fieldset>
+	</fields>
+
 </metadata>
