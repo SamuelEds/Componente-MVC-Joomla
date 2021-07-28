@@ -20,8 +20,114 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 	//O HISTÓRIICO DE CONTEÚDO PRECISA SABER DISSO PARA RESTAURAR AS VERSÒES ANTERIORES.
 	public $typeAlias = 'com_helloworld.helloworld';
 
+	//PROCESSOS EM LOTE SUPORTADOS POR HELLOWORLD (ALÉM DOS PROCESSOS EM LOTE PADRÃO).
+	protected $helloworld_batch_commands = array('position' => 'batchPosition');
+
+	/**
+	 * 
+	 * MÉTODO QUE SUBSTITUIRÁ O MÉTODO 'batch' DA CLASSE 'JModelAdmin' PARA QUE POSSA SER INCLUÍDO
+	 * O PROCESSO EM LOTE ADICIONAL QUE O COMPONENTE HELLOWORLD SUPORTA.
+	 * 
+	 * */
+
+	public function batch($commands, $pks, $contexts){
+
+		$this->batch_commands = array_merge($this->batch_commands, $this->helloworld_batch_commands);
+		return parent::batch($commands, $pks, $contexts);
+
+	}
+
+	//MÉTODO DE IMPLETAÇÃO DE CONFIGURAÇÃO EM LOTE PARA VALORES DE LATITUDE E LONGITUDE.
+	protected function batchPosition($value, $pks, $contexts){
+
+		//OBTER O APLICATIVO
+		$aplicativo = JFactory::getApplication();
+
+		if(isset($value['setposition']) && ($value['setposition'] === 'changePosition')){
+
+			if(empty($this->batchset)){
+
+				//DEFINA ALGUMAS VARIÁVEIS NECESSÁRIAS.
+
+				//OBTER O USUÁRIO ATUAL.
+				$this->user = JFactory::getUser();
+
+				//OBTER A TABLE.
+				$this->table = $this->getTable();
+
+				//OBTER A CLASSE DA TABLE.
+				$this->tableClassName = get_class($this->table);
+
+				$this->contentType = new JUcmType;
+				$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+
+			}
+
+			foreach($pks as $pk){
+
+				if($this->user->authorise('core.edit', $contexts[$pk])){
+
+					$this->table->reset();
+					$this->table->load($pk);
+
+					if(isset($value['latitude'])){
+
+						$latitude = floatval($value['latitude']);
+
+						if($latitude <= 90 && $latitude >= -90){
+
+							$this->table->latitude = $latitude;
+
+						}
+
+					}
+
+					if(isset($value['logintude'])){
+
+						$logintude = floatval($value['logintude']);
+
+						if($logintude <= 90 && $logintude >= -90){
+
+							$this->table->logintude = $logintude;
+
+						}
+
+					}
+
+					if(!$this->table->store()){
+
+						$this->setError($this->table->getError());
+
+						return false;
+
+					}
+
+				}else{
+					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_FAILED'));
+
+					return false;
+				}
+
+			}
+
+		}
+
+		return true;
+
+	}
+
+	//MÉTODO PARA SUBSTITUIR 'generateTable()' PORQUE O COMPONENTE HELLOWORLD USA 'texto' COMO TÍTULO.
+	public function generateTitle($categoryId, $table){
+
+		//ALTERAR O TÍTULO E O ALIAS.
+		$dados = $this->generateNewTitle($categoryId, $table->alias, $table->texto);
+		$table->texto = $dados['0'];
+		$table->alias = $dados['1'];
+
+	}
+
 	/** 
-	 * MÉTODO PARA SUBSTITUIR O 'getItem()' PARA PERMITIR CONVERTER AS INFORMAÇÕES A IMAGEM 
+	 * MÉTODO PARA SUBSTITUIR O 'getItem()' PARA PERMITIR CONVERTER AS INFORMAÇÕES DA IMAGEM 
 	 * CODIFICADA EM JSON NO REGISTRO DO BANCO DE DADOS EM UMA MATRIZ PARA O 
 	 * PRÉ-PREENCHIMENTO SUBSEQUENTE DO FORMULÁRIO DE EDIÇÃO. 
 	 * 

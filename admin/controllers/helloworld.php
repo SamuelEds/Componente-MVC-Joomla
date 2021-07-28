@@ -30,6 +30,20 @@ class HelloWorldControllerHelloWorld extends JControllerForm{
 			return JFactory::getUser()->authorise("core.edit", "com_helloworld.helloworld." . $id);
 		}
 	}
+
+	//MÉTODO QUE SUBSTITUIRÁ O MÉTODO 'batch', ISSO PARA DEFINIR O MODELO E O REDIRECIONAMENTO PARA A URL ATUAL ANTES DE FAZER O LOTE NORMAL.
+	public function batch($model = null){
+
+		//OBTER O MODELO 'helloworld'
+		$model = $this->getModel('helloworld');
+
+		//REDIRECIONAR DE VOLTAR PARA A URL ATUAL.
+		$this->setRedirect((string) JUri::getInstance());
+
+		return parent::batch($model);
+
+
+	}
 }
 
 ?>

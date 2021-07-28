@@ -98,6 +98,10 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 	//CRIAR UMA BARRA DE TAREFAS.
 	protected function barraTarefas(){
 
+		//INSTANCIAR A BARRA DE TAREFAS.
+		//ISSO É NECESSÁRIO POIS O BOTÃO DE 'PROCESSO EM LOTE' É PERSONALIZÁVEL E NÃO PODE SIMPLESMENTE CHAMAR O MÉTODO 'JToolbarHelper'.
+		$barra = JToolbar::getInstance('toolbar');
+
 		//ARMAZENAR O TÍTULO EM UMA VARIÁVEL.
 		//AS PALAVRAS EM MAIÚSCULO SÃO CONSTANTES QUE SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
 		$titulo = JText::_('COM_HELLOWORLD_MANAGER_HELLOWORLDS');
@@ -145,6 +149,20 @@ class HelloWorldViewHelloWorlds extends JViewLegacy{
 
 			//DEFINIR UM BOTÃO PARA FAZER O CHECKIN DE UM REGISTRO.
 			JToolbarHelper::checkin('helloworlds.checkin');
+
+		}
+
+		//ADICIONAR O BOTÃO DE PROCESSO EM LOTE.
+		if($this->canDo->get('core.create') && $this->canDo->get('core.edit') && $this->canDo->get('core.edit.state')){
+
+			//USAMOS UM LAYOUT JOOMLA PADRÃO PARA OBTER O HTML PARA O BOTÃO DE LOTE.
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			//OBTER A RENDERIZAÇÃO HTML DO BOTAO.
+			$botaoHtmlLote = $layout->render(array('title' => JText::_('JTOOLBAR_BATCH')));
+
+			//ADICIONAR O BOTÃO NA BARRA.
+			$barra->appendButton('Custom', $botaoHtmlLote, 'batch');
 
 		}
 

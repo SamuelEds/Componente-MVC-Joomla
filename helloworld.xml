@@ -17,7 +17,7 @@
 	<copyright>@ Copyright - Todos os direitos reservados</copyright>
 
 	<!--VERSÃO DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
-	<version>0.0.29</version>
+	<version>0.0.30</version>
 
 	<!--DESCRIÇÃO EXPLICATIVA DA EXTENSÃO (PODE SER MODIFICADO A VONTADE)-->
 	<description>COM_HELLOWORLD_DESCRICAO</description>
@@ -104,6 +104,7 @@
 			<folder>tables</folder>
 			<folder>sql</folder>
 			<folder>helpers</folder>
+			<folder>layouts</folder>
 
 		</files>
 		<!--CONFIGURAÇÃO DE INSTALAÇÃO DO IDIOMA NA PARTE DO BACK-END-->

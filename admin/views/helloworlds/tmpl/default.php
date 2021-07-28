@@ -393,6 +393,38 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 
 	</table>
 
+	<?php  
+
+	//CARREGAR O MODAL PARA EXIBIR AS OPÇÕES DE LOTE.
+
+	echo JHtml::_(
+		'bootstrap.renderModal',
+		'collapseModal',
+
+		array(
+
+			//DEFINIR UM TÍTULO PARA O MODAL.
+			//'JText::_()' É UM MÉTODO QUE EXIBIRÁ UM TEXTO DE ACORDO COM O IDIOMA.
+			//AS PAVARAS EM MAIÚSCULAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
+			'title' => JText::_('COM_HELLOWORLD_BATCH_OPTION'),
+
+			//O MÉTODO 'loadTemplate' É UM MÉTODO QUE IRÁ CARREGAR O LAYOUT DESEJADO PASSADO EM PARÂMETRO.
+			//O LAYOUT DESEJADO NESSE CASO É 'batch_footer'. PORTANTO, ELE IRÁ PROCURAR ESSE LAYOUT NO MESMO DIRETÓRIO EM QUE O PRÓPRO MÉTODO SE ENCONTRA, QUE NESSE CASO É '../views/helloworlds/tmpl/'.
+			//O NOME DO ARQUIVO DE LAYOUT É UMA CONCATENAÇÃO DE 'default' E 'batch_xxx', NESSE CASO O ARQUIVO DE LAYOUT SE CHAMARÁ 'default_batch_footer'.
+			'footer' => $this->loadTemplate('batch_footer')
+
+		),
+
+		//O MÉTODO 'loadTemplate' É UM MÉTODO QUE IRÁ CARREGAR O LAYOUT DESEJADO PASSADO EM PARÂMETRO.
+		//O LAYOUT DESEJADO NESSE CASO É 'batch_body'. PORTANTO, ELE IRÁ PROCURAR ESSE LAYOUT NO MESMO DIRETÓRIO EM QUE O PRÓPRO MÉTODO SE ENCONTRA, QUE NESSE CASO É '../views/helloworlds/tmpl/'.
+		//O NOME DO ARQUIVO DE LAYOUT É UMA CONCATENAÇÃO DE 'default' E 'batch_xxx', NESSE CASO O ARQUIVO DE LAYOUT SE CHAMARÁ 'default_batch_body'.
+		$this->loadTemplate('batch_body')
+
+	);
+
+
+	?>
+
 	<!--ESTE CAMPO É USADO PARA DEFINIR O 'controller.task' QUE SERÁ ENVIADO PARA O SERVIDOR POR MEIO DO MÉTODO POST QUANDO O FORMULÁRIO FOR ENVIADO.-->
 	<input type="hidden" name="task" value="" />
 
@@ -403,8 +435,8 @@ JLoader::register('JHtmlHelloworlds', JPATH_ADMINISTRATOR . '/components/com_hel
 	<!--<input type="hidden" name="filter_order" value="<?php //echo $listaOrdem; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php //echo $listaDirecao; ?>" />-->
 
-		<!--ESSA SAÍDA HTML SERVE PARA PROTEÇÃO, NO ENVIO DO FORMULÁRIO, CONTRA ATAQUES CSRF.-->
-		<?php echo JHTML::_('form.token'); ?>
+	<!--ESSA SAÍDA HTML SERVE PARA PROTEÇÃO, NO ENVIO DO FORMULÁRIO, CONTRA ATAQUES CSRF.-->
+	<?php echo JHTML::_('form.token'); ?>
 
 	</div>
 </form>
