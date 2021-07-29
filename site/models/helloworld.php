@@ -232,7 +232,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 		public function getMapSearchResults($mapbounds){
 			
-			if(JFactory::getConfig()->get('caching') >= 1){
+			if(!JFactory::getConfig()->get('caching') >= 1){
 
 				//CONSTRUIR UM ID DE CACHE COM BASE NAS CONDIÇÕES PARA A CLÁUSULA WHERE DO SQL.
 				$groups = implode(',', JFactor::getUser()->getAuthorisedViwLevels());

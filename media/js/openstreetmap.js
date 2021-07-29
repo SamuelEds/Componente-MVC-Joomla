@@ -202,7 +202,7 @@ function displaySearchResults(result){
 		var html = "";
 		
 		for(var i = 0; i < result.data.length; i++){
-			html += '<p><a href="' + $result.data[i].url +'">' 
+			html += '<p><a href="' + result.data[i].url +'">' 
 			+ result.data[i].texto + '</a>' + ' @ ' 
 			+ result.data[i].latitude + 
 			result.data[i].longitude +'</p>';
