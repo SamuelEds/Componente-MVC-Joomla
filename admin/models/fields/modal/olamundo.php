@@ -64,72 +64,74 @@ class JFormFieldModal_Olamundo extends JFormField{
 				JError::raiseWarning(500, $e->getMessage());
 
 			}
+		}
 
 			//FAZER UMA FILTRAGEM PARA QUE A VARIÁVEL '$textos' OBTENHA CARACTERES NO FORMATO 'UTF-8'.
-			$textos = empty($textos) ? JText::_('COM_HELLOWORLD_MENUITEM_SELECT_HELLOWORLD') : htmlspecialchars($textos, ENT_QUOTES, 'UTF-8');
+		$textos = empty($textos) ? JText::_('COM_HELLOWORLD_MENUITEM_SELECT_HELLOWORLD') : htmlspecialchars($textos, ENT_QUOTES, 'UTF-8');
 
 			//CRIAR A ESTRUTURA HTML.
-			$html = '<span class="input-append">';
+		$html = '<span class="input-append">';
 
-			$html .= '<input class="input-medium" id="'.$this->id.'_name" type="text" value="'.$textos.'" disabled="disabled" size="35" />';
+		$html .= '<input class="input-medium" id="'.$this->id.'_name" type="text" value="'.$textos.'" disabled="disabled" size="35" />';
 
 			//HTML PARA BOTÃO DE SELEÇÃO.
 			//AS PALAVRAS EM MAIÚSUCULAS QUE COMEÇAM COM 'J' SERÃO TRADUZIDAS PELO JOOMLA AUTOMATICAMENTE. JÁAS OUTRAS SERÃO TRADUZIDAS PELO ARQUIVO DE TRADUÇÃO.
-			$html .= '<a class="btn hasTooltip'. ($value ? 'hidden' : '') . '" id="'. $this->id .'_select" data-toggle="modal" role="button" href="#ModalSelect'. $modalId .'" title="'. JHtml::tooltipText('COM_HELLOWORLD_MENUITEM_SELECT_BUTTON_TOOLTIP') .'">
-			
-			<span class="icon-file" aria-hidden="true"></span> '. JText::_('JSELECT') .'
+		$html .= '<a class="btn hasTooltip'. ($value ? ' hidden' : '') . '" id="'. $this->id .'_select" data-toggle="modal" role="button" href="#ModalSelect'. $modalId .'" title="'. JHtml::tooltipText('COM_HELLOWORLD_MENUITEM_SELECT_BUTTON_TOOLTIP') .'">
 
-			</a>';
-			
+		<span class="icon-file" aria-hidden="true"></span> '. JText::_('JSELECT') .'
+
+		</a>';
+
 			//HTML PARA O BOTÃO DE LIMPAR.
 			//AS PALAVRAS EM MAIÚSCULUAS SERÃO TRADUZIDAS PELO JOOMLA AUTOMATICAMENTE.
-			$html .= '<a class="btn '. ($value ? '' : 'hidden') .'" id="'. $this->id .'_clear" href="#" onclick="window.processModalParent(\''. $this->id .'\'); return false;">
+		$html .= '<a class="btn '. ($value ? '' : ' hidden') .'" id="'. $this->id .'_clear" href="#" onclick="window.processModalParent(\''. $this->id .'\'); return false;">
 
-			<span class="icon-remove" aria-hidden="true"></span> '. JText::_('JCLEAR') .'
+		<span class="icon-remove" aria-hidden="true"></span> '. JText::_('JCLEAR') .'
 
-			</a>';
-			
-			$html .= '</span>';
+		</a>';
+
+		$html .= '</span>';
 
 			//URL PARA IFRAME.
-			$linkHelloworlds = 'index.php?option=com_helloworld&amp;view=helloworlds&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
-			$urlSelect = $linkHelloworlds . '&amp;function=jSelectHelloworld_' . $this->id;
+		$linkHelloworlds = 'index.php?option=com_helloworld&amp;view=helloworlds&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
+		$urlSelect = $linkHelloworlds . '&amp;function=jSelectHelloworld_' . $this->id;
 
 			//TÍTULO PARA O MODAL.
-			$tituloModal = JText::_('COM_HELLOWORLD_MENUITEM_SELECT_MODAL_TITLE');
+		$tituloModal = JText::_('COM_HELLOWORLD_MENUITEM_SELECT_MODAL_TITLE');
 
 			//SE A DEFINIÇÃO DO FORMULÁRIO TEM UM CAMPO 'language', ENTÃO PARA A ASSOCIAÇÃO ADICIONE O PARÂMETRO 'forcedLanguage' AO URL E ADICIONE O IDIOMA AO TÍTULO DO MODAL.
-			if(isset($this->element['language'])){
+		if(isset($this->element['language'])){
 
-				$urlSelect .= '&amp;forcedLanguage=' . $this->element['language'];
-				$tituloModal .= ' &#8212; ' . $this->element['label'];
+			$urlSelect .= '&amp;forcedLanguage=' . $this->element['language'];
+			$tituloModal .= ' &#8212; ' . $this->element['label'];
 
-			}
+		}
 
 			//FINALMENTE, CRIAR O MODAL.
 			//A FUNÇÃO 'JHtml::_()' CRIARÁ UMA SAÍDA HTML EXIBINDO UM MODAL COM SUAS CARACTERÍSTICAS EM ARRAY. NO FOOTER EXIBIRÁ UM BOTÃO PARA FECHAR O MODAL.
 			//AS PALAVRAS EM MAIÚSCULAS SERÃO TRADUZIDAS AUTOMATICAMENTE PELO JOOMLA.
-			$html .= JHtml::_('bootstrap.renderModal', 'ModalSelect' . $modalId, array(
+		$html .= JHtml::_('bootstrap.renderModal', 'ModalSelect' . $modalId, array(
 
-				'title' => $tituloModal,
-				'url' => $urlSelect,
-				'height' => '400px',
-				'width' => '800px',
-				'bodyHeigth' => '70',
-				'modalWidth' => '80',
-				'footer' => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
+			'title' => $tituloModal,
+			'url' => $urlSelect,
+			'height' => '400px',
+			'width' => '800px',
+			'bodyHeigth' => '70',
+			'modalWidth' => '80',
+			'footer' => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>',
 
-			));
+		));
 
 			//'class="required"' PARA VALIDAÇÃO DO LADO DO CLIENTE.
-			$classe = $this->required ? 'class="required modal-value"' : '';
+		$classe = $this->required ? 'class="required modal-value"' : '';
 
 			//CAMPO DE ENTRADA OCULTO PARA ARMAZENAR A ID DO REGISTRO HELLOWORLD.
-			$html .= '<input type="hidden" id="'. $this->id .'_id" '. $classe .' data-required="'. (int) $this->required .'" name="'. $this->name .'" data-text="'. htmlspecialchars(JText::_('COM_HELLOWORLD_MENUITEM_SELECT_HELLOWORLD', true), ENT_COMPAT, 'UTF-8') .'" />';
+		$html .= '<input type="hidden" id="'. $this->id .'_id" '. $classe 
+		.' data-required="'. (int) $this->required .'" name="'
+		. $this->name .'" data-text="'. htmlspecialchars(JText::_('COM_HELLOWORLD_MENUITEM_SELECT_HELLOWORLD', true), ENT_COMPAT, 'UTF-8') 
+		.'" value="'. $value .'" />';
 
-			return $html;
-		}
-
+		return $html;
 	}
 
 	/**
