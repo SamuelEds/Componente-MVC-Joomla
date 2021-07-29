@@ -232,10 +232,10 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 		public function getMapSearchResults($mapbounds){
 			
-			if(!JFactory::getConfig()->get('caching') >= 1){
+			if(JFactory::getConfig()->get('caching') >= 1){
 
 				//CONSTRUIR UM ID DE CACHE COM BASE NAS CONDIÇÕES PARA A CLÁUSULA WHERE DO SQL.
-				$groups = implode(',', JFactor::getUser()->getAuthorisedViwLevels());
+				$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 				$cacheId = $groups . '.' . $mapbounds['minlat'] . '.' . $mapbounds['maxlat'] . '.' . $mapbounds['minlng'] . '.' . $mapbounds['maxlng'];
 
 				//VRIFICAR SE O SITE É MULTILÍNGUE.
@@ -246,7 +246,7 @@ class HelloWorldModelHelloWorld extends JModelItem{
 
 				}
 
-				$cache = JFactor::getCache('com_helloworld', 'callback');
+				$cache = JFactory::getCache('com_helloworld', 'callback');
 				$results = $cache->get(array($this, '_getMapSearchResults'), array($mapbounds), md5($cacheId), false);
 				return $results;
 
