@@ -1,6 +1,6 @@
 
 //CRIAR A VARIÁVEL PARA O MAPA.
-var map;
+var mapa;
 
 //CRIAR VARIÁVEL PARA URL DO AJAX.
 var ajaxurl;
@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 	const params = Joomla.getOptions('params');
 	ajaxurl = params.ajaxurl;
 
-	//SERÁ USADO O OPENLAYERS PARA DESENHAR O MAPA (MAIS INFORMAÇÕES: http://openlayers.org/)
+	//SERÁ USADO O OPENLAYERS PARA DESENHAR O MAPA (MAAIS INFORMAÇÕES: http://openlayers.org/)
 
 	//OPENLAYERS USA UM SISTEMA DE COORDENADAS X, Y PARA AS POSIÇÕES.
 	//É PRECISO CONVERTER A LATITUDE/LONGITUDE EM UMA PAR X, Y QUE É RELATIVO.
@@ -22,11 +22,9 @@ jQuery(document).ready(function(){
 	//OBTER A LONGITUDE.
 	const x = parseFloat(params.longitude);
 
-	//OBTER A LATITUDE.
+	//OBTER A LATITUDE
 	const y = parseFloat(params.latitude);
-
-	//'Spherical Mercator' É ASSUMIDO POR PADRÃO.
-	const mapCentro = ol.proj.fromLonLat([x, y]);
+	const mapCentro = ol.proj.fromLonLat([x, y]); //'Spherical Mercator' É ASSUMIDO POR PADRÃO.
 
 	/* 
 
@@ -42,16 +40,16 @@ jQuery(document).ready(function(){
 	COORDENADAS DO CENTRO DO MAPA E NÍVEL DE ZOOM.  
 
 	*/
-	map = new ol.Map({
-
+	mapa = new ol.Map({
 		target: 'map',
-		layers: [
+		layers:[
 
 			//OBTER OS 'tiles' DO SERVIDOR OSM.
 			new ol.layer.Tile({
 				source: new ol.source.OSM()
 			})
-		],
+
+			],
 
 		//PADRÃO 'Spherical Mercator'
 		view: new ol.View({
@@ -60,20 +58,19 @@ jQuery(document).ready(function(){
 			zoom: params.zoom
 
 		})
-
 	});
 
 	//É ADICIONADO UM MARCADOR PARA A POSIÇÃO HELLOWORLD.
 	//PARA FAZER ISSO, É ESPECIFICADO COMO UM 'Feature Point' E É ADICIONADO UM STYLE
 	//PARA DEFINIR COMO ESTE RECURSO É APRESENTADO NO MAPA...
-	var helloworldPoint = new ol.Feature({geometry: new ol.geom.Point(mapCentro)});
+	var pontoHelloworld = new ol.Feature({geometry: new ol.geom.Point(mapCentro)});
 
+	//... É DEFINIDO ABAIXO UMA 'ESTRELA' VERMELHA DE 5 PONTOS COM BORDA AZUL.
 	const redFill = new ol.style.Fill({
 
 		color: 'red'
 
 	});
-
 	const blueStroke = new ol.style.Stroke({
 
 		color: 'blue',
@@ -89,31 +86,31 @@ jQuery(document).ready(function(){
 		radius1: 20, //RAIO EXTERNO DA ESTRELA.
 		radius2: 10, //RAIO INTERNO DA ESTRELA.
 
-	});
+	})
 
-	helloworldPoint.setStyle(new ol.style.Style({
+	pontoHelloworld.setStyle(new ol.style.Style({
+
 		image: star
+
 	}));
 
+	//AGORA É ADICIONADO O RECURSO AO MAPA POR MEIO DE UMA FONTE DE VETOR E UMA CAMADA DE VETOR.
 	const vectorSource = new ol.source.Vector({});
-	vectorSource.addFeature(helloworldPoint);
 
+	vectorSource.addFeature(pontoHelloworld);
+	
 	const vector = new ol.layer.Vector({
-
 		source: vectorSource
-
 	});
-	map.addLayer(vector);
+	mapa.addLayer(vector);
 
 	//SE UM USUÁRIO CLICAR NA ESTRELA, É MOSTRADO O TEXTO HELLOWORLD.
 	//O TEXTO IRÁ PARA OUTRO ELEMENTO HTML, COM ID = 'texto-container'.
 	//E ISSO SERÁ MOSTRADO COMO UMA SOBREPOSIÇÃO NO MAPA.
 	var overlay = new ol.Overlay({
-
-		element: document.getElementById('texto-container')
-
+		element: document.getElementById('texto-container'),
 	});
-	map.addOverlay(overlay);
+	mapa.addOverlay(overlay);
 
 	//FINALMENTE, É ADICIONADO O OUVINTE 'onclick' PARA EXIBIR O TEXTO QUANDO A ESTRELA É CLICADA.
 	/* 
@@ -122,22 +119,21 @@ jQuery(document).ready(function(){
 	E, EM SEGUIDA, DETERMINA QUAL RECURSO OU RECURSOS FOREM 'hintados' (ACIONADOS).
 
 	*/
-	map.on('click', function(e){
+	mapa.on('click', function(e){
 
-		let markup = '';
-		let position;
+		let marcador = '';
+		let posicao;
 
-		map.forEachFeatureAtPixel(e.pixel, function(feature){
+		mapa.forEachFeatureAtPixel(e.pixel, function(feature){
 
-			markup = params.texto;
-			position = feature.getGeometry().getCoordinates();
+			marcador = params.texto;
+			posicao = feature.getGeometry().getCoordinates();
 
 		}, {hitTolerance: 5}); //TOLERÂNCIA DE 5 PIXELS
 
-		if(markup){
-
-			document.getElementById('texto-container').innerHTML = markup;
-			overlay.setPosition(position);
+		if(marcador){
+			document.getElementById('texto-container').innerHTML = marcador;
+			overlay.setPosition(posicao);
 		}else{
 
 			overlay.setPosition(); //IRÁ OCULTAR A ESTRELA QUANDO O USUÁRIO CLICAR FORA DA ÁREA.
@@ -153,9 +149,8 @@ jQuery(document).ready(function(){
 //ESSA FUNÇÃO SERÁ CHAMADA NO ARQUIVO 'view.json.php'.
 function getMapBounds(){
 
-	var mercatorMapBounds = map.getView().calculateExtent(map.getSize());
+	var mercatorMapBounds = mapa.getView().calculateExtent(mapa.getSize());
 	var latlngMapBounds = ol.proj.transformExtent(mercatorMapBounds, 'EPSG:3857', 'EPSG:4326');
-
 	return {
 
 		minlat: latlngMapBounds[1],
@@ -170,7 +165,6 @@ function getMapBounds(){
 function searchHere(){
 
 	var mapBounds = getMapBounds();
-
 	var token = jQuery('#token').attr('name');
 
 	//CRIAR A SOLICITAÇÃO AJAX.
@@ -184,10 +178,15 @@ function searchHere(){
 		DO JSON. A CHAMADA DA VIEW ESTÁ CONFIGURADA NO CONTROLADOR PRINCIPAL.
 
 		*/
+
 		url: ajaxurl,
-		data: {[token]: "1", task: "mapsearch", format: "json", mapBounds: mapBounds},
-		success: function(result, status, xhr){ displaySearchResults(result); },
-		error: function(){ console.log('Erro na chamada Ajax! :('); }
+		data: { [token]: "1", task: "mapsearch", view: "helloworld", format: "json", mapBounds: mapBounds },
+		success: function(result, status, xhr){ 
+			displaySearchResults(result);
+		},
+		error: function(){
+			console.log("Falha no Ajax");
+		}
 
 	});
 
@@ -197,21 +196,20 @@ function displaySearchResults(result){
 
 	//CASO A SOLICITAÇÃO OBTER SUCESSO FARÁ UMA AÇÃO.
 	if(result.success){
-
+		
 		//APRENSENTARÁ OS RESULTADOS.
+
 		var html = "";
-
-		for (var i = 0; i < result.data.length; i++) {
-			
-			html += "<p>"+ "<a href='"+ result.data[i].url +"'>"  
-					+ result.data[i].texto + "</a>"
-					+"@ " + result.data[i].latitude
-					+ ", " + result.data[i].longitude
-					+"</p>";
-
+		
+		for(var i = 0; i < result.data.length; i++){
+			html += '<p><a href="' + $result.data[i].url +'">' 
+			+ result.data[i].texto + '</a>' + ' @ ' 
+			+ result.data[i].latitude + 
+			result.data[i].longitude +'</p>';
 		}
 
 		jQuery('#searchresults').html(html);
+
 	}else{
 
 		//SENÃO, ENTÃO EXIBIRÁ UMA MENSAGEM DE ERRO.
@@ -225,9 +223,8 @@ function displaySearchResults(result){
 
 			}
 
-
 		}
-		
+
 		jQuery('#searchresults').html(msg);
 
 	}
