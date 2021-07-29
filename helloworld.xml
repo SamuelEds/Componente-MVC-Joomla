@@ -72,9 +72,9 @@
 	</languages>
 
 	<!---IMPORTAR OOS ARQUIVOS DE MÍDIA-->
-	<media destination="com_helloworld" folder="midia">
+	<media destination="com_helloworld" folder="media">
 		<filename>index.html</filename>
-		<folder>imagens</folder>
+		<folder>images</folder>
 		<folder>css</folder>
 		<folder>js</folder>
 	</media>
@@ -84,7 +84,7 @@
 
 		<!--SEÇÃO DE MENU DE ADMINISTRAÇÃO-->
 		<!--O ATRIBUTO 'img' ADICIONARÁ O ÍCONE NO MENU DE ADMINISTRAÇÃO.-->
-		<menu link="index?option=com_helloworld" img="../media/com_helloworld/imagens/dexis-16.png" >COM_HELLOWORLD_MENU</menu>
+		<menu link="index?option=com_helloworld" img="../media/com_helloworld/images/joao-frango-16-x-16.png">COM_HELLOWORLD_MENU</menu>
 
 		<!--INDICAR A LOCALIZAÇÃO DOS ARQUIVOS QUE SERÃO INSTALADOS NO BACK-END-->
 		<!--ATRIBUTO 'folder' É RESPONSÁVEL POR INDICAR A PASTA DOS ARQUIVOS-->

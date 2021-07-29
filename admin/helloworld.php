@@ -12,7 +12,7 @@ defined('_JEXEC') OR die('Esta página não pode ser acessada diretamente');
 $documento = JFactory::getDocument();
 
 //ADICIONAR UM 'Style' NO APLICATIVO, ASSIM COMO SE ESTIVESSE INSERINDO UMA TAG EM UM DOCUMENTO HTML NORMAL.
-$documento->addStyleDeclaration('.icon-helloworld{background-image: url(/launch/media/com_helloworld/imagens/espadas-16-x-16.png);}');
+$documento->addStyleDeclaration('.icon-helloworld{background-image: url(../media/com_helloworld/images/joao-frango-16-x-16.png);}');
 
 //IMPORTAR O ARQUIVO AUXILIAR (ARQUIVO HELPER).
 //NOTE O COMANDO 'JPATH_COMPONENT', ELE É UMA CONSTANTE PADRÃO DO JOOMLA QUE INDICA O DIRETÓRIO DE ONDE O COMPONENTE, QUE ESTÁ SENDO RODADO NO MOMENTO (QUE NESTE CASO É O COMPONENTE HELLOWORLD), ESTÁ LOCALIZADO.
