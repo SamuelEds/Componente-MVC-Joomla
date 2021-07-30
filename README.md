@@ -28,7 +28,7 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 	- [x] Modals
 	- [x] Pasta media (exibição das imagens como no artigo 21)
 	- [ ] ~~Servidor de atualização~~
-- [ ] Componente totalmente funcional.
+- [x] Componente totalmente funcional.
 
 ## Observações principais
 
