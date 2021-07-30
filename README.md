@@ -91,7 +91,7 @@ echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 
 > Para fazer com que as associações funcione, é preciso colocar as mensagens em categorias diferentes (e bom que seja com idiomas diferentes).
 
-> Para que o botão de versões aparece, é necessário "dá um save" nas opções, mesmo que elas já estejam definidas.
+> Para que o botão de versões aparecer, é necessário "dá um save" nas opções, mesmo que elas já estejam definidas.
 
 ## Objetivo
 
