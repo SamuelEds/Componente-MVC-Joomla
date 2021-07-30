@@ -26,7 +26,7 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 	- [x] Ajax
 	- [x] Imagem
 	- [x] Modals
-	- [ ] Pasta media (sem exibição das imagens como no artigo 21)
+	- [x] Pasta media (exibição das imagens como no artigo 21)
 	- [ ] Servidor de atualização
 - [ ] Componente totalmente funcional.
 
@@ -92,6 +92,8 @@ echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 > Para fazer com que as associações funcione, é preciso colocar as mensagens em categorias diferentes (e bom que seja com idiomas diferentes).
 
 > Para que o botão de versões aparecer, é necessário "dá um save" nas opções, mesmo que elas já estejam definidas.
+
+> Servidor de atualização não funcionou, motivo desconhecido. :/
 
 ## Objetivo
 
