@@ -257,9 +257,6 @@ class HelloWorldModelHelloWorld extends JModelAdmin{
 					$campo->addAttribute('type', 'modal_olamundo');
 					$campo->addAttribute('language', $language->lang_code);
 					$campo->addAttribute('label', $language->title);
-
-					//BASICAMENTE, O CAMPO SÓ APARECE SE TIVER ALGUM VALOR AQUI (SE QUISER AJEITAR...).
-					$campo->addAttribute('default', 1);
 					$campo->addAttribute('translate_label', 'false');
 
 				}

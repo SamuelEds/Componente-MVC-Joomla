@@ -25,7 +25,7 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 - [ ] Checkagem de principais falhas.
 	- [x] Ajax
 	- [x] Imagem
-	- [ ] Modals
+	- [x] Modals
 	- [ ] Pasta media (sem exibição das imagens como no artigo 21)
 	- [ ] Servidor de atualização
 - [ ] Componente totalmente funcional.
@@ -88,6 +88,10 @@ echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 > - O comando **_JText::_()** irá criar uma tradução de palavras constantes, isso serve para sites que usam mais de 1 idioma. Observe que a contante deve começar com **COM_** e não pode conter caracteres separados.
 
 > - Na parte de adicionar um formulário Front-end, para o envio de e-mail só deu certo a forma SMTP - para isso e se quiser ver funcionando é preciso que vá até o arquivo: ``com_helloworld/site/controllers/helloworld.php`` e modifique a senha SMTP com sua senha do seu e-mail. Lembre-se que precisará fornecer acesso a aplicativos menos seguros, mas não se preocupe, nada irá acontecer ao seu e-mail. Se não tiver muita confiança, use um e-mail qualquer. O e-mail para qual vai ser destinado é configurado nas configurações.
+
+> Para fazer com que as associações funcione, é preciso colocar as mensagens em categorias diferentes (e bom que seja com idiomas diferentes).
+
+> Para que o botão de versões aparece, é necessário "dá um save" nas opções, mesmo que elas já estejam definidas.
 
 ## Objetivo
 
