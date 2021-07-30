@@ -8,7 +8,7 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 
 > OBSERVAÇÃO IMPORTANTE: Algumas coisas não estão funcionando a partir da pasta 22, como o Ajax. Outras observações estão logo abaixo.
 
-> OBSERVAÇÃO IMPORTANTE²: COMPACTE OS ARQUIVOS COMO **com_helloworld**. Todos os componentes Joomla precisam estar compactados como **_com_<nome_do_componente>_**
+> OBSERVAÇÃO IMPORTANTE²: COMPACTE OS ARQUIVOS COMO **com_helloworld**. Todos os componentes Joomla precisam estar compactados como **com_<nome_do_componente>**
 
 ## Copyright e licença
 
@@ -85,7 +85,7 @@ defined('_JEXEC') or die('Não pode acessar diretamente.');
 echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 ```
 
-> - O comando **_JText::_()** irá criar uma tradução de palavras constantes, isso serve para sites que usam mais de 1 idioma. Observe que a contante deve começar com **COM_** e não pode conter caracteres separados.
+> - O comando **JText::_()** irá criar uma tradução de palavras constantes, isso serve para sites que usam mais de 1 idioma. Observe que a contante deve começar com **COM_** e não pode conter caracteres separados.
 
 > - Na parte de adicionar um formulário Front-end, para o envio de e-mail só deu certo a forma SMTP - para isso e se quiser ver funcionando é preciso que vá até o arquivo: ``com_helloworld/site/controllers/helloworld.php`` e modifique a senha SMTP com sua senha do seu e-mail. Lembre-se que precisará fornecer acesso a aplicativos menos seguros, mas não se preocupe, nada irá acontecer ao seu e-mail. Se não tiver muita confiança, use um e-mail qualquer. O e-mail para qual vai ser destinado é configurado nas configurações.
 
