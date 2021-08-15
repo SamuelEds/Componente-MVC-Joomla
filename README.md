@@ -93,7 +93,19 @@ echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 
 > Para que o botão de versões aparecer, é necessário "dá um save" nas opções, mesmo que elas já estejam definidas.
 
+> Para fazer o gerenciador de idiomas funcionar, é preciso primeiro instalar o idioma que está querendo usar e mudar o idioma de todo o site para o idioma escolhido.
+
 > Servidor de atualização não funcionou, motivo desconhecido. :/
+
+> Para fazer o gerenciador de idiomas funcionar, é preciso primeiro instalar o idioma que está querendo usar e mudar o idioma de todo o site para o idioma escolhido.
+
+> O nome de um arquivo controlador no admin é crucial para o controlador saber qual view ele vai renderizar.
+
+> É OBRIGATÓRIO que as views que se interagem no admin tenham a mesma nomenclatura, porém, a view que for exibir os dados precisa ter um “s” no final do nome. Por exemplo: (view com layout default chamada “usuarios” e view com layout edit chamada “usuario”).
+
+> Para a função ``addScript()`` funcionar, é preciso escrever uma linha de código desse jeito: '``JHtml::_(‘behavior.framework’)';`` Isso incluirá as dependências requeridas.
+
+> Para fazer o sistema de versionamento do Joomla funcionar, é preciso que o controlador, o ‘$typeAlias’ e o nome do campo de edição da onde está armazenado as versões precisam ter o mesmo nome. Por exemplo: controlador - ``usuario.php``, ``$typeAlias`` - ``<nome_componente>.usuario``, campo de edição: ``usuario.xml``.
 
 ## Objetivo
 
