@@ -47,11 +47,14 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 
 ```
 
+
+> - O Joomla! segue algumas regras de nomeclatura de arquivos, classes, atributos entre outros. Ou seja, algumas palavras não podem ser substituídas para que façam um uso melhor da ferramenta, ou senão, ele mesmo não funciona como esperado. O exemplo acima é como é criado o campo que define os níveis de permissão.
+
 ```php
 class HelloWorldViewCategory extends JViewLegacy
 ```
 
-> - O Joomla! segue algumas regras de nomeclatura de arquivos, classes, atributos entre outros. Ou seja, algumas palavras não podem ser substituídas para que façam um uso melhor da ferramenta, ou senão, ele mesmo não funciona como esperado. O exemplo acima é como é criado o campo que define os níveis de permissão.
+> Acima está uma demonstração de como é criada uma view.
 
 * com_helloworld
 	* site
