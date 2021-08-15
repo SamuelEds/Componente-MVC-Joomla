@@ -103,7 +103,7 @@ echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 
 > É OBRIGATÓRIO que as views que se interagem no admin tenham a mesma nomenclatura, porém, a view que for exibir os dados precisa ter um “s” no final do nome. Por exemplo: (view com layout default chamada “usuarios” e view com layout edit chamada “usuario”).
 
-> Para a função ``addScript()`` funcionar, é preciso escrever uma linha de código desse jeito: '``JHtml::_(‘behavior.framework’)';`` Isso incluirá as dependências requeridas.
+> Para a função ``addScript()`` funcionar, é preciso escrever uma linha de código desse jeito: ``JHtml::_(‘behavior.framework’)';`` Isso incluirá as dependências requeridas.
 
 > Para fazer o sistema de versionamento do Joomla funcionar, é preciso que o controlador, o ‘$typeAlias’ e o nome do campo de edição da onde está armazenado as versões precisam ter o mesmo nome. Por exemplo: controlador - ``usuario.php``, ``$typeAlias`` - ``<nome_componente>.usuario``, campo de edição: ``usuario.xml``.
 
