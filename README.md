@@ -108,7 +108,7 @@ echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 
 > Para fazer o sistema de versionamento do Joomla funcionar, é preciso que o controlador, o ‘$typeAlias’ e o nome do campo de edição da onde está armazenado as versões precisam ter o mesmo nome. Por exemplo: controlador - ``usuario.php``, ``$typeAlias`` - ``<nome_componente>.usuario``, campo de edição: ``usuario.xml``.
 
-> NÃO precisa especificar a versão do PHP e do banco de dados no arquivo ``.xml`` que faz a atualização do servidor de atualização e **SEMPRE** coloque o nome da extensão no arquivo xml. (Na verdade não é obrigatório, mas é recomendado, já que outros componentes de outros desenvolvedores segue esse padrão, então segue a manada mesmo). 
+> NÃO precisa especificar a versão do PHP e do banco de dados no arquivo ``.xml`` que faz a atualização do servidor de atualização e **SEMPRE** coloque o nome da extensão no arquivo xml. (Na verdade não é obrigatório, mas é recomendado, já que outros componentes de outros desenvolvedores segue esse padrão, então segue a manada mesmo). **NÃO esqueça de verificar como o componente da nova versão deve ser zipado.**
 
 ## Objetivo
 
