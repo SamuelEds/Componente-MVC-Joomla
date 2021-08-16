@@ -27,7 +27,7 @@ Desenvolvido para fins de estudos, quase todas as linhas estão comentadas para 
 	- [x] Imagem
 	- [x] Modals
 	- [x] Pasta media (exibição das imagens como no artigo 21)
-	- [ ] ~~Servidor de atualização~~
+	- [x] Servidor de atualização
 - [x] Componente totalmente funcional.
 
 ## Observações principais
@@ -98,8 +98,6 @@ echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 
 > Para fazer o gerenciador de idiomas funcionar, é preciso primeiro instalar o idioma que está querendo usar e mudar o idioma de todo o site para o idioma escolhido.
 
-> Servidor de atualização não funcionou, motivo desconhecido. :/
-
 > Para fazer o gerenciador de idiomas funcionar, é preciso primeiro instalar o idioma que está querendo usar e mudar o idioma de todo o site para o idioma escolhido.
 
 > O nome de um arquivo controlador no admin é crucial para o controlador saber qual view ele vai renderizar.
@@ -109,6 +107,8 @@ echo JText::_('COM_ALGUM_TEXTO_PADRAO');
 > Para a função ``addScript()`` funcionar, é preciso escrever uma linha de código desse jeito: ``JHtml::_(‘behavior.framework’)';`` Isso incluirá as dependências requeridas.
 
 > Para fazer o sistema de versionamento do Joomla funcionar, é preciso que o controlador, o ‘$typeAlias’ e o nome do campo de edição da onde está armazenado as versões precisam ter o mesmo nome. Por exemplo: controlador - ``usuario.php``, ``$typeAlias`` - ``<nome_componente>.usuario``, campo de edição: ``usuario.xml``.
+
+> NÃO precisa especificar a versão do PHP e do banco de dados no arquivo ``.xml`` que faz a atualização do servidor de atualização e **SEMPRE** coloque o nome da extensão no arquivo xml. (Na verdade não é obrigatório, mas é recomendado, já que outros componentes de outros desenvolvedores segue esse padrão, então segue a manada mesmo). 
 
 ## Objetivo
 

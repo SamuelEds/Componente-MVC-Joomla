@@ -120,7 +120,7 @@
 	<updateservers>
 
 		<!--ALTERE A URL ABAIXO PARA CORRESPONDER À LOZALIZAÇÃO DO SEU ARQUIVO XML.-->
-		<server type="extension" name="Helloworld Updates">http://localhost/Joomla_multilingue/componentes/artigo-mvc-joomla/Servidor-helloworld-updates/updates.xml</server>
+		<server type="extension" priority="1" name="Helloworld Updates">http://localhost/Componente_helloworld/artigo-mvc-joomla/Servidor-helloworld-updates/updates/helloworld.xml</server>
 
 	</updateservers>
 
